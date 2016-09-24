@@ -10,6 +10,7 @@ as
   npg_version         varchar2(250) := '0.0.1';
 
   /** Generate a random syllable.
+  * https://en.wikipedia.org/wiki/Syllable
   * @author Morten Egan
   * @return varchar2 The syllable generated
   */
