@@ -90,5 +90,28 @@ as
   )
   return date;
 
+  /** Generate a random epoch
+  * @author Morten Egan
+  * @return number An epoch time.
+  */
+  function r_epoch
+  return number;
+
+  /** Create a random timestamp. All components can be specified or generated.
+  * @author Morten Egan
+  * @return timestamp The randomly generated timestamp.
+  */
+  function r_timestamp (
+    r_year                    number        default null
+    , r_month                 number        default null
+    , r_day                   number        default null
+    , r_hour                  number        default null
+    , r_minute                number        default null
+    , r_second                number        default null
+    , r_millisecond           number        default null
+    , r_ampmformat            boolean       default false
+  )
+  return timestamp;
+
 end time_random;
 /

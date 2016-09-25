@@ -313,6 +313,98 @@ as
 
   end r_date;
 
+  function r_epoch
+  return number
+
+  as
+
+    l_ret_var               number;
+
+  begin
+
+    dbms_application_info.set_action('r_epoch');
+
+    l_ret_var := core_random.r_natural(1, (sysdate - to_date('1970-01-01', 'YYYY-MM-DD'))* 86400000);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_epoch;
+
+  function r_timestamp (
+    r_year                    number        default null
+    , r_month                 number        default null
+    , r_day                   number        default null
+    , r_hour                  number        default null
+    , r_minute                number        default null
+    , r_second                number        default null
+    , r_millisecond           number        default null
+    , r_ampmformat            boolean       default false
+  )
+  return timestamp
+
+  as
+
+    l_ret_var               timestamp;
+    l_year                  number := r_timestamp.r_year;
+    l_month                 number := r_timestamp.r_month;
+    l_day                   number := r_timestamp.r_day;
+    l_hour                  number := r_timestamp.r_hour;
+    l_minute                number := r_timestamp.r_minute;
+    l_second                number := r_timestamp.r_second;
+    l_millisecond           number := r_timestamp.r_millisecond;
+
+  begin
+
+    dbms_application_info.set_action('r_timestamp');
+
+    if l_year is null then
+      l_year := time_random.r_year;
+    end if;
+
+    if l_month is null then
+      l_month := time_random.r_month;
+    end if;
+
+    if l_day is null then
+      l_day := time_random.r_day(l_month);
+    end if;
+
+    if l_hour is null then
+      l_hour := time_random.r_hour;
+    end if;
+
+    if l_minute is null then
+      l_minute := time_random.r_minute;
+    end if;
+
+    if l_second is null then
+      l_second := time_random.r_second;
+    end if;
+
+    if l_millisecond is null then
+      l_millisecond := time_random.r_millisecond;
+    end if;
+
+    l_ret_var := to_timestamp(l_day || '/' || l_month || '/' || l_year || ' ' || l_hour || ':' || l_minute || ':' || l_second || ':' || l_millisecond, 'DD/MM/YYYY HH24:MI:SS:FF3');
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_timestamp;
+
 begin
 
   dbms_application_info.set_client_info('time_random');
