@@ -10,6 +10,7 @@ key: c382dd7ea2016568c2b3e5f78048853c
 [require]
 ordbms: ver_le_10
 privilege: create procedure
+execute: dbms_random
 [files]
 core_random_v.package.sql
 core_random.package.sql
