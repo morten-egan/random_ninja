@@ -12,17 +12,17 @@ ordbms: ver_le_10
 privilege: create procedure
 execute: dbms_random
 [files]
-core_random_v.package.sql
-core_random.package.sql
-util_random.package.sql
-text_random.package.sql
-time_random.package.sql
-names_data.package.sql
-person_random.package.sql
-core_random.package body.sql
-util_random.package body.sql
-text_random.package body.sql
-time_random.package body.sql
-names_data.package body.sql
-person_random.package body.sql
+core_random_v.package.sql:package
+core_random.package.sql:package
+util_random.package.sql:package
+text_random.package.sql:package
+time_random.package.sql:package
+names_data.package.sql:package
+person_random.package.sql:package
+core_random.package body.sql:package body
+util_random.package body.sql:package body
+text_random.package body.sql:package body
+time_random.package body.sql:package body
+names_data.package body.sql:package body
+person_random.package body.sql:package body
 [npgend]
