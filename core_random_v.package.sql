@@ -19,7 +19,7 @@ as
   -- Languages implemented. Remember to update this in case a new country is added.
   g_name_countries_implemented    varchar2(4000) := ('US');
 
-  -- Altitude globals.
+  -- Height globals.
   g_highest_point                 number := 8152;
   g_highest_livable_point         number := 4870;
 

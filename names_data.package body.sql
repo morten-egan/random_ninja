@@ -7,6 +7,7 @@ begin
   dbms_application_info.set_client_info('names_data');
   dbms_session.set_identifier('names_data');
 
+  -- Init the US collection.
   r_country_names('US').male_first_names := name_list(null);
   r_country_names('US').male_middle_names := name_list(null);
   r_country_names('US').female_first_names := name_list(null);
@@ -17,6 +18,11 @@ begin
   r_country_names('US').female_first_names.extend(100);
   r_country_names('US').female_middle_names.extend(100);
   r_country_names('US').last_names.extend(100);
+
+  -- US prefixes
+  r_country_names('US').male_prefix := 'Mr.';
+  r_country_names('US').female_prefix := 'Miss,Mrs.';
+  r_country_names('US').all_prefix := 'Dr.';
 
   -- US Male first names (100).
   r_country_names('US').male_first_names(1) := 'Jacob';

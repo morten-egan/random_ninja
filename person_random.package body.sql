@@ -83,23 +83,19 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10);
+    l_country_code          varchar2(10) := r_country;
     l_gender                varchar2(20) := r_gender;
 
   begin
 
     dbms_application_info.set_action('r_firstname');
 
-    if r_country is null then
+    if l_country_code is null then
       l_country_code := 'US';
     end if;
 
-    if r_gender is null then
-      if core_random.r_bool then
-        l_gender := 'male';
-      else
-        l_gender := 'female';
-      end if;
+    if l_gender is null then
+      l_gender := person_random.r_gender(false);
     end if;
 
     if l_gender = 'male' then
@@ -131,23 +127,19 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10);
+    l_country_code          varchar2(10) := r_country;
     l_gender                varchar2(20) := r_gender;
 
   begin
 
     dbms_application_info.set_action('r_middlename');
 
-    if r_country is null then
+    if l_country_code is null then
       l_country_code := 'US';
     end if;
 
-    if r_gender is null then
-      if core_random.r_bool then
-        l_gender := 'male';
-      else
-        l_gender := 'female';
-      end if;
+    if l_gender is null then
+      l_gender := person_random.r_gender(false);
     end if;
 
     if l_gender = 'male' then
@@ -179,23 +171,19 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10);
+    l_country_code          varchar2(10) := r_country;
     l_gender                varchar2(20) := r_gender;
 
   begin
 
     dbms_application_info.set_action('r_lastname');
 
-    if r_country is null then
+    if l_country_code is null then
       l_country_code := 'US';
     end if;
 
-    if r_gender is null then
-      if core_random.r_bool then
-        l_gender := 'male';
-      else
-        l_gender := 'female';
-      end if;
+    if l_gender is null then
+      l_gender := person_random.r_gender(false);
     end if;
 
     if l_gender = 'male' then
@@ -217,6 +205,153 @@ as
         raise;
 
   end r_lastname;
+
+  function r_gender (
+    r_shortform       boolean         default true
+    , r_allowother    boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_gender');
+
+    if core_random.r_bool then
+      if r_shortform then
+        l_ret_var := 'F';
+      else
+        l_ret_var := 'female';
+      end if;
+    else
+      if r_shortform then
+        l_ret_var := 'M';
+      else
+        l_ret_var := 'male';
+      end if;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_gender;
+
+  function r_prefix (
+    r_gender          varchar2        default null
+    , r_country       varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_gender                varchar2(100) := r_gender;
+    l_country_code          varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_prefix');
+
+    if l_country_code is null then
+      -- Pick a country from the countries implemented for names.
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    end if;
+
+    if l_gender is null then
+      l_gender := person_random.r_gender;
+    end if;
+
+    if l_gender = 'male' or l_gender = 'M' then
+      l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).male_prefix);
+    elsif l_gender = 'female' or l_gender = 'F' then
+      l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).female_prefix);
+    else
+      l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).male_prefix || ',' || names_data.r_country_names(l_country_code).female_prefix);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_prefix;
+
+  function r_name (
+    r_country         varchar2        default null
+    , r_gender        varchar2        default null
+    , r_middle        boolean         default false
+    , r_middleinitial boolean         default false
+    , r_prefix        boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(200);
+    l_country_code          varchar2(10) := r_country;
+    l_gender                varchar2(20) := r_gender;
+
+    l_first                 varchar2(100);
+    l_middle                varchar2(100);
+    l_last                  varchar2(100);
+    l_prefix                varchar2(20);
+
+  begin
+
+    dbms_application_info.set_action('r_name');
+
+    if l_country_code is null then
+      -- Pick a country from the countries implemented for names.
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    end if;
+
+    if l_gender is null then
+      l_gender := person_random.r_gender(false);
+    end if;
+
+    l_first := person_random.r_firstname(l_country_code, l_gender);
+    if r_middle then
+      l_middle := person_random.r_middlename(l_country_code, l_gender);
+    end if;
+    if r_middleinitial then
+      l_middle := substr(person_random.r_middlename(l_country_code, l_gender), 1, 1);
+    end if;
+    l_last := person_random.r_lastname(l_country_code, l_gender);
+
+    if r_middle or r_middleinitial then
+      l_ret_var := l_first || ' ' || l_middle || ' ' || l_last;
+    else
+      l_ret_var := l_first || ' ' || l_last;
+    end if;
+
+    if r_prefix then
+      l_prefix := person_random.r_prefix(l_gender, l_country_code);
+      l_ret_var := l_prefix || ' ' || l_ret_var;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_name;
 
 begin
 

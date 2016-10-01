@@ -71,5 +71,25 @@ as
   )
   return varchar2;
 
+  /** Generate a random gender for a person.
+  * @author Morten Egan
+  * @return varchar2 The gender generated.
+  */
+  function r_gender (
+    r_shortform       boolean         default true
+    , r_allowother    boolean         default false
+  )
+  return varchar2;
+
+  /** Generate a random prefix to a name.
+  * @author Morten Egan
+  * @return varchar2 The prefix generated.
+  */
+  function r_prefix (
+    r_gender          varchar2        default null
+    , r_country       varchar2        default null
+  )
+  return varchar2;
+
 end person_random;
 /
