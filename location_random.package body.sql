@@ -211,6 +211,160 @@ as
 
   end r_altitude;
 
+  function r_state (
+    r_country             varchar2        default null
+    , r_shortform         boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_state_num             number;
+    l_country_idx           varchar2(20) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_state');
+
+    if l_country_idx is null then
+      l_country_idx := util_random.ru_pickone(core_random_v.g_state_countries_implemented);
+    end if;
+
+    l_state_num := core_random.r_natural(1, location_data.states(l_country_idx).count);
+
+    if r_shortform then
+      l_ret_var := location_data.states(l_country_idx)(l_state_num).state_short;
+    else
+      l_ret_var := location_data.states(l_country_idx)(l_state_num).state_name;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_state;
+
+  function r_zipcode (
+    r_country             varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(20);
+    l_country               varchar2(20) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_zipcode');
+
+    if l_country = 'US' then
+      l_ret_var := core_random.r_string(5, '0123456789');
+    else
+      l_ret_var := core_random.r_string(5, '0123456789');
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_zipcode;
+
+  function r_street (
+    r_country             varchar2        default null
+    , r_shortform         boolean         default false
+    , r_syllables         number          default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(20) := r_country;
+    l_syllables             number := r_syllables;
+    l_pickle                number;
+
+  begin
+
+    dbms_application_info.set_action('r_street');
+
+    if l_syllables is null then
+      -- Set syllables between 1 and 3 by default.
+      l_syllables := core_random.r_natural(1,3);
+    end if;
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_road_countries_implemented);
+    end if;
+
+    l_pickle := core_random.r_natural(1, location_data.road_endings(l_country).count);
+
+    if r_shortform then
+      l_ret_var := text_random.r_word(l_syllables, null, true) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_short;
+    else
+      l_ret_var := text_random.r_word(l_syllables, null, true) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_full;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_street;
+
+  function r_address (
+    r_country             varchar2        default null
+    , max_address_num     number          default null
+    , r_shortform         boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(20) := r_country;
+    l_max_address_num       number := max_address_num;
+
+  begin
+
+    dbms_application_info.set_action('r_address');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_road_countries_implemented);
+    end if;
+
+    if l_max_address_num is null then
+      l_max_address_num := 500;
+    end if;
+
+    l_ret_var := core_random.r_natural(1, l_max_address_num) || ' ' || r_street(l_country, r_shortform);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_address;
+
 begin
 
   dbms_application_info.set_client_info('location_random');

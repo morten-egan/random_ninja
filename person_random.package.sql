@@ -91,5 +91,14 @@ as
   )
   return varchar2;
 
+  /** Generate a social security number based on the country.
+  * @author Morten Egan
+  * @return varchar2 The generated social security number.
+  */
+  function r_identification (
+    r_country         varchar2        default null
+  )
+  return varchar2;
+
 end person_random;
 /

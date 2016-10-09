@@ -31,5 +31,14 @@ as
   )
   return varchar2;
 
+  /** Calculate the Luhn check digit.
+  * @author Morten Egan
+  * @return number The luhn algorithm check digit.
+  */
+  function luhn_calculate (
+    digits            varchar2
+  )
+  return number;
+
 end util_random;
 /

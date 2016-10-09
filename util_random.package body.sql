@@ -96,6 +96,49 @@ as
 
   end ru_pickone;
 
+  function luhn_calculate (
+    digits            varchar2
+  )
+  return number
+
+  as
+
+    l_ret_var               number := 0;
+    l_digit_count           number;
+    l_digit                 number;
+
+  begin
+
+    dbms_application_info.set_action('luhn_calculate');
+
+    l_digit_count := length(digits);
+
+    for i in 1..l_digit_count loop
+      if mod(i,2) = 0 then
+        l_digit := substr(digits, i, 1);
+        l_digit := l_digit*2;
+        if l_digit > 9 then
+          l_digit := l_digit - 9;
+        end if;
+        l_ret_var := l_ret_var + l_digit;
+      end if;
+    end loop;
+
+    l_ret_var := l_ret_var * 9;
+
+    l_ret_var := mod(l_ret_var,10);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end luhn_calculate;
+
 begin
 
   dbms_application_info.set_client_info('util_random');

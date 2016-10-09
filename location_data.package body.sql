@@ -11,6 +11,9 @@ begin
   countries := country_list(null);
   countries.extend(253);
 
+  -- Init countries.
+  init_data := location_data_us.npg_version;  
+
   -- Long names of countries
   countries(1).country_name := 'Afghanistan';
   countries(2).country_name := 'Åland Islands';

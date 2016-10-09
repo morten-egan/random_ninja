@@ -353,6 +353,41 @@ as
 
   end r_name;
 
+  function r_identification (
+    r_country         varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country_code          varchar2(20) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_identification');
+
+    if l_country_code is null then
+      l_country_code := util_random.ru_pickone(core_random_v.g_id_countries_implemented);
+    end if;
+
+    if l_country_code = 'US' then
+      l_ret_var := core_random.r_string(3, '0123456789') || '-' || core_random.r_string(2, '0123456789') || '-' || core_random.r_string(4, '0123456789');
+    else
+      l_ret_var := core_random.r_string(3, '0123456789') || '-' || core_random.r_string(2, '0123456789') || '-' || core_random.r_string(4, '0123456789');
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_identification;
+
 begin
 
   dbms_application_info.set_client_info('person_random');

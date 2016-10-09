@@ -74,5 +74,46 @@ as
   )
   return number;
 
+  /** Generate a random state.
+  * @author Morten Egan
+  * @return varchar2 The state generated.
+  */
+  function r_state (
+    r_country             varchar2        default null
+    , r_shortform         boolean         default false
+  )
+  return varchar2;
+
+  /** Generate a zip code
+  * @author Morten Egan
+  * @return number The zipcode generated.
+  */
+  function r_zipcode (
+    r_country             varchar2        default null
+  )
+  return varchar2;
+
+  /** Generate a random street name.
+  * @author Morten Egan
+  * @return varchar2 The street name generated.
+  */
+  function r_street (
+    r_country             varchar2        default null
+    , r_shortform         boolean         default false
+    , r_syllables         number          default null
+  )
+  return varchar2;
+
+  /** Generate a random address
+  * @author Morten Egan
+  * @return varchar2 The address generated.
+  */
+  function r_address (
+    r_country             varchar2        default null
+    , max_address_num     number          default null
+    , r_shortform         boolean         default false
+  )
+  return varchar2;
+
 end location_random;
 /
