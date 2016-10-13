@@ -41,6 +41,8 @@ as
   g_id_countries_implemented      varchar2(4000) := ('US');
   -- State data countries implemented
   g_state_countries_implemented   varchar2(4000) := ('US');
+  -- City data countries implemented
+  g_cities_countries_implemented  varchar2(4000) := ('US');
   -- Road names implemented
   g_road_countries_implemented    varchar2(4000) := ('US');
 

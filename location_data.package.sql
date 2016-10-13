@@ -21,6 +21,7 @@ as
     state_name            varchar2(250)
     , state_short         varchar2(20)
     , state_capital       varchar2(250)
+    , cities              varchar2(32000)
   );
   type state_list is table of state_data;
   type country_states is table of state_list index by varchar2(20);

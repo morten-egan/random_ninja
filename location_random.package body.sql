@@ -365,6 +365,54 @@ as
 
   end r_address;
 
+  function r_city (
+    r_country             varchar2        default null
+    , r_state             varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(100) := r_country;
+    l_state                 varchar2(100) := r_state;
+    l_state_num             number;
+
+  begin
+
+    dbms_application_info.set_action('r_city');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_cities_countries_implemented);
+    end if;
+
+    if l_state is null then
+      l_state_num := core_random.r_natural(1, location_data.states(l_country).count);
+    else
+      for i in 1..location_data.states(l_country).count loop
+        if location_data.states(l_country)(i).state_short = r_city.r_state then
+          l_state_num := i;
+          exit;
+        end if;
+      end loop;
+      if l_state_num is null then
+        l_state_num := core_random.r_natural(1, location_data.states(l_country).count);
+      end if;
+    end if;
+
+    l_ret_var := util_random.ru_pickone(location_data.states(l_country)(l_state_num).cities);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_city;
+
 begin
 
   dbms_application_info.set_client_info('location_random');

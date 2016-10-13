@@ -115,5 +115,15 @@ as
   )
   return varchar2;
 
+  /** Generate a random city from location data. If country is not implemented, generate bogus city name.
+  * @author Morten Egan
+  * @return varchar2 The city name.
+  */
+  function r_city (
+    r_country             varchar2        default null
+    , r_state             varchar2        default null
+  )
+  return varchar2;
+
 end location_random;
 /
