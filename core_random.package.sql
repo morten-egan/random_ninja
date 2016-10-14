@@ -71,5 +71,14 @@ as
   )
   return varchar2;
 
+  /** Generate a random string in hex.
+  * @author Morten Egan
+  * @return varchar2 The HEX generated string.
+  */
+  function r_hex (
+    r_length          number          default null
+  )
+  return varchar2;
+
 end core_random;
 /

@@ -207,6 +207,37 @@ as
 
   end r_string;
 
+  function r_hex (
+    r_length          number          default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_string_lenght         number := r_length;
+
+  begin
+
+    dbms_application_info.set_action('r_hex');
+
+    if l_string_lenght is null then
+      l_string_lenght := r_natural(5,20);
+    end if;
+
+    l_ret_var := r_string(l_string_lenght, '0123456789abcdef');
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_hex;
+
 begin
 
   dbms_application_info.set_client_info('core_random');
