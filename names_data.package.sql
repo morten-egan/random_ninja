@@ -20,6 +20,8 @@ as
     , male_prefix               varchar2(4000)
     , female_prefix             varchar2(4000)
     , all_prefix                varchar2(4000)
+    , suffix_full               varchar2(4000)
+    , suffix_short              varchar2(4000)
   );
 
   type country_name_list is table of country_names index by varchar2(10);

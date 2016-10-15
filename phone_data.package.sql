@@ -12,12 +12,16 @@ as
   type phone_country_rec is record (
     mcc_number                      number
     , intl_num_code                 number
+    , mnc                           varchar2(4000)
     , phone_num_format_landline     varchar2(50)
     , phone_num_format_mobile       varchar2(50)
   );
   type phone_country_tab is table of phone_country_rec index by varchar2(10);
 
   country_phone_data    phone_country_tab;
+
+  g_cdr_call_types              varchar2(4000) := 'MOC,MTC,SMS-MO,SMS-MT,MMS-MO,MMS-MT,GPRS';
+  g_cdr_call_service_types      varchar2(4000) := 'Voice,Fax,Text,Video,Image,3G,LTE,4G';
 
 end phone_data;
 /

@@ -24,6 +24,10 @@ begin
   r_country_names('US').female_prefix := 'Miss,Mrs.';
   r_country_names('US').all_prefix := 'Dr.';
 
+  -- US suffixes
+  r_country_names('US').suffix_full := 'Junior,Senior,The Third,The Fourth';
+  r_country_names('US').suffix_short := 'Jr.,Sr.,III,IV';
+
   -- US Male first names (100).
   r_country_names('US').male_first_names(1) := 'Jacob';
   r_country_names('US').male_first_names(2) := 'Mason';

@@ -100,5 +100,15 @@ as
   )
   return varchar2;
 
+  /** Generate a random suffix to a name.
+  * @author Morten Egan
+  * @return varchar2 The suffix generated.
+  */
+  function r_suffix (
+    r_country         varchar2        default null
+    , r_shortform     boolean         default false
+  )
+  return varchar2;
+
 end person_random;
 /

@@ -150,6 +150,183 @@ as
 
   end r_phonenumber;
 
+  function r_mcc (
+    r_country                 varchar2      default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_mcc');
+
+    if l_country is null then
+      l_country := location_random.r_country(true);
+    end if;
+
+    l_ret_var := phone_data.country_phone_data(l_country).mcc_number;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_mcc;
+
+  function r_mnc (
+    r_country                 varchar2      default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_mnc');
+
+    if l_country is null then
+      l_country := location_random.r_country(true);
+    end if;
+
+    l_ret_var := util_random.ru_pickone(phone_data.country_phone_data(l_country).mnc);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_mnc;
+
+  function r_imsi (
+    r_country                 varchar2      default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_temp_build_up         varchar2(25);
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_imsi');
+
+    if l_country is null then
+      l_country := location_random.r_country(true);
+    end if;
+
+    l_temp_build_up := r_mcc(l_country) || r_mnc(l_country);
+
+    l_temp_build_up := l_temp_build_up || core_random.r_natural(to_number(rpad('1', 15-length(l_temp_build_up), '0')), to_number(rpad('9', 15-length(l_temp_build_up), '9')));
+
+    l_ret_var := to_number(l_temp_build_up);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_imsi;
+
+  function r_call_type
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_call_type');
+
+    l_ret_var := util_random.ru_pickone(phone_data.g_cdr_call_types);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_call_type;
+
+  function r_call_type_service
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_call_type_service');
+
+    l_ret_var := util_random.ru_pickone(phone_data.g_cdr_call_service_types);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_call_type_service;
+
+  function r_operator_code (
+    r_country                 varchar2      default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_operator_code');
+
+    if l_country is null then
+      l_country := location_random.r_country(true);
+    end if;
+
+    l_ret_var := to_number(r_mcc(l_country) || r_mnc(l_country));
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_operator_code;
+
 begin
 
   dbms_application_info.set_client_info('phone_random');

@@ -388,6 +388,42 @@ as
 
   end r_identification;
 
+  function r_suffix (
+    r_country         varchar2        default null
+    , r_shortform     boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_suffix');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    end if;
+
+    if r_shortform then
+      l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country).suffix_short);
+    else
+      l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country).suffix_full);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_suffix;
+
 begin
 
   dbms_application_info.set_client_info('person_random');
