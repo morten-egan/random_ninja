@@ -10,7 +10,8 @@ as
   npg_version             varchar2(250) := '0.0.1';
 
   nonfood_categories      varchar2(32000) := 'Kitchen,Clothes,Electronics,Cosmetics,Leisure,Jewelery,Furniture,Tools';
-  food_categories         varchar2(32000) := 'Produce,Vegetables,Fruits,Meats,Canned goods,Dry goods,Dairy,Fish,Beverages';
+  food_categories         varchar2(32000) := 'Produce,Vegetables,Fruits,Meats,Canned goods,Dry goods,Dairy,Fish,Beverages,Frozen food';
+  service_category        varchar2(32000) := 'Plumber,Carpenter,Builder,Consultant,Contractor';
 
   type consumer_item is record (
     item_name             varchar2(4000)
@@ -18,7 +19,7 @@ as
     , item_price_end      number
   );
   type consumer_item_list is table of consumer_item;
-  type category_items_list is table consumer_item_list index by varchar2(4000);
+  type category_items_list is table of consumer_item_list index by varchar2(4000);
 
   items   category_items_list;
 

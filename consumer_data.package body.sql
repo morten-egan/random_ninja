@@ -7,8 +7,6 @@ begin
   dbms_application_info.set_client_info('consumer_data');
   dbms_session.set_identifier('consumer_data');
 
-  items := category_items_list(null);
-
   items('Kitchen') := consumer_item_list(null);
   items('Clothes') := consumer_item_list(null);
   items('Electronics') := consumer_item_list(null);
@@ -26,10 +24,17 @@ begin
   items('Dairy') := consumer_item_list(null);
   items('Fish') := consumer_item_list(null);
   items('Beverages') := consumer_item_list(null);
+  items('Frozen food') := consumer_item_list(null);
 
+  -- Kitchen Items.
   items('Kitchen')(1).item_name := 'Butchers knife';
   items('Kitchen')(1).item_price_start := 10;
   items('Kitchen')(1).item_price_end := 500;
+
+  -- Dairy Items.
+  items('Dairy')(1).item_name := 'Full Milk';
+  items('Dairy')(1).item_price_start := 1;
+  items('Dairy')(1).item_price_end := 8;
 
 end consumer_data;
 /

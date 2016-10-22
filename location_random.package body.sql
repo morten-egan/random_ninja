@@ -413,6 +413,64 @@ as
 
   end r_city;
 
+  function r_address2 (
+    r_country             varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(10) := r_address2.r_country;
+    l_idx                   number;
+
+  begin
+
+    dbms_application_info.set_action('r_address2');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_road_countries_implemented);
+    end if;
+
+    l_idx := core_random.r_natural(1, location_data.second_addresses(l_country).count);
+
+    l_ret_var := location_data.second_addresses(l_country)(l_idx) || ' ' || core_random.r_natural(1,600);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_address2;
+
+  function r_level
+  return number
+
+  as
+
+    l_ret_var               number;
+
+  begin
+
+    dbms_application_info.set_action('r_level');
+
+    l_ret_var := core_random.r_natural(2,65);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_level;
+
 begin
 
   dbms_application_info.set_client_info('location_random');

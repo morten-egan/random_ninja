@@ -125,5 +125,21 @@ as
   )
   return varchar2;
 
+  /** Generate address line 2 type.
+  * @author Morten Egan
+  * @return varchar2 The randomly generated address 2 type.
+  */
+  function r_address2 (
+    r_country             varchar2        default null
+  )
+  return varchar2;
+
+  /** Generate a random building level.
+  * @author Morten Egan
+  * @return number The randomly generated level.
+  */
+  function r_level
+  return number;
+
 end location_random;
 /

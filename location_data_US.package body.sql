@@ -12,7 +12,18 @@ begin
   location_data.states('US').extend(50);
   location_data.road_endings('US') := location_data.road_list(null);
   location_data.road_endings('US').extend(34);
+  location_data.second_addresses('US') := location_data.address2_list(null);
+  location_data.second_addresses('US').extend(6);
 
+  -- Address 2 names.
+  location_data.second_addresses('US')(1) := 'Apartment';
+  location_data.second_addresses('US')(2) := 'Suite';
+  location_data.second_addresses('US')(3) := 'Coop';
+  location_data.second_addresses('US')(4) := 'Residence';
+  location_data.second_addresses('US')(5) := 'Condo';
+  location_data.second_addresses('US')(6) := 'Flat';
+
+  -- Road names.
   location_data.road_endings('US')(1).road_name_full := 'Avenue';
   location_data.road_endings('US')(1).road_name_short := 'Ave';
   location_data.road_endings('US')(2).road_name_full := 'Boulevard';

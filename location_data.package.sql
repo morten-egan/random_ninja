@@ -35,6 +35,10 @@ as
   type road_array is table of road_list index by varchar2(20);
   road_endings  road_array;
 
+  type address2_list is table of varchar2(50);
+  type address2_tab is table of address2_list index by varchar2(10);
+  second_addresses    address2_tab;
+
   init_data   varchar2(250);
 
 end location_data;
