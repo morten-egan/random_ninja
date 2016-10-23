@@ -29,6 +29,18 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_word** - Random word. Number of syllables, length and capitalizon can be specified.
     + **r_sentence** - Random sentence. The number of words in the sentence can be specified.
     + **r_paragraph** - Random paragraph. Number of sentences can be specified.
++ **time_random** - Generate random time and date components.
+    + **r_second** - Random second.
+    + **r_minute** - Random minute.
+    + **r_hour** - Random hour. am/pm format can be specified.
+    + **r_ampm** - Random am or pm.
+    + **r_millisecond** - Random millisecond.
+    + **r_year** - Random year. Min and max can be specified, as well as two digits result if needed.
+    + **r_month** - Random month. Season can be specified.
+    + **r_day** - Random day. Month can be specified.
+    + **r_date** - Random date. Any component of the date format can be fixed if defined.
+    + **r_epoch** - Random epoch date.
+    + **r_timestamp** - Random timestamp. Any component of the timestamp can be fixed if defined.
 + **location_random** - A wide variety of random location related data.
     + **r_country** - Random country. Either full name, or short ISO form can be specified.
     + **r_height** - Random height. Result in feet and livable height can be specified.
