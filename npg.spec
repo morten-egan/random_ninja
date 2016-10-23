@@ -19,7 +19,7 @@ time_random.package.sql:package
 names_data.package.sql:package
 person_random.package.sql:package
 location_data.package.sql:package
-location_data_us.package.sql:package
+location_data_US.package.sql:package
 location_random.package.sql:package
 phone_data.package.sql:package
 phone_random.package.sql:package
@@ -35,7 +35,7 @@ time_random.package body.sql:package body
 names_data.package body.sql:package body
 person_random.package body.sql:package body
 location_data.package body.sql:package body
-location_data_us.package body.sql:package body
+location_data_US.package body.sql:package body
 location_random.package body.sql:package body
 phone_data.package body.sql:package body
 phone_random.package body.sql:package body
