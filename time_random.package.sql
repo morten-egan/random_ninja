@@ -63,6 +63,8 @@ as
   */
   function r_month (
     r_season                  varchar2      default null
+    , r_morethan              number        default null
+    , r_lessthan              number        default null
   )
   return number;
 
@@ -72,6 +74,8 @@ as
   */
   function r_day (
     r_month                   number        default null
+    , r_morethan              number        default null
+    , r_lessthan              number        default null
   )
   return number;
 
@@ -112,6 +116,25 @@ as
     , r_ampmformat            boolean       default false
   )
   return timestamp;
+
+  /** Generate a date between two different dates supplied.
+  * @author Morten Egan
+  * @return date The date generated.
+  */
+  function r_datebetween (
+    r_date_from               date
+    , r_date_to               date          default sysdate
+  )
+  return date;
+
+  /** Generate a date within a "loose" timeframe.
+  * @author Morten Egan
+  * @return date The date generated.
+  */
+  function r_datereference (
+    r_reference               varchar2      default null
+  )
+  return date;
 
 end time_random;
 /

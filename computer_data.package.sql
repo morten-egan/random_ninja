@@ -21,5 +21,8 @@ as
   g_computer_environments         varchar2(4000) := 'dev,tst,stg,prd';
   g_computer_functions            varchar2(4000) := 'app,db,sql,ftp,mta,dns,cfg,mon,prx,ssh,web';
 
+  type useragent_list is table of varchar2(4000);
+  useragents    useragent_list;
+
 end computer_data;
 /

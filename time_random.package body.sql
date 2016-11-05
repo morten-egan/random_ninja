@@ -178,12 +178,16 @@ as
 
   function r_month (
     r_season                  varchar2      default null
+    , r_morethan              number        default null
+    , r_lessthan              number        default null
   )
   return number
 
   as
 
     l_ret_var               number;
+    l_morethan              number := r_month.r_morethan;
+    l_lessthan              number := r_month.r_lessthan;
 
   begin
 
@@ -201,7 +205,13 @@ as
     elsif r_season = 'autumn' then
       l_ret_var := core_random.r_natural(9,11);
     else
-      l_ret_var := core_random.r_natural(1,12);
+      if l_morethan is null then
+        l_morethan := 1;
+      end if;
+      if l_lessthan is null then
+        l_lessthan := 12;
+      end if;
+      l_ret_var := core_random.r_natural(l_morethan,l_lessthan);
     end if;
 
     dbms_application_info.set_action(null);
@@ -217,28 +227,41 @@ as
 
   function r_day (
     r_month                   number        default null
+    , r_morethan              number        default null
+    , r_lessthan              number        default null
   )
   return number
 
   as
 
     l_ret_var               number;
+    l_month                 number := r_day.r_month;
+    l_morethan              number := r_day.r_morethan;
+    l_lessthan              number := r_day.r_lessthan;
 
   begin
 
     dbms_application_info.set_action('r_day');
 
-    if r_day.r_month is null then
-      l_ret_var := core_random.r_natural(1,28);
-    else
-      if r_day.r_month in (1,3,5,7,8,10,12) then
-        l_ret_var := core_random.r_natural(1,31);
-      elsif r_day.r_month in (4,6,9,11) then
-        l_ret_var := core_random.r_natural(1,30);
-      else
-        l_ret_var := core_random.r_natural(1,28);
+    if l_month is null then
+      l_month := time_random.r_month;
+    end if;
+
+    if l_lessthan is null then
+      if l_month = 2 then
+        l_lessthan := 28;
+      elsif l_month in (1,3,5,7,8,10,12) then
+        l_lessthan := 31;
+      elsif l_month in (4,6,9,11) then
+        l_lessthan := 30;
       end if;
     end if;
+
+    if l_morethan is null then
+      l_morethan := 1;
+    end if;
+
+    l_ret_var := core_random.r_natural(l_morethan,l_lessthan);
 
     dbms_application_info.set_action(null);
 
@@ -404,6 +427,109 @@ as
         raise;
 
   end r_timestamp;
+
+  function r_datebetween (
+    r_date_from               date
+    , r_date_to               date          default sysdate
+  )
+  return date
+
+  as
+
+    l_ret_var               date;
+    l_year_from             number := to_char(r_date_from,'YYYY');
+    l_year_to               number := to_char(r_date_to,'YYYY');
+    l_year                  number;
+    l_month_from            number := to_char(r_date_from, 'MM');
+    l_month_to              number := to_char(r_date_to, 'MM');
+    l_month                 number;
+    l_day_from              number := to_char(r_date_from, 'DD');
+    l_day_to                number := to_char(r_date_to, 'DD');
+    l_day                   number;
+
+  begin
+
+    dbms_application_info.set_action('r_datebetween');
+
+    -- First set year.
+    l_year := time_random.r_year(l_year_from, l_year_to);
+
+    -- Second we define the month. If year is same as from, it has to be higher. If year is same as to, it has to be less.
+    -- If year is same, it has to be between.
+    if l_year_from = l_year_to then
+      l_month := time_random.r_month(null, l_month_from, l_month_to);
+    elsif (l_year_to = l_year_from + 1) and l_year = l_year_to then
+      l_month := time_random.r_month(null, 1, l_month_to);
+    elsif (l_year_to = l_year_from + 1) and l_year = l_year_from then
+      l_month := time_random.r_month(null, l_month_from, 12);
+    else
+      l_month := time_random.r_month;
+    end if;
+
+    -- Lastly we define the day. For this we need to check if we are in the same year and month, same year month after, else
+    -- we just need to make sure that day is below to year/month/day.
+    if l_year_from = l_year_to and l_month_from = l_month_to then
+      -- Day should be between.
+      l_day := time_random.r_day(l_month, l_day_from, l_day_to);
+    elsif l_year_from = l_year_to and l_month = l_month_from + 1 then
+      l_day := time_random.r_day(l_month, null, l_day_to);
+    else
+      l_day := time_random.r_day(l_month);
+    end if;
+
+    l_ret_var := r_date(l_year, l_month, l_day);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_datebetween;
+
+  function r_datereference (
+    r_reference               varchar2      default null
+  )
+  return date
+
+  as
+
+    l_ret_var               date;
+    l_reference             varchar2(100) := r_reference;
+
+  begin
+
+    dbms_application_info.set_action('r_datereference');
+
+    if l_reference is null then
+      l_reference := util_random.ru_pickone(core_random_v.g_datereference_options);
+    end if;
+
+    if l_reference = 'recent' then
+      l_ret_var := time_random.r_datebetween(sysdate - 365, sysdate -1);
+    elsif l_reference = 'past' then
+      l_ret_var := time_random.r_datebetween(sysdate - (365*1200), sysdate - (365*5));
+    elsif l_reference = 'future' then
+      l_ret_var := time_random.r_datebetween(sysdate + (365*5), sysdate + (365*200));
+    elsif l_reference = 'soon' then
+      l_ret_var := time_random.r_datebetween(sysdate + 1, sysdate + 365);
+    else
+      l_ret_var := time_random.r_datebetween(sysdate - 10, sysdate + 10);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_datereference;
 
 begin
 

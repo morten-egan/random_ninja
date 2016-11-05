@@ -88,5 +88,12 @@ as
   )
   return varchar2;
 
+  /** Generate a random useragent string.
+  * @author Morten Egan
+  * @return varchar2 The useragent string generated.
+  */
+  function r_useragent
+  return varchar2;
+
 end computer_random;
 /

@@ -19,6 +19,9 @@ as
   g_vowels                        varchar2(50) := 'aeiou';
   g_easy_consonants               varchar2(50) := 'bcdfghjklmnprstvwz';
 
+  -- Globals for time.
+  g_datereference_options         varchar2(4000) := 'recent,future,past,soon';
+
   -- Height globals.
   g_highest_point                 number := 8152;
   g_highest_livable_point         number := 4870;
