@@ -34,6 +34,7 @@ as
   */
   function r_sentence (
     r_words           number          default null
+    , r_country       varchar2        default null
   )
   return varchar2;
 
@@ -43,6 +44,16 @@ as
   */
   function r_paragraph (
     r_sentences       number          default null
+    , r_country       varchar2        default null
+  )
+  return varchar2;
+
+  /** Text genres.
+  * @author Morten Egan
+  * @return varchar2 The specific text genre generated.
+  */
+  function r_textgenre (
+    r_texttype        varchar2        default null
   )
   return varchar2;
 

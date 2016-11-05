@@ -471,6 +471,127 @@ as
 
   end r_level;
 
+  function r_floor_space (
+    r_continent           varchar2        default null
+    , r_feet              boolean         default false
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_continent             varchar2(150) := r_floor_space.r_continent;
+    l_w_min                 number;
+    l_w_max                 number;
+    l_continent_idx         number;
+
+  begin
+
+    dbms_application_info.set_action('r_floor_space');
+
+    if l_continent is null then
+      l_continent_idx := core_random.r_natural(1, location_data.continents.count);
+    else
+      for i in 1..location_data.continents.count loop
+        if upper(l_continent) = upper(location_data.continents(i).continent_name) then
+          l_continent_idx := i;
+        end if;
+      end loop;
+      if l_continent_idx is null then
+        l_continent_idx := core_random.r_natural(1, location_data.continents.count);
+      end if;
+    end if;
+
+    -- Set some weighted values before generating size.
+    l_w_min := location_data.continents(l_continent_idx).avg_floor_space - round((location_data.continents(l_continent_idx).avg_floor_space/100) * 20);
+    l_w_max := location_data.continents(l_continent_idx).avg_floor_space + round((location_data.continents(l_continent_idx).avg_floor_space/100) * 20);
+    l_ret_var := core_random.r_natural(10, 1000, l_w_min, l_w_max, 80);
+
+    if r_feet then
+      l_ret_var := round(l_ret_var * 10.7639104);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_floor_space;
+
+  function r_continent
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(500);
+
+  begin
+
+    dbms_application_info.set_action('r_continent');
+
+    l_ret_var := location_data.continents(core_random.r_natural(1, location_data.continents.count)).continent_name;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_continent;
+
+  function r_room_count (
+    r_continent           varchar2          default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_continent             varchar2(150) := r_room_count.r_continent;
+    l_continent_idx         number;
+    l_w_min                 number;
+    l_w_max                 number;
+
+  begin
+
+    dbms_application_info.set_action('r_room_count');
+
+    if l_continent is null then
+      l_continent_idx := core_random.r_natural(1, location_data.continents.count);
+    else
+      for i in 1..location_data.continents.count loop
+        if upper(l_continent) = upper(location_data.continents(i).continent_name) then
+          l_continent_idx := i;
+        end if;
+      end loop;
+      if l_continent_idx is null then
+        l_continent_idx := core_random.r_natural(1, location_data.continents.count);
+      end if;
+    end if;
+
+    -- Set some weighted values before generating size.
+    l_w_min := location_data.continents(l_continent_idx).avg_house_rooms - 1;
+    l_w_max := location_data.continents(l_continent_idx).avg_house_rooms;
+    l_ret_var := core_random.r_natural(1, l_w_max + 5, l_w_min, l_w_max, 80);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_room_count;
+
 begin
 
   dbms_application_info.set_client_info('location_random');

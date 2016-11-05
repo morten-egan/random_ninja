@@ -225,6 +225,234 @@ as
 
   end r_amount;
 
+  function r_accountnumber (
+    r_country           varchar2      default null
+    , r_iban            boolean       default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(10) := r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_accountnumber');
+
+    if l_country is null then
+      if r_iban then
+        l_country := util_random.ru_pickone(finance_data.g_iban_enabled);
+      end if;
+    /*elsif l_country is not null and r_iban then
+      if not util_random.ru_inlist(finance_data.g_iban_enabled, l_country) then
+        l_country := util_random.ru_pickone(finance_data.g_iban_enabled);
+      end if; */
+    end if;
+
+    -- Now we have the country, let us get the basic format string.
+    -- Add the IBAN specifics if needed.
+    l_ret_var := finance_data.country_bankaccounts(l_country).bban_format;
+    if r_iban then
+      l_ret_var := '**kk' || l_ret_var;
+    end if;
+    -- Run the randomizer for the specified format string.
+    -- When creating the IBAN from the format. The format codes are the following:
+    -- ** = Country Code
+    -- kk = IBAN Check digits.
+    -- n = Numeric character. (0-9)
+    -- a = Upper case alpha character. (A-Z)
+    -- c = Mixed alpha numeric (0-9)(A-Z)(a-z)
+    if r_iban then
+      l_ret_var := replace(replace(l_ret_var, '**', l_country), 'kk', '00');
+    end if;
+    l_ret_var := util_random.ru_replace(l_ret_var, 'n');
+    l_ret_var := util_random.ru_replace(l_ret_var, 'a', 'core_random.r_character(''ABCDEFGHIJKLMNOPQRSTUVWXYZ'')');
+    l_ret_var := util_random.ru_replace(l_ret_var, 'c', 'core_random.r_character(''ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'')');
+    if r_iban then
+      l_ret_var := util_random.iban_checksum(l_ret_var, l_country);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_accountnumber;
+
+  function r_accounttype
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_accounttype');
+
+    l_ret_var := finance_data.account_types(core_random.r_natural(1, finance_data.account_types.count)).type_name;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_accounttype;
+
+  function r_accounttransaction (
+    r_accounttype       varchar2      default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_accounttype           varchar2(100) := r_accounttransaction.r_accounttype;
+
+  begin
+
+    dbms_application_info.set_action('r_accounttransaction');
+
+    if l_accounttype is not null then
+      for i in 1..finance_data.account_types.count loop
+        if finance_data.account_types(i).type_name = l_accounttype then
+          l_ret_var := util_random.ru_pickone(finance_data.account_types(i).transaction_types);
+        end if;
+      end loop;
+      if l_ret_var is null then
+        l_ret_var := util_random.ru_pickone(finance_data.account_types(core_random.r_natural(1, finance_data.account_types.count)).transaction_types);
+      end if;
+    else
+      l_ret_var := util_random.ru_pickone(finance_data.account_types(core_random.r_natural(1, finance_data.account_types.count)).transaction_types);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_accounttransaction;
+
+  function r_accountbalance (
+    r_accounttype       varchar2      default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_accounttype           varchar2(100) := r_accountbalance.r_accounttype;
+    l_w_min                 number;
+    l_w_max                 number;
+    l_rand_account_idx      number;
+
+  begin
+
+    dbms_application_info.set_action('r_accountbalance');
+
+    if l_accounttype is not null then
+      for i in 1..finance_data.account_types.count loop
+        if finance_data.account_types(i).type_name = l_accounttype then
+          l_w_min := finance_data.account_types(i).average_balance * 0.8;
+          l_w_max := finance_data.account_types(i).average_balance * 1.4;
+        end if;
+      end loop;
+    end if;
+
+    if l_w_min is null then
+      -- No account type set. Go random.
+      l_rand_account_idx := core_random.r_natural(1, finance_data.account_types.count);
+      l_w_min := finance_data.account_types(l_rand_account_idx).average_balance * 0.8;
+      l_w_max := finance_data.account_types(l_rand_account_idx).average_balance * 1.4;
+    end if;
+
+    l_ret_var := core_random.r_float(2, 100, 500000, l_w_min, l_w_max);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_accountbalance;
+
+  function r_bitcoin (
+    r_p2sh              boolean      default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_bitcoin');
+
+    l_ret_var := core_random.r_string(core_random.r_natural(25,33), finance_data.g_bitcoin_pool);
+    if r_p2sh then
+      l_ret_var := '3' || l_ret_var;
+    else
+      l_ret_var := '1' || l_ret_var;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_bitcoin;
+
+  function r_exchange (
+    r_shortform         boolean       default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_exchange');
+
+    if r_shortform then
+      l_ret_var := finance_data.exchanges(core_random.r_natural(1, finance_data.exchanges.count)).exchange_id;
+    else
+      l_ret_var := finance_data.exchanges(core_random.r_natural(1, finance_data.exchanges.count)).exchange_name;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_exchange;
+
 begin
 
   dbms_application_info.set_client_info('finance_random');

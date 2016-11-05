@@ -46,5 +46,14 @@ as
   )
   return varchar2;
 
+  /** Generate a random food additive.
+  * @author Morten Egan
+  * @return varchar2 The additive generated.
+  */
+  function r_additive (
+    r_category              varchar2        default null
+  )
+  return varchar2;
+
 end consumer_random;
 /

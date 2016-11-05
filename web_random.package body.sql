@@ -73,6 +73,7 @@ as
 
   function r_email (
     use_real_name                   boolean         default false
+    , safe                          boolean         default false
   )
   return varchar2
 
@@ -85,9 +86,15 @@ as
     dbms_application_info.set_action('r_email');
 
     if use_real_name then
-      l_ret_var := person_random.r_firstname || '@' || r_domain;
+      l_ret_var := person_random.r_firstname || '@';
     else
-      l_ret_var := text_random.r_word || '@' || r_domain;
+      l_ret_var := text_random.r_word || '@';
+    end if;
+
+    if safe then
+      l_ret_var := l_ret_var || 'example.com';
+    else
+      l_ret_var := l_ret_var || r_domain;
     end if;
 
     dbms_application_info.set_action(null);
@@ -142,7 +149,7 @@ as
     if use_secure then
       l_ret_var := 'https://www.' || r_domain;
     else
-      l_ret_var := 'http://www.' || r_domain;
+      l_ret_var := web_random.r_protocol || '://www.' || r_domain;
     end if;
 
     l_ret_var := l_ret_var || '/' || text_random.r_word || '.html';
@@ -185,6 +192,104 @@ as
         raise;
 
   end r_ipv6;
+
+  function r_protocol
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_protocol');
+
+    if core_random.r_bool then
+      l_ret_var := 'http';
+    else
+      l_ret_var := 'https';
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_protocol;
+
+  function r_password
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_password');
+
+    l_ret_var := core_random.r_hex(64);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_password;
+
+  function r_mac
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_mac');
+
+    l_ret_var := core_random.r_hex(12);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_mac;
+
+  function r_color
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100) := util_random.ru_replace_ranges('([0-255], [0-255], [0-255])');
+
+  begin
+
+    dbms_application_info.set_action('r_color');
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_color;
 
 begin
 

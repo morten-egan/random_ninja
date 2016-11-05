@@ -35,18 +35,43 @@ as
   function r_natural (
     r_min             number          default 0
     , r_max           number          default 9007199254740992
+    , r_w_min         number          default null
+    , r_w_max         number          default null
+    , r_weight        number          default null
   )
   return number
 
   as
 
     l_ret_var               number;
+    l_w_min                 number := r_w_min;
+    l_w_max                 number := r_w_max;
+    l_weight                number := r_weight;
 
   begin
 
     dbms_application_info.set_action('r_natural');
 
-    l_ret_var := round(dbms_random.value(r_min,r_max));
+    if l_w_min is null and l_w_max is null then
+      -- Do not use weighted range. Act as default.
+      l_ret_var := round(dbms_random.value(r_min,r_max));
+    else
+      -- We info for a weighted range. Set and run.
+      if l_w_min is null then
+        l_w_min := r_min;
+      end if;
+      if l_w_max is null then
+        l_w_max := r_max;
+      end if;
+      if l_weight is null then
+        l_weight := 50;
+      end if;
+      if core_random.r_natural(0,100) <= l_weight then
+        l_ret_var := core_random.r_natural(l_w_min, l_w_max);
+      else
+        l_ret_var := core_random.r_natural(r_min,r_max);
+      end if;
+    end if;
 
     dbms_application_info.set_action(null);
 
@@ -116,18 +141,42 @@ as
     r_fixed           number          default 4
     , r_min           number          default -9007199254740992
     , r_max           number          default 9007199254740992
+    , r_w_min         number          default null
+    , r_w_max         number          default null
+    , r_weight        number          default null
   )
   return number
 
   as
 
     l_ret_var               number;
+    l_w_min                 number := r_w_min;
+    l_w_max                 number := r_w_max;
+    l_weight                number := r_weight;
 
   begin
 
     dbms_application_info.set_action('r_float');
 
-    l_ret_var := dbms_random.value(r_min, r_max);
+    if l_w_min is null and l_w_max is null then
+      l_ret_var := dbms_random.value(r_min, r_max);
+    else
+      -- We info for a weighted range. Set and run.
+      if l_w_min is null then
+        l_w_min := r_min;
+      end if;
+      if l_w_max is null then
+        l_w_max := r_max;
+      end if;
+      if l_weight is null then
+        l_weight := 50;
+      end if;
+      if core_random.r_natural(0,100) <= l_weight then
+        l_ret_var := core_random.r_float(r_fixed, l_w_min, l_w_max);
+      else
+        l_ret_var := core_random.r_float(r_fixed, r_min,r_max);
+      end if;
+    end if;
 
     dbms_application_info.set_action(null);
 
@@ -209,12 +258,13 @@ as
 
   function r_hex (
     r_length          number          default null
+    , r_upper         boolean         default false
   )
   return varchar2
 
   as
 
-    l_ret_var               varchar2(100);
+    l_ret_var               varchar2(4000);
     l_string_lenght         number := r_length;
 
   begin
@@ -226,6 +276,10 @@ as
     end if;
 
     l_ret_var := r_string(l_string_lenght, '0123456789abcdef');
+
+    if r_upper then
+      l_ret_var := upper(l_ret_var);
+    end if;
 
     dbms_application_info.set_action(null);
 

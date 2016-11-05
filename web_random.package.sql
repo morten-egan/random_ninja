@@ -34,6 +34,7 @@ as
   */
   function r_email (
     use_real_name                   boolean         default false
+    , safe                          boolean         default false
   )
   return varchar2;
 
@@ -59,6 +60,34 @@ as
   * @return varchar2 The IP address generated.
   */
   function r_ipv6
+  return varchar2;
+
+  /** Generate a random web protocol.
+  * @author Morten Egan
+  * @return varchar2 The random protocol.
+  */
+  function r_protocol
+  return varchar2;
+
+  /** Generate a random looking sha256 password.
+  * @author Morten Egan
+  * @return varchar2 The returned sha256.
+  */
+  function r_password
+  return varchar2;
+
+  /** Generate a random MAC address.
+  * @author Morten Egan
+  * @return varchar2 The generated MAC address.
+  */
+  function r_mac
+  return varchar2;
+
+  /** Generate a random RGB color.
+  * @author Morten Egan
+  * @return varchar2 The generated RGB color values.
+  */
+  function r_color
   return varchar2;
 
 end web_random;

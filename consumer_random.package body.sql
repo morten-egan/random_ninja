@@ -125,6 +125,41 @@ as
 
   end r_service_item;
 
+  function r_additive (
+    r_category              varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_category              varchar2(100) := r_additive.r_category;
+
+  begin
+
+    dbms_application_info.set_action('r_additive');
+
+    if l_category is null then
+      l_ret_var := util_random.ru_pickone(consumer_data.additives(core_random.r_natural(1, consumer_data.additives.count)).additives);
+    else
+      for i in 1..consumer_data.additives.count loop
+        if consumer_data.additives(i).group_name = l_category then
+          l_ret_var := util_random.ru_pickone(consumer_data.additives(i).additives);
+        end if;
+      end loop;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_additive;
+
 begin
 
   dbms_application_info.set_client_info('consumer_random');

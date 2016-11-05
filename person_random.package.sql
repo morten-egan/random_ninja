@@ -15,6 +15,8 @@ as
   */
   function r_age (
     r_type            varchar2        default null
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return number;
 
@@ -25,6 +27,8 @@ as
   function r_birthday (
     r_type            varchar2        default null
     , r_fixed         boolean         default false
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return date;
 
@@ -97,6 +101,7 @@ as
   */
   function r_identification (
     r_country         varchar2        default null
+    , r_gender        varchar2        default null
   )
   return varchar2;
 
@@ -109,6 +114,35 @@ as
     , r_shortform     boolean         default false
   )
   return varchar2;
+
+  /** Generate a job sector.
+  * @author Morten Egan
+  * @return varchar2 The job sector returned.
+  */
+  function r_jobsector (
+    r_country         varchar2        default null
+  )
+  return varchar2;
+
+  /** Generate a job title.
+  * @author Morten Egan
+  * @return varchar2 The job title generated.
+  */
+  function r_jobtitle (
+    r_country         varchar2        default null
+    , r_jobsector     varchar2        default null
+  )
+  return varchar2;
+
+  /** Generate a random salary for a person.
+  * @author Morten Egan
+  * @return number The randomly generated salary.
+  */
+  function r_salary (
+    r_country         varchar2        default null
+    , r_jobsector     varchar2        default null
+  )
+  return number;
 
 end person_random;
 /

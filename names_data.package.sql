@@ -9,8 +9,8 @@ as
   */
   npg_version         varchar2(250) := '0.0.1';
 
+  -- Names data structures.
   type name_list is table of varchar2(4000);
-
   type country_names is record (
     male_first_names            name_list
     , male_middle_names         name_list
@@ -23,9 +23,7 @@ as
     , suffix_full               varchar2(4000)
     , suffix_short              varchar2(4000)
   );
-
   type country_name_list is table of country_names index by varchar2(10);
-
   r_country_names country_name_list;
 
 end names_data;

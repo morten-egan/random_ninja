@@ -10,9 +10,41 @@ begin
   -- Init objects
   countries := country_list(null);
   countries.extend(253);
+  continents := continent_list(null);
+  continents.extend(7);
 
-  -- Init countries.
-  init_data := location_data_us.npg_version;  
+  -- Init country specific lcoale data.
+  init_data := location_data_us.npg_version;
+
+  -- Continents
+  continents(1).continent_name := 'Africa';
+  continents(1).size_square_km := 30370000;
+  continents(1).avg_floor_space := 21;
+  continents(1).avg_house_rooms := 2;
+  continents(2).continent_name := 'Antarctica';
+  continents(2).size_square_km := 13720000;
+  continents(2).avg_floor_space := 650;
+  continents(2).avg_house_rooms := 15;
+  continents(3).continent_name := 'Asia';
+  continents(3).size_square_km := 43820000;
+  continents(3).avg_floor_space := 46;
+  continents(3).avg_house_rooms := 3;
+  continents(4).continent_name := 'Europe';
+  continents(4).size_square_km := 10180000;
+  continents(4).avg_floor_space := 87;
+  continents(4).avg_house_rooms := 5;
+  continents(5).continent_name := 'North America';
+  continents(5).size_square_km := 24490000;
+  continents(5).avg_floor_space := 201;
+  continents(5).avg_house_rooms := 7;
+  continents(6).continent_name := 'Australia';
+  continents(6).size_square_km := 9008500;
+  continents(6).avg_floor_space := 217;
+  continents(6).avg_house_rooms := 7;
+  continents(7).continent_name := 'South America';
+  continents(7).size_square_km := 17840000;
+  continents(7).avg_floor_space := 43;
+  continents(7).avg_house_rooms := 3;
 
   -- Long names of countries
   countries(1).country_name := 'Afghanistan';

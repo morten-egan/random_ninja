@@ -66,5 +66,58 @@ as
   )
   return number;
 
+  /** Generate a bank account number.
+  * @author Morten Egan
+  * @return varchar2 The bank account number generated.
+  */
+  function r_accountnumber (
+    r_country           varchar2      default null
+    , r_iban            boolean       default true
+  )
+  return varchar2;
+
+  /** Generate an bank account type.
+  * @author Morten Egan
+  * @return varchar2 The generated bank account type name.
+  */
+  function r_accounttype
+  return varchar2;
+
+  /** Generate a transaction for bank account.
+  * @author Morten Egan
+  * @return varchar2 The generated transaction type.
+  */
+  function r_accounttransaction (
+    r_accounttype       varchar2      default null
+  )
+  return varchar2;
+
+  /** Generate a random account balance.
+  * @author Morten Egan
+  * @return number The balance of the account.
+  */
+  function r_accountbalance (
+    r_accounttype       varchar2      default null
+  )
+  return number;
+
+  /** Generate a bitcoin address.
+  * @author Morten Egan
+  * @return varchar2 The bitcoin address generated.
+  */
+  function r_bitcoin (
+    r_p2sh              boolean       default true
+  )
+  return varchar2;
+
+  /** Generate a random exchange.
+  * @author Morten Egan
+  * @return varchar2 The exchange generated.
+  */
+  function r_exchange (
+    r_shortform         boolean       default true
+  )
+  return varchar2;
+
 end finance_random;
 /

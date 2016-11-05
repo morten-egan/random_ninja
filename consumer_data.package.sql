@@ -20,8 +20,14 @@ as
   );
   type consumer_item_list is table of consumer_item;
   type category_items_list is table of consumer_item_list index by varchar2(4000);
-
   items   category_items_list;
+
+  type additive_group_rec is record (
+    group_name            varchar2(50)
+    , additives           varchar2(4000)
+  );
+  type additive_group_list is table of additive_group_rec;
+  additives   additive_group_list;
 
 end consumer_data;
 /

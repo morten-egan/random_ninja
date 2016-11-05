@@ -9,6 +9,15 @@ as
   */
   npg_version         varchar2(250) := '0.0.1';
 
+  type continent is record (
+    continent_name        varchar2(150)
+    , size_square_km      number
+    , avg_floor_space     number
+    , avg_house_rooms     number
+  );
+  type continent_list is table of continent;
+  continents  continent_list;
+
   -- For the random country selection.
   type country is record (
     country_name          varchar2(4000)

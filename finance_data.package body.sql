@@ -7,11 +7,19 @@ begin
   dbms_application_info.set_client_info('finance_data');
   dbms_session.set_identifier('finance_data');
 
+  -- Init Objects
   currencies := currency_list(null);
   currencies.extend(252);
-
   creditcards := creditcard_list(null);
   creditcards.extend(17);
+  account_types := account_type_list(null);
+  finance_data.account_types.extend(3);
+  exchanges := exchange_list(null);
+  exchanges.extend(33);
+
+  -- Init external data.
+  init_data := finance_data_account.npg_version;
+  init_data := finance_data_exchange.npg_version;
 
   -- Credit cards
   creditcards(1).cc_name := 'American Express';

@@ -141,5 +141,31 @@ as
   function r_level
   return number;
 
+  /** Generate a random accomodation size. Can specify some continents.
+  * @author Morten Egan
+  * @return number The result size, default in square meters. Speficy if square feet is wanted.
+  */
+  function r_floor_space (
+    r_continent           varchar2        default null
+    , r_feet              boolean         default false
+  )
+  return number;
+
+  /** Get a random continent.
+  * @author Morten Egan
+  * @return varchar2 The continent chosen.
+  */
+  function r_continent
+  return varchar2;
+
+  /** Get a random number rooms in a house.
+  * @author Morten Egan
+  * @return number The randomly generated number of rooms.
+  */
+  function r_room_count (
+    r_continent           varchar2          default null
+  )
+  return number;
+
 end location_random;
 /

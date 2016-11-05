@@ -25,6 +25,9 @@ as
   function r_natural (
     r_min             number          default 0
     , r_max           number          default 9007199254740992
+    , r_w_min         number          default null
+    , r_w_max         number          default null
+    , r_weight        number          default null
   )
   return number;
 
@@ -48,6 +51,9 @@ as
     r_fixed           number          default 4
     , r_min           number          default -9007199254740992
     , r_max           number          default 9007199254740992
+    , r_w_min         number          default null
+    , r_w_max         number          default null
+    , r_weight        number          default null
   )
   return number;
 
@@ -77,6 +83,7 @@ as
   */
   function r_hex (
     r_length          number          default null
+    , r_upper         boolean         default false
   )
   return varchar2;
 

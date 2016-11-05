@@ -25,7 +25,7 @@ as
     if l_elem_count = 0 then
       l_elem_start_location := 1;
       l_elem_end_location := length(ru_elements);
-    elsif l_elem_count < ru_extract_n then
+    elsif (l_elem_count + 1) < ru_extract_n then
       -- Wants an element higher than what is available. Return last
       l_elem_start_location := instr(ru_elements, ru_seperator, 1, l_elem_count) + 1;
       l_elem_end_location := length(ru_elements);
@@ -34,7 +34,7 @@ as
         -- First element situation
         l_elem_start_location := 1;
         l_elem_end_location := instr(ru_elements, ru_seperator) - 1;
-      elsif ru_extract_n = l_elem_count then
+      elsif ru_extract_n = (l_elem_count + 1) then
         -- Last element situation
         l_elem_start_location := instr(ru_elements, ru_seperator, 1, l_elem_count) + 1;
         l_elem_end_location := length(ru_elements);
@@ -81,6 +81,7 @@ as
     if l_elem_count = 0 then
       l_ret_var := ru_elements;
     else
+      l_elem_count := l_elem_count + 1;
       l_rand_elem := core_random.r_natural(1, l_elem_count);
       l_ret_var := ru_extract(ru_elements, l_rand_elem, ru_seperator);
     end if;
@@ -188,7 +189,7 @@ as
 
   function ru_replace (
     ru_string             varchar2
-    , ru_replace_char     varchar2 default 'X'
+    , ru_replace_char     varchar2 default '#'
     , ru_replace_func     varchar2 default 'core_random.r_natural(1,9)'
   )
   return varchar2
@@ -230,7 +231,7 @@ as
 
   as
 
-    l_ret_var               varchar2(100) := ru_string;
+    l_ret_var               varchar2(4000) := ru_string;
     l_replace_loc_start     number;
     l_replace_loc_end       number;
     l_range_start           varchar2(100);
@@ -272,6 +273,315 @@ as
         raise;
 
   end ru_replace_ranges;
+
+  function ru_numerify (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_numerify');
+
+    l_ret_var := ru_replace(ru_string);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_numerify;
+
+  function ru_charify (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_charify');
+
+    l_ret_var := ru_replace(ru_string, '?', 'core_random.r_character(''abcdefghijklmnopqrstuvwxyz'')');
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_charify;
+
+  function ru_numcharfy (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_numcharfy');
+
+    l_ret_var := ru_numerify(ru_string);
+    l_ret_var := ru_charify(l_ret_var);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_numcharfy;
+
+  function ru_datify (
+    ru_string             varchar2
+    , ru_date             date        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000) := ru_datify.ru_string;
+    l_date                  date := ru_datify.ru_date;
+
+  begin
+
+    dbms_application_info.set_action('ru_datify');
+
+    if l_date is null then
+      l_date := time_random.r_date;
+    end if;
+
+    -- Go through the supported formats and replace.
+    -- First we replace YYYY
+    l_ret_var := replace(l_ret_var, 'YYYY', to_char(l_date,'YYYY'));
+    -- Then we replace YY
+    l_ret_var := replace(l_ret_var, 'YY', to_char(l_date,'YY'));
+    -- Replace MM
+    l_ret_var := replace(l_ret_var, 'MM', to_char(l_date,'MM'));
+    -- Replace MON
+    l_ret_var := replace(l_ret_var, 'MON', to_char(l_date,'MON'));
+    -- Replace Mon
+    l_ret_var := replace(l_ret_var, 'Mon', to_char(l_date,'Mon'));
+    -- Replace DD
+    l_ret_var := replace(l_ret_var, 'DD', to_char(l_date,'DD'));
+    -- Replace Day
+    l_ret_var := replace(l_ret_var, 'Day', to_char(l_date,'Day'));
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_datify;
+
+  function ru_display_format (
+    ru_string             varchar2
+    , ru_format           varchar2
+    , ru_add_missing      boolean     default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+    l_string                varchar2(4000) := ru_display_format.ru_string;
+
+  begin
+
+    dbms_application_info.set_action('ru_display_format');
+
+    if (regexp_count(ru_format, '\?') + regexp_count(ru_format,'#')) = length(ru_string) then
+      -- One to one char formatting. Use anything else but the question mark, to format string.
+      for i in 1..length(ru_format) loop
+        if substr(ru_format, i, 1) = '?' or substr(ru_format, i, 1) = '#' then
+          l_ret_var := l_ret_var || substr(l_string, 1, 1);
+          l_string := substr(l_string, 2);
+        else
+          l_ret_var := l_ret_var || substr(ru_format, i, 1);
+        end if;
+      end loop;
+    elsif (regexp_count(ru_format, '?') + regexp_count(ru_format,'#')) > length(ru_string) then
+      -- Format is longer then string to be formatted. If r_add_missing we will add missing char/num to formatted string.
+      for i in 1..length(ru_format) loop
+        if substr(ru_format, i, 1) = '?' or substr(ru_format, i, 1) = '#' then
+          if l_string is not null then
+            l_ret_var := l_ret_var || substr(l_string, 1, 1);
+            l_string := substr(l_string, 2);
+          else
+            if ru_add_missing then
+              if substr(ru_format, i, 1) = '?' then
+                l_ret_var := l_ret_var || 'X';
+              else
+                l_ret_var := l_ret_var || 1;
+              end if;
+            end if;
+          end if;
+        else
+          l_ret_var := l_ret_var || substr(ru_format, i, 1);
+        end if;
+      end loop;
+    elsif (regexp_count(ru_format, '?') + regexp_count(ru_format,'#')) < length(ru_string) then
+      -- Missing some formatting compared to actual string. Just format as much as possible.
+      for i in 1..length(ru_format) loop
+        if substr(ru_format, i, 1) = '?' or substr(ru_format, i, 1) = '#' then
+          l_ret_var := l_ret_var || substr(l_string, 1, 1);
+          l_string := substr(l_string, 2);
+        else
+          l_ret_var := l_ret_var || substr(ru_format, i, 1);
+        end if;
+      end loop;
+      -- Add the rest of the string to the formatted string.
+      l_ret_var := l_ret_var || l_string;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_display_format;
+
+  function ru_pickone_weighted (
+    ru_elements       varchar2
+    , ru_seperator    varchar2        default ','
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+    l_element_count         number;
+    l_weighted_count        number;
+    l_weight_undef          number;
+    type w_tab is table of varchar2(3) index by varchar2(4000);
+    l_weighted              w_tab;
+    l_element_val           varchar2(4000);
+    l_current_total_weight  number := 0;
+    l_weight_idx            varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_pickone_weighted');
+
+    l_element_count := regexp_count(ru_elements, ',');
+    l_weighted_count := regexp_count(ru_elements, '\[');
+
+    if l_weighted_count = 0 then
+      -- No weights at all in the list. Make all elements equal weight.
+      l_ret_var := util_random.ru_pickone(ru_elements, ru_seperator);
+    else
+      for i in 1..(l_element_count + 1) loop
+        l_element_val := util_random.ru_extract(ru_elements, i);
+        l_current_total_weight := l_current_total_weight + substr(l_element_val, instr(l_element_val,'[') + 1, (length(l_element_val)) - instr(l_element_val,'[') - 1 );
+        -- l_weighted(l_current_total_weight) := substr(l_element_val, 1, instr(l_element_val,'[') - 1);
+        l_weighted(substr(l_element_val, 1, instr(l_element_val,'[') - 1)) := l_current_total_weight;
+      end loop;
+
+      -- Now we have the full weighted list. Generate a percent and extract the element value.
+      l_current_total_weight := core_random.r_natural(1,100);
+      l_weight_idx := l_weighted.first;
+      while l_weight_idx is not null loop
+        if l_current_total_weight >= (100 - l_weighted(l_weight_idx)) then
+          l_ret_var := l_weight_idx;
+          l_weight_idx := null;
+        else
+          l_weight_idx := l_weighted.next(l_weight_idx);
+        end if;
+      end loop;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_pickone_weighted;
+
+  function iban_checksum (
+    ru_iban           varchar2
+    , ru_country      varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_calc_factor           number := 55;
+    l_country               varchar2(10) := ru_country;
+    l_iban                  varchar2(50) := ru_iban;
+    l_iban_tmp              varchar2(50);
+    l_iban_tmp2             varchar2(50);
+    l_iban_num_tmp          number;
+
+  begin
+
+    dbms_application_info.set_action('iban_checksum');
+
+    if length(l_iban) = finance_data.country_bankaccounts(l_country).iban_length then
+      -- Switch the first four characters to the end.
+      l_iban_tmp := substr(l_iban, 5) || substr(l_iban, 1, 4);
+      -- Convert all characters to integers.
+      for i in 1..length(l_iban_tmp) loop
+        if regexp_instr(substr(l_iban_tmp, i, 1), '[a-zA-Z]') > 0 then
+          -- We have a letter that we need to convert to an integer.
+          l_iban_num_tmp := ascii(upper(substr(l_iban_tmp, i, 1))) - l_calc_factor;
+          -- Now we need to replace the char back in the string with the calculated integer.
+          l_iban_tmp2 := l_iban_tmp2 || l_iban_num_tmp;
+        else
+          -- We have a number just append.
+          l_iban_tmp2 := l_iban_tmp2 || to_char(substr(l_iban_tmp, i, 1));
+        end if;
+      end loop;
+
+      l_iban_num_tmp := mod(to_number(l_iban_tmp2),97);
+      l_iban_num_tmp := 98 - l_iban_num_tmp;
+      l_iban_tmp := lpad(l_iban_num_tmp,2,0);
+      l_ret_var := substr(l_iban, 1, 2) || to_char(l_iban_tmp) || substr(l_iban, 5);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end iban_checksum;
 
 begin
 

@@ -58,7 +58,7 @@ as
   */
   function ru_replace (
     ru_string             varchar2
-    , ru_replace_char     varchar2 default 'X'
+    , ru_replace_char     varchar2 default '#'
     , ru_replace_func     varchar2 default 'core_random.r_natural(1,9)'
   )
   return varchar2;
@@ -70,6 +70,74 @@ as
   function ru_replace_ranges (
     ru_string             varchar2
     , ru_range_marker     varchar2 default '[]'
+  )
+  return varchar2;
+
+  /** Numerify a string, where the "#" character is replaced with a number between 0-9.
+  * @author Morten Egan
+  * @return varchar2 The string with the replaced characters.
+  */
+  function ru_numerify (
+    ru_string             varchar2
+  )
+  return varchar2;
+
+  /** Replace all occurrences of the "?" sign with a letter a-z.
+  * @author Morten Egan
+  * @return varchar2 The string with the replaced characters.
+  */
+  function ru_charify (
+    ru_string             varchar2
+  )
+  return varchar2;
+
+  /** Replace the "#" character with number and replace the "?" character with a letter.
+  * @author Morten Egan
+  * @return varchar2 The replaced string.
+  */
+  function ru_numcharfy (
+    ru_string             varchar2
+  )
+  return varchar2;
+
+  /** Replace date format models in a single character string mixed with words.
+  * @author Morten Egan
+  * @return varchar2 The replaced string.
+  */
+  function ru_datify (
+    ru_string             varchar2
+    , ru_date             date        default null
+  )
+  return varchar2;
+
+  /** Format a single long string of characters into a special format. For instance 1234 into 1-2-3-4
+  * @author Morten Egan
+  * @return varchar2 The formatted string.
+  */
+  function ru_display_format (
+    ru_string             varchar2
+    , ru_format           varchar2
+    , ru_add_missing      boolean     default true
+  )
+  return varchar2;
+
+  /** Extract a random element from a list, where elements can be assigned a percentage weight as well.
+  * @author Morten Egan
+  * @return varchar2 The element value randomly selected based on a percentage weight.
+  */
+  function ru_pickone_weighted (
+    ru_elements       varchar2
+    , ru_seperator    varchar2        default ','
+  )
+  return varchar2;
+
+  /** Calculate the correct MOD-97 IBAN checksum digits for an IBAN account number.
+  * @author Morten Egan
+  * @return varchar2 The full IBAN account number with correct checksum numbers.
+  */
+  function iban_checksum (
+    ru_iban           varchar2
+    , ru_country      varchar2
   )
   return varchar2;
 

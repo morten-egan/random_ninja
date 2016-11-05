@@ -4,29 +4,42 @@ as
 
   function r_age (
     r_type            varchar2        default null
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return number
 
   as
 
     l_ret_var               number;
+    l_min                   number := r_min;
+    l_max                   number := r_max;
 
   begin
 
     dbms_application_info.set_action('r_age');
 
-    if r_type = 'child' then
-      l_ret_var := core_random.r_natural(0,12);
-    elsif r_type = 'teen' then
-      l_ret_var := core_random.r_natural(13,19);
-    elsif r_type = 'adult' then
-      l_ret_var := core_random.r_natural(18,65);
-    elsif r_type = 'senior' then
-      l_ret_var := core_random.r_natural(65,100);
-    elsif r_type = 'all' then
-      l_ret_var := core_random.r_natural(0,100);
+    if l_min is null and l_max is null then
+      if r_type = 'child' then
+        l_ret_var := core_random.r_natural(0,12);
+      elsif r_type = 'teen' then
+        l_ret_var := core_random.r_natural(13,19);
+      elsif r_type = 'adult' then
+        l_ret_var := core_random.r_natural(18,65);
+      elsif r_type = 'senior' then
+        l_ret_var := core_random.r_natural(65,100);
+      elsif r_type = 'all' then
+        l_ret_var := core_random.r_natural(0,100);
+      else
+        l_ret_var := core_random.r_natural(18,65);
+      end if;
     else
-      l_ret_var := core_random.r_natural(18,65);
+      if l_min is null then
+        l_min := core_random.r_natural(0, l_max - 1);
+      elsif l_max is null then
+        l_max := core_random.r_natural(l_min + 1, 100);
+      end if;
+      l_ret_var := core_random.r_natural(l_min, l_max);
     end if;
 
     dbms_application_info.set_action(null);
@@ -43,6 +56,8 @@ as
   function r_birthday (
     r_type            varchar2        default null
     , r_fixed         boolean         default false
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return date
 
@@ -51,12 +66,14 @@ as
     l_ret_var               date;
     l_age                   number;
     l_year                  number;
+    l_min                   number := r_min;
+    l_max                   number := r_max;
 
   begin
 
     dbms_application_info.set_action('r_birthday');
 
-    l_age := r_age(r_type);
+    l_age := r_age(r_type, l_min, l_max);
     l_year := to_number(to_char(add_months(trunc(sysdate,'YYYY'), -l_age*12), 'YYYY'));
 
     l_ret_var := time_random.r_date(
@@ -355,26 +372,36 @@ as
 
   function r_identification (
     r_country         varchar2        default null
+    , r_gender        varchar2        default null
   )
   return varchar2
 
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(20) := r_country;
+    l_country               varchar2(20) := r_identification.r_country;
+    l_gender                varchar2(10) := r_identification.r_gender;
 
   begin
 
     dbms_application_info.set_action('r_identification');
 
-    if l_country_code is null then
-      l_country_code := util_random.ru_pickone(core_random_v.g_id_countries_implemented);
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_id_countries_implemented);
+    else
+      if not util_random.ru_inlist(core_random_v.g_id_countries_implemented, l_country) then
+        l_country := util_random.ru_pickone(core_random_v.g_id_countries_implemented);
+      end if;
     end if;
 
-    if l_country_code = 'US' then
-      l_ret_var := core_random.r_string(3, '0123456789') || '-' || core_random.r_string(2, '0123456789') || '-' || core_random.r_string(4, '0123456789');
+    if l_gender is null then
+      l_gender := person_random.r_gender;
+    end if;
+
+    if l_gender = 'M' then
+      l_ret_var := util_random.ru_display_format(util_random.ru_numcharfy(person_data.country_ids(l_country).id_format_male), person_data.country_ids(l_country).id_display_format);
     else
-      l_ret_var := core_random.r_string(3, '0123456789') || '-' || core_random.r_string(2, '0123456789') || '-' || core_random.r_string(4, '0123456789');
+      l_ret_var := util_random.ru_display_format(util_random.ru_numcharfy(person_data.country_ids(l_country).id_format_female), person_data.country_ids(l_country).id_display_format);
     end if;
 
     dbms_application_info.set_action(null);
@@ -423,6 +450,136 @@ as
         raise;
 
   end r_suffix;
+
+  function r_jobsector (
+    r_country         varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(150);
+    l_country               varchar2(10) := r_jobsector.r_country;
+
+  begin
+
+    dbms_application_info.set_action('r_jobsector');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_job_data_implemented, l_country) then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    end if;
+
+    l_ret_var := person_data.country_jobs(l_country)(core_random.r_natural(1, person_data.country_jobs(l_country).count)).job_sector;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_jobsector;
+
+  function r_jobtitle (
+    r_country         varchar2        default null
+    , r_jobsector     varchar2        default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_country               varchar2(10) := r_jobtitle.r_country;
+    l_jobsector             varchar2(150) := r_jobtitle.r_jobsector;
+    l_jobsector_idx         number;
+
+  begin
+
+    dbms_application_info.set_action('r_jobtitle');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_job_data_implemented, l_country) then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    end if;
+
+    if l_jobsector is null then
+      l_ret_var := util_random.ru_pickone(person_data.country_jobs(l_country)(core_random.r_natural(1, person_data.country_jobs(l_country).count)).job_titles);
+    else
+      for i in 1..person_data.country_jobs(l_country).count loop
+        if person_data.country_jobs(l_country)(i).job_sector = l_jobsector then
+          l_jobsector_idx := i;
+        end if;
+      end loop;
+      if l_jobsector_idx is null then
+        l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+      end if;
+      l_ret_var := util_random.ru_pickone(person_data.country_jobs(l_country)(l_jobsector_idx).job_titles);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_jobtitle;
+
+  function r_salary (
+    r_country         varchar2        default null
+    , r_jobsector     varchar2        default null
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+    l_country               varchar2(10) := r_salary.r_country;
+    l_jobsector             varchar2(150) := r_salary.r_jobsector;
+    l_jobsector_idx         number;
+
+  begin
+
+    dbms_application_info.set_action('r_salary');
+
+    if l_country is null then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_job_data_implemented, l_country) then
+      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+    end if;
+
+    if l_jobsector is null then
+      l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+      l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
+    else
+      for i in 1..person_data.country_jobs(l_country).count loop
+        if person_data.country_jobs(l_country)(i).job_sector = l_jobsector then
+          l_jobsector_idx := i;
+        end if;
+      end loop;
+      if l_jobsector_idx is null then
+        l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+      end if;
+      l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_salary;
 
 begin
 
