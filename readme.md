@@ -29,6 +29,8 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_word** - Random word. Number of syllables, length and capitalizon can be specified.
     + **r_sentence** - Random sentence. The number of words in the sentence can be specified.
     + **r_paragraph** - Random paragraph. Number of sentences can be specified.
+    + **r_markovsentence** - Use this to generate random text that looks real.
+    + **r_textgenre** - Use this to get a text genre. Specify text type (Book, News) to get domain specific genres
 + **time_random** - Generate random time and date components.
     + **r_second** - Random second.
     + **r_minute** - Random minute.
@@ -41,6 +43,9 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_date** - Random date. Any component of the date format can be fixed if defined.
     + **r_epoch** - Random epoch date.
     + **r_timestamp** - Random timestamp. Any component of the timestamp can be fixed if defined.
+    + **r_datebetween** - Create a random date between 2 set dates.
+    + **r_timebetween** - Create a random timestamp between 2 set timestamps.
+    + **r_datereference** - Generate a random date based on human readable definitions, such as "soon", "future", "past", "recent" and more.
 + **location_random** - A wide variety of random location related data.
     + **r_country** - Random country. Either full name, or short ISO form can be specified.
     + **r_height** - Random height. Result in feet and livable height can be specified.
@@ -56,6 +61,9 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_city** - Random city name. Country and state can be specified.
     + **r_address2** - Random address 2 line, such as apartment or name of building. Country can be specified.
     + **r_level** - Random building level.
+    + **r_floor_space** - Size of a building. You can specify continent and choose feet instead of meters.
+    + **r_continent** - Return a random continent.
+    + **r_room_count** - Return a room count for a building. Specify continent for more precise values.
 + **person_random** - Random personal related data.
     + **r_age** - Random age. Type (child, teen, adult, senior) can be specified.
     + **r_birthday** - Random birthday date. As with age, type can be specified.
@@ -67,6 +75,9 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_prefix** - Random prefix. Gender and country can be specified.
     + **r_identification** - Random valid identification number, based on the country specified.
     + **r_suffix** - Random suffix. Country and shortform can be specified.
+    + **r_jobsector** - Get a random job sector or industry.
+    + **r_jobtitle** - Get a random job title. Specify job sector for a specific industry.
+    + **r_salary** - Generate a salary for a person. Specify country and job sector for more realistic values.
 + **phone_random** - Generate random data related to phones.
     + **r_imei** - Random valid IMEI number. IMEISV version can be specified.
     + **r_meid** - Random valid MEID number.
@@ -85,6 +96,12 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_creditcardnum** - Random valid creditcard number. Creditcard type can be specified.
     + **r_expirydate** - Random credit card expiry date. Future data can be specified.
     + **r_amount** - Random amount. Range and precision can be specified.
+    + **r_accountnumber** - Create a valid random account number. By default IBAN compatible format.
+    + **r_accounttype** - A random account type, such as savings, credit or investment account.
+    + **r_accounttransaction** - Return a random transaction type. Specify account type for more realistic values.
+    + **r_accountbalance** - Create a random balance for an account. Specify account type for more real values.
+    + **r_exchange** - Return a random stock exchange. Both full name and trading ID.
+    + **r_bitcoin** - Generate a random compatible bitcoin address.
 + **web_random** - Generate random web/internet related data.
     + **r_tld** - Random top level domain. Generic and country inclusion can be specified.
     + **r_domain** - Random domain name. TLD can be specified.
@@ -92,10 +109,25 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_ipv4** - Random <u><i>valid</i></u> ipv4 ip address.
     + **r_url** - Random URL. Specify if you want to use https and if you want to add query parameter.
     + **r_ipv6** - Random <u><i>valid</i></u> ipv6 ip address.
+    + **r_useragent** - Create random real looking useragents.
+    + **r_protocol** - Randomly choose between http or https.
+    + **r_color** - Generate random colors in the RGB scheme.
+    + **r_mac** - Create random valid MAC addresses.
+    + **r_password** - Create random valid SHA256 like password hashes.
++ **computer_random** - Generate random computer related data.
+    + **r_os_flavor** - Randomize between Windows and Unix.
+    + **r_mountpoint** - Generate a mountpoint. Specify OS flavor, to get OS specific mountpoints.
+    + **r_extension** - Create a file extension. Specify category (Archive, Image, Finance, Graphics, Script etc.).
+    + **r_filename** - Create a random filename. Can specify extension, extension category as well as safemode.
+    + **r_path** - Create a full OS specific path. Can include number of directory levels and you can specify to include file also.
+    + **r_semver** - Random semver version. Both Major, Minor and Patch can be specified if needed.
+    + **r_mimetype** - Generate a random and valid mime type. Specify category if needed.
+    + **r_servername** - Generate a random server name. Environment, type, number and domain can be specified or added.
 + **consumer_random** - Generate random consumer related data.
     + **r_category** - Random consumer category. You can choose between all, food ro non-food categories.
     + **r_food_item** - Random food item. Category can be specified.
     + **r_nonfood_item** - Random non-food item. Category can be specified.
     + **r_service_item** - Random service related item. Category can be specified.
+    + **r_additive** - Return a random regulated and apporved additive such as E104 etc.
 
 ## Examples
