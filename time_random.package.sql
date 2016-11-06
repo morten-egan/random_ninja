@@ -136,5 +136,15 @@ as
   )
   return date;
 
+  /** Generate a timestamp between 2 timestamps.
+  * @author Morten Egan
+  * @return timestamp The timestamp generated.
+  */
+  function r_timebetween (
+    r_timestamp_from          timestamp
+    , r_timestamp_to          timestamp     default systimestamp
+  )
+  return timestamp;
+
 end time_random;
 /

@@ -531,6 +531,36 @@ as
 
   end r_datereference;
 
+  function r_timebetween (
+    r_timestamp_from          timestamp
+    , r_timestamp_to          timestamp     default systimestamp
+  )
+  return timestamp
+
+  as
+
+    l_ret_var               timestamp;
+    l_tmp_date              date;
+
+  begin
+
+    dbms_application_info.set_action('r_timebetween');
+
+    l_tmp_date := time_random.r_datebetween(to_date(to_char(r_timestamp_from, 'DD-MM-YYYY HH24:MI:SS'), 'DD-MM-YYYY HH24:MI:SS'), to_date(to_char(r_timestamp_to, 'DD-MM-YYYY HH24:MI:SS'), 'DD-MM-YYYY HH24:MI:SS'));
+
+    l_ret_var := to_timestamp(to_char(l_tmp_date, 'DD-MM-YYYY HH24:MI:SS') || ':' || time_random.r_millisecond, 'DD-MM-YYYY HH24:MI:SS:FF3');
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_timebetween;
+
 begin
 
   dbms_application_info.set_client_info('time_random');
