@@ -453,6 +453,30 @@ as
 
   end r_exchange;
 
+  function r_creditcard_tx_type
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_creditcard_tx_type');
+
+    l_ret_var := util_random.ru_pickone_weighted(finance_data_account.g_w_creditcard_tx_type);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_creditcard_tx_type;
+
 begin
 
   dbms_application_info.set_client_info('finance_random');

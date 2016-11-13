@@ -26,5 +26,7 @@ as
   type country_name_list is table of country_names index by varchar2(10);
   r_country_names country_name_list;
 
+  init_data   varchar2(250);
+
 end names_data;
 /

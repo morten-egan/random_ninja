@@ -119,5 +119,12 @@ as
   )
   return varchar2;
 
+  /** Generate a random creditcard transaction type.
+  * @author Morten Egan
+  * @return varchar2 The transaction type generated.
+  */
+  function r_creditcard_tx_type
+  return varchar2;
+
 end finance_random;
 /

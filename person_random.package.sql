@@ -102,6 +102,7 @@ as
   function r_identification (
     r_country         varchar2        default null
     , r_gender        varchar2        default null
+    , r_birthday      date            default null
   )
   return varchar2;
 

@@ -48,9 +48,9 @@ as
 
   -- Local implmentation variables.
   -- Person name languages implemented. Remember to update this in case a new country is added.
-  g_name_countries_implemented    varchar2(4000) := ('US');
+  g_name_countries_implemented    varchar2(4000) := ('US,DK,CN');
   -- Identification number countries implemented.
-  g_id_countries_implemented      varchar2(4000) := ('US');
+  g_id_countries_implemented      varchar2(4000) := ('US,DK,CN');
   -- State data countries implemented
   g_state_countries_implemented   varchar2(4000) := ('US');
   -- City data countries implemented

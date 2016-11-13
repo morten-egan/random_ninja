@@ -18,6 +18,18 @@ begin
   country_ids('US').id_format_male := '#########';
   country_ids('US').id_format_female := '#########';
 
+  country_ids('DK').id_format := '##########';
+  country_ids('DK').id_add_checksum := null;
+  country_ids('DK').id_display_format := '######-####';
+  country_ids('DK').id_format_male := 'DDMMYY###[1,3,5,7,9]';
+  country_ids('DK').id_format_female := 'DDMMYY###[0,2,4,6,8]';
+
+  country_ids('CN').id_format := '##################';
+  country_ids('CN').id_add_checksum := null;
+  country_ids('CN').id_display_format := '##################';
+  country_ids('CN').id_format_male := '[110000-830000]YYYYDDMM####';
+  country_ids('CN').id_format_female := '[110000-830000]YYYYDDMM####';
+
   -- US Jobs data.
   country_jobs('US')(1).job_sector := 'Construction';
   country_jobs('US')(1).job_titles := 'Boilermaker,Construction Operator,Electrician,Ironworker,Woodworker,Masonry Worker,Plumber,Roofer,Building Inspector,Carpenter,Construction Manager,Painter,Welder';

@@ -152,7 +152,9 @@ as
     dbms_application_info.set_action('r_middlename');
 
     if l_country_code is null then
-      l_country_code := 'US';
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_name_countries_implemented, l_country_code) then
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
     if l_gender is null then
@@ -160,12 +162,12 @@ as
     end if;
 
     if l_gender = 'male' then
-      l_ret_var := names_data.r_country_names(l_country_code).male_middle_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).male_middle_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).male_middle_names.count));
     elsif l_gender = 'female' then
-      l_ret_var := names_data.r_country_names(l_country_code).female_middle_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).female_middle_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).male_middle_names.count));
     else
       -- In case something went wrong, return a female name.
-      l_ret_var := names_data.r_country_names(l_country_code).female_middle_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).female_middle_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).male_middle_names.count));
     end if;
 
     dbms_application_info.set_action(null);
@@ -196,7 +198,9 @@ as
     dbms_application_info.set_action('r_lastname');
 
     if l_country_code is null then
-      l_country_code := 'US';
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_name_countries_implemented, l_country_code) then
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
     if l_gender is null then
@@ -204,12 +208,12 @@ as
     end if;
 
     if l_gender = 'male' then
-      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).last_names.count));
     elsif l_gender = 'female' then
-      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).last_names.count));
     else
       -- In case something went wrong, return a female name.
-      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,100));
+      l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).last_names.count));
     end if;
 
     dbms_application_info.set_action(null);
@@ -373,6 +377,7 @@ as
   function r_identification (
     r_country         varchar2        default null
     , r_gender        varchar2        default null
+    , r_birthday      date            default null
   )
   return varchar2
 
@@ -381,6 +386,7 @@ as
     l_ret_var               varchar2(100);
     l_country               varchar2(20) := r_identification.r_country;
     l_gender                varchar2(10) := r_identification.r_gender;
+    l_birthday              date := r_identification.r_birthday;
 
   begin
 
@@ -398,11 +404,26 @@ as
       l_gender := person_random.r_gender;
     end if;
 
-    if l_gender = 'M' then
-      l_ret_var := util_random.ru_display_format(util_random.ru_numcharfy(person_data.country_ids(l_country).id_format_male), person_data.country_ids(l_country).id_display_format);
-    else
-      l_ret_var := util_random.ru_display_format(util_random.ru_numcharfy(person_data.country_ids(l_country).id_format_female), person_data.country_ids(l_country).id_display_format);
+    if l_birthday is null then
+      l_birthday := person_random.r_birthday('adult');
     end if;
+
+    if l_gender = 'male' then
+      l_ret_var := person_data.country_ids(l_country).id_format_male;
+    else
+      l_ret_var := person_data.country_ids(l_country).id_format_female;
+    end if;
+
+    -- First simple numbers.
+    l_ret_var := util_random.ru_numcharfy(l_ret_var);
+    -- Then ranges
+    l_ret_var := util_random.ru_replace_ranges(l_ret_var);
+    -- Then date parts.
+    if l_birthday is not null then
+      l_ret_var := util_random.ru_datify(l_ret_var, l_birthday);
+    end if;
+    -- Finally format to display
+    l_ret_var := util_random.ru_display_format(l_ret_var, person_data.country_ids(l_country).id_display_format);
 
     dbms_application_info.set_action(null);
 
