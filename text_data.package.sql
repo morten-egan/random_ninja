@@ -26,6 +26,11 @@ as
   g_book_genres             varchar2(4000) := 'Fiction,Comedy,Drama,Horror,Non-Fiction,Realistic Fiction,Romance Novel,Satire,Tragedy,Fantasy';
   g_news_genres             varchar2(4000) := 'Tabloid,Gonzo,Investigative,Science,Sports,Finance,Culture,Classified,Politics,Economy,World News,News';
 
+  -- Adjective lists
+  g_adj_positive_people     varchar2(32000) := 'adaptable,adventurous,affectionate,ambitious,amiable,compassionate,considerate,courageous,courteous,diligent,empathetic,exuberant,Frank,generous,gregarious,impartial,intuitive,inventive,passionate,persistent,philosophical,practical,rational,reliable,resourceful,sensible,sincere,sympathetic,unassuming,witty';
+  g_adj_positive_company    varchar2(32000) := 'Accurate,Active,Advanced,Assertive,Astute,Avid,Banzai,Beyond,Better,Bold,Bonafide,Booming,Brassy,Capital,Central,Classic,Classic,Cognizant,Diagnostic,Direct,Dynamic,Dynamite,Economical,Esteemed,Exemplary,Exuberant,Financial,Formidable,Fortuitous,Guaranteed,Harmonious,Honoured,Hypersonic,Impeccable,Intrinsic,Intent,Influential,Joint,Kinetic,Keen,Leading,Logical,Main,Methodical,Mindful,Mutual,Nationwide,Noble,Objective,Operative,Optimal,Optimum,Peerless,Paramount,Prodigious,Propulsive,Quality,Rapid,Resilient,Stable,Structured,Sufficient,Synergistic,Tangible,Transparent,Tactical,Valiant,Virtuous,Vivid,Zealous';
+  g_adj_descriptive_company varchar2(32000) := 'New,Good,Better,Best,Free,Fresh,Full,Clean,Special,Fine,Big,Great,Real,Huge,Easy,Bright,Safe,Rich,Exclusive,Limited,Unique';
+
   /** Generate the triplets for markov map.
   * @author Morten Egan
   * @return mc_key_rec_list The list of triplets.

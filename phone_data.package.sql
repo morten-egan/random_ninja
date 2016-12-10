@@ -23,5 +23,7 @@ as
   g_cdr_call_types              varchar2(4000) := 'MOC,MTC,SMS-MO,SMS-MT,MMS-MO,MMS-MT,GPRS';
   g_cdr_call_service_types      varchar2(4000) := 'Voice,Fax,Text,Video,Image,3G,LTE,4G';
 
+  g_phone_brands                varchar2(4000) := 'Nokia,Samsung,OPPO,Xiaomi,Apple,LG,Huawei,Microsoft,Sony,HTC,Motorola,Alcatel,Lenovo';
+
 end phone_data;
 /

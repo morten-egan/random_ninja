@@ -13,6 +13,18 @@ begin
   mimetypes.extend(6);
   useragents := useragent_list(null);
   useragents.extend(86);
+  errors := computertypes_list(null);
+  errors.extend(4);
+
+  -- Errors
+  errors(1).c_category := 'Oracle RDBMS';
+  errors(1).c_types := 'ORA-0####';
+  errors(2).c_category := 'SQLServer';
+  errors(2).c_types := 'Msg #####';
+  errors(3).c_category := 'DB2 UDB';
+  errors(3).c_types := 'errorcode=-###';
+  errors(4).c_category := 'Python';
+  errors(4).c_types := 'NameError: name ????? is not defined';
 
   -- Useragents.
   useragents(1) := 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36';

@@ -88,6 +88,7 @@ as
   */
   function ru_charify (
     ru_string             varchar2
+    , ru_upper            boolean default false
   )
   return varchar2;
 
@@ -126,8 +127,8 @@ as
   * @return varchar2 The element value randomly selected based on a percentage weight.
   */
   function ru_pickone_weighted (
-    ru_elements       varchar2
-    , ru_seperator    varchar2        default ','
+    ru_elements           varchar2
+    , ru_seperator        varchar2    default ','
   )
   return varchar2;
 
@@ -136,8 +137,35 @@ as
   * @return varchar2 The full IBAN account number with correct checksum numbers.
   */
   function iban_checksum (
-    ru_iban           varchar2
-    , ru_country      varchar2
+    ru_iban               varchar2
+    , ru_country          varchar2
+  )
+  return varchar2;
+
+  /** Generate a permuted version of a string.
+  * @author Morten Egan
+  * @return varchar2 The permuted version of the string.
+  */
+  function ru_permute (
+    ru_string             varchar2
+  )
+  return varchar2;
+
+  /** Generate a scrambled version of the string.
+  * @author Morten Egan
+  * @return varchar2 Scrambled version of the string.
+  */
+  function ru_scramble (
+    ru_string             varchar2
+  )
+  return varchar2;
+
+  /** Generate an obfuscated version of the string.
+  * @author Morten Egan
+  * @return varchar2 An obfuscated version of the string.
+  */
+  function ru_obfuscate (
+    ru_string             varchar2
   )
   return varchar2;
 

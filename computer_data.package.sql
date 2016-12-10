@@ -17,6 +17,7 @@ as
   filetypes     computertypes_list;
   mountpoints   computertypes_list;
   mimetypes     computertypes_list;
+  errors        computertypes_list;
 
   g_computer_environments         varchar2(4000) := 'dev,tst,stg,prd';
   g_computer_functions            varchar2(4000) := 'app,db,sql,ftp,mta,dns,cfg,mon,prx,ssh,web';

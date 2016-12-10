@@ -61,6 +61,8 @@ as
   g_job_data_implemented          varchar2(4000) := ('US');
   -- Markov text generation implemented.
   g_markov_text_implemented       varchar2(4000) := ('US');
+  -- Tax number countries implemented
+  g_tax_id_implemented            varchar2(4000) := ('US,CN');
 
 end core_random_v;
 /

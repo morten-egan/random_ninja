@@ -327,6 +327,30 @@ as
 
   end r_operator_code;
 
+  function r_brand
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_brand');
+
+    l_ret_var := util_random.ru_pickone(phone_data.g_phone_brands);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_brand;
+
 begin
 
   dbms_application_info.set_client_info('phone_random');

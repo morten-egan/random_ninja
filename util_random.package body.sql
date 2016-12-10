@@ -302,6 +302,7 @@ as
 
   function ru_charify (
     ru_string             varchar2
+    , ru_upper            boolean default false
   )
   return varchar2
 
@@ -314,6 +315,10 @@ as
     dbms_application_info.set_action('ru_charify');
 
     l_ret_var := ru_replace(ru_string, '?', 'core_random.r_character(''abcdefghijklmnopqrstuvwxyz'')');
+
+    if ru_upper then
+      l_ret_var := upper(l_ret_var);
+    end if;
 
     dbms_application_info.set_action(null);
 
@@ -582,6 +587,101 @@ as
         raise;
 
   end iban_checksum;
+
+  function ru_permute (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+    l_string                varchar2(4000) := ru_string;
+    l_idx                   number;
+
+  begin
+
+    dbms_application_info.set_action('ru_permute');
+
+    for i in 1..length(l_string) loop
+      l_idx := core_random.r_natural(1, length(l_string));
+      l_ret_var := l_ret_var || substr(l_string, l_idx, 1);
+      l_string := substr(l_string, 1, l_idx - 1) || substr(l_string, l_idx + 1);
+    end loop;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_permute;
+
+  function ru_scramble (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_scramble');
+
+    for i in 1..length(ru_string) loop
+      if substr(ru_string, i , 1) = ' ' then
+        l_ret_var := l_ret_var || ' ';
+      else
+        l_ret_var := l_ret_var || core_random.r_character(null, true, 'lower', false);
+      end if;
+    end loop;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_scramble;
+
+  function ru_obfuscate (
+    ru_string             varchar2
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+    l_new_min_length        number;
+    l_new_max_length        number;
+
+  begin
+
+    dbms_application_info.set_action('ru_obfuscate');
+
+    l_new_min_length := length(ru_string) - round(length(ru_string)/2);
+    l_new_max_length := length(ru_string) + round(length(ru_string)/2);
+
+    l_ret_var := core_random.r_string(core_random.r_natural(l_new_min_length, l_new_max_length));
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_obfuscate;
 
 begin
 

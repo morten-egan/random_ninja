@@ -97,5 +97,12 @@ as
   )
   return number;
 
+  /** Generate a random phone brand.
+  * @author Morten Egan
+  * @return varchar2 The brand generated.
+  */
+  function r_brand
+  return varchar2;
+
 end phone_random;
 /

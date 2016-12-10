@@ -358,6 +358,32 @@ as
 
   end r_useragent;
 
+  function r_error
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(512);
+
+  begin
+
+    dbms_application_info.set_action('r_error');
+
+    l_ret_var := computer_data.errors(core_random.r_natural(1, computer_data.errors.count)).c_types;
+
+    l_ret_var := util_random.ru_numcharfy(l_ret_var);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_error;
+
 begin
 
   dbms_application_info.set_client_info('computer_random');

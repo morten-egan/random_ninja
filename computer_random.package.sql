@@ -95,5 +95,12 @@ as
   function r_useragent
   return varchar2;
 
+  /** Generate a random computer error.
+  * @author Morten Egan
+  * @return varchar2 The error string returned.
+  */
+  function r_error
+  return varchar2;
+
 end computer_random;
 /
