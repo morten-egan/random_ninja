@@ -169,5 +169,15 @@ as
   )
   return varchar2;
 
+  /** Calculate when sunrise or sunset is, on a specific date.
+  * @author Morten Egan
+  * @return date The date including time that sunrise-sunset is on a specific day.
+  */
+  function ru_suntime (
+    ru_date               date              default sysdate
+    , ru_suntype          varchar2          default 'sunrise'
+  )
+  return date;
+
 end util_random;
 /

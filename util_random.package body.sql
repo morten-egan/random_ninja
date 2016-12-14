@@ -683,6 +683,67 @@ as
 
   end ru_obfuscate;
 
+  function ru_suntime (
+    ru_date               date              default sysdate
+    , ru_suntype          varchar2          default 'sunrise'
+  )
+  return date
+
+  as
+
+    l_ret_var                 date;
+    -- Current julian date
+    l_current_julian_date     number;
+    -- Mean solar noon
+    l_mean_solar_noon         number;
+    l_solar_mean_anomaly      number;
+    l_equation_of_the_center  number;
+    l_ecliptic_longitude      number;
+    l_solar_transit           number;
+    l_sun_declination         number;
+    l_hour_angle              number;
+    l_result_julian_date      number;
+
+  begin
+
+    dbms_application_info.set_action('ru_suntime');
+
+    -- Steps
+    -- Calculate current julian date.
+    l_current_julian_date := to_number(to_char(ru_date,'J')) - 2451545.0 + 0.0008;
+    -- Calculate mean solar noon.
+    -- Longitude west is currently fixed to london.
+    l_mean_solar_noon := l_current_julian_date - (0.07/360);
+    -- Solar mean anomaly.
+    l_solar_mean_anomaly := mod((357.5291 + 0.98560028 * l_mean_solar_noon),360);
+    -- Equation of the center
+    l_equation_of_the_center := 1.9148*sin(l_solar_mean_anomaly) + 0.0200*sin(2*l_solar_mean_anomaly) + 0.0003*sin(3*l_solar_mean_anomaly);
+    -- Ecliptic longitude
+    l_ecliptic_longitude := mod((l_solar_mean_anomaly + l_equation_of_the_center + 180 + 102.9372),360);
+    -- Solar transit
+    l_solar_transit := 2451545.5 + l_mean_solar_noon + 0.0053*sin(l_solar_mean_anomaly) - 0.0069*sin(2*l_ecliptic_longitude);
+    -- Declination of the sun
+    l_sun_declination := sin(l_ecliptic_longitude) * sin(23.44);
+    -- Hour angle. Latitude north currently fixed to london.
+    l_hour_angle := sin(-0.83) - sin(51.30)*sin(l_sun_declination)
+
+    if ru_suntype = 'sunrise' then
+      l_result_julian_date := l_solar_transit - (l_hour_angle/360);
+    else
+      l_result_julian_date := l_solar_transit + (l_hour_angle/360);
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_suntime;
+
 begin
 
   dbms_application_info.set_client_info('util_random');
