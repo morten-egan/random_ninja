@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '0.0.1';
+  npg_version         varchar2(250) := '1.1.0';
 
   /** Get a random boolean value.
   * @author Morten Egan

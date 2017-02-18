@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '0.0.1';
+  npg_version         varchar2(250) := '1.1.0';
 
   type text_list is table of clob index by varchar2(10);
   markov_sources    text_list;
