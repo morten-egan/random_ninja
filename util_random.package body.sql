@@ -711,29 +711,29 @@ as
     -- Steps
     -- Calculate current julian date.
     l_current_julian_date := to_number(to_char(ru_date,'J')) - 2451545.0 + 0.0008;
-    dbms_output.put_line('Current julian date since 2000: ' || l_current_julian_date);
+    --dbms_output.put_line('Current julian date since 2000: ' || l_current_julian_date);
     -- Calculate mean solar noon.
     -- Longitude west is currently fixed to london.
     l_mean_solar_noon := l_current_julian_date - (0.07/360);
-    dbms_output.put_line('Mean solar noon: ' || l_mean_solar_noon);
+    --dbms_output.put_line('Mean solar noon: ' || l_mean_solar_noon);
     -- Solar mean anomaly.
     l_solar_mean_anomaly := mod((357.5291 + 0.98560028 * l_mean_solar_noon),360);
-    dbms_output.put_line('Solar mean anomaly: ' || l_solar_mean_anomaly);
+    --dbms_output.put_line('Solar mean anomaly: ' || l_solar_mean_anomaly);
     -- Equation of the center
     l_equation_of_the_center := 1.9148*sin(l_solar_mean_anomaly) + 0.0200*sin(2*l_solar_mean_anomaly) + 0.0003*sin(3*l_solar_mean_anomaly);
-    dbms_output.put_line('Equation of the center: ' || l_equation_of_the_center);
+    --dbms_output.put_line('Equation of the center: ' || l_equation_of_the_center);
     -- Ecliptic longitude
     l_ecliptic_longitude := mod((l_solar_mean_anomaly + l_equation_of_the_center + 180 + 102.9372),360);
-    dbms_output.put_line('Ecliptic longitude: ' || l_ecliptic_longitude);
+    --dbms_output.put_line('Ecliptic longitude: ' || l_ecliptic_longitude);
     -- Solar transit
     l_solar_transit := 2451545.5 + l_mean_solar_noon + 0.0053*sin(l_solar_mean_anomaly) - 0.0069*sin(2*l_ecliptic_longitude);
-    dbms_output.put_line('Solar transit: ' || l_solar_transit);
+    --dbms_output.put_line('Solar transit: ' || l_solar_transit);
     -- Declination of the sun
     l_sun_declination := sin(l_ecliptic_longitude) * sin(23.44);
-    dbms_output.put_line('Sun declination: ' || l_sun_declination);
+    --dbms_output.put_line('Sun declination: ' || l_sun_declination);
     -- Hour angle. Latitude north currently fixed to london.
     l_hour_angle := (sin(-0.83) - sin(51.30)*sin(l_sun_declination))/(cos(51.30) * cos(l_sun_declination));
-    dbms_output.put_line('Hour angle: ' || l_hour_angle);
+    --dbms_output.put_line('Hour angle: ' || l_hour_angle);
 
     if ru_suntype = 'sunrise' then
       l_result_julian_date := l_solar_transit - (l_hour_angle/360);
@@ -741,7 +741,7 @@ as
       l_result_julian_date := l_solar_transit + (l_hour_angle/360);
     end if;
 
-    dbms_output.put_line('Julian date: ' || l_result_julian_date);
+    --dbms_output.put_line('Julian date: ' || l_result_julian_date);
 
     l_ret_var := sysdate;
 
