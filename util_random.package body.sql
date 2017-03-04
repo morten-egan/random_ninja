@@ -12,7 +12,7 @@ as
   as
 
     l_ret_var               varchar2(4000);
-    l_elem_count            number := regexp_count(ru_elements, ru_seperator);
+    l_elem_count            number := regexp_count(ru_elements, ru_seperator) + 1;
     l_elem_start_location   number;
     l_elem_end_location     number;
     l_substr_length         number;
@@ -25,7 +25,7 @@ as
     if l_elem_count = 0 then
       l_elem_start_location := 1;
       l_elem_end_location := length(ru_elements);
-    elsif (l_elem_count + 1) < ru_extract_n then
+    elsif l_elem_count < ru_extract_n then
       -- Wants an element higher than what is available. Return last
       l_elem_start_location := instr(ru_elements, ru_seperator, 1, l_elem_count) + 1;
       l_elem_end_location := length(ru_elements);
@@ -34,9 +34,9 @@ as
         -- First element situation
         l_elem_start_location := 1;
         l_elem_end_location := instr(ru_elements, ru_seperator) - 1;
-      elsif ru_extract_n = (l_elem_count + 1) then
+      elsif ru_extract_n = (l_elem_count) then
         -- Last element situation
-        l_elem_start_location := instr(ru_elements, ru_seperator, 1, l_elem_count) + 1;
+        l_elem_start_location := instr(ru_elements, ru_seperator, 1, l_elem_count - 1) + 1;
         l_elem_end_location := length(ru_elements);
       else
         -- In between element situation.
