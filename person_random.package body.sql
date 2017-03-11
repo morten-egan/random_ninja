@@ -100,24 +100,26 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10) := r_country;
-    l_gender                varchar2(20) := r_gender;
+    l_country_code          varchar2(10) := upper(r_country);
+    l_gender                varchar2(20) := upper(r_gender);
 
   begin
 
     dbms_application_info.set_action('r_firstname');
 
     if l_country_code is null then
-      l_country_code := 'US';
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_name_countries_implemented, l_country_code) then
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
-    if l_gender is null then
-      l_gender := person_random.r_gender(false);
+    if l_gender is null or l_gender not in ('F', 'M', 'MALE', 'FEMALE') then
+      l_gender := upper(person_random.r_gender(false));
     end if;
 
-    if l_gender = 'male' then
+    if l_gender = 'MALE' or l_gender = 'M' then
       l_ret_var := names_data.r_country_names(l_country_code).male_first_names(core_random.r_natural(1,100));
-    elsif l_gender = 'female' then
+    elsif l_gender = 'FEMALE' or l_gender = 'F' then
       l_ret_var := names_data.r_country_names(l_country_code).female_first_names(core_random.r_natural(1,100));
     else
       -- In case something went wrong, return a female name.
@@ -144,8 +146,8 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10) := r_country;
-    l_gender                varchar2(20) := r_gender;
+    l_country_code          varchar2(10) := upper(r_country);
+    l_gender                varchar2(20) := upper(r_gender);
 
   begin
 
@@ -157,13 +159,13 @@ as
       l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
-    if l_gender is null then
-      l_gender := person_random.r_gender(false);
+    if l_gender is null or l_gender not in ('F', 'M', 'MALE', 'FEMALE') then
+      l_gender := upper(person_random.r_gender(false));
     end if;
 
-    if l_gender = 'male' then
+    if l_gender = 'MALE' or l_gender = 'M' then
       l_ret_var := names_data.r_country_names(l_country_code).male_middle_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).male_middle_names.count));
-    elsif l_gender = 'female' then
+    elsif l_gender = 'FEMALE' or l_gender = 'F' then
       l_ret_var := names_data.r_country_names(l_country_code).female_middle_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).male_middle_names.count));
     else
       -- In case something went wrong, return a female name.
@@ -190,8 +192,8 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_country_code          varchar2(10) := r_country;
-    l_gender                varchar2(20) := r_gender;
+    l_country_code          varchar2(10) := upper(r_country);
+    l_gender                varchar2(20) := upper(r_gender);
 
   begin
 
@@ -203,13 +205,13 @@ as
       l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
-    if l_gender is null then
-      l_gender := person_random.r_gender(false);
+    if l_gender is null or l_gender not in ('F', 'M', 'MALE', 'FEMALE') then
+      l_gender := upper(person_random.r_gender(false));
     end if;
 
-    if l_gender = 'male' then
+    if l_gender = 'MALE' or l_gender = 'M' then
       l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).last_names.count));
-    elsif l_gender = 'female' then
+    elsif l_gender = 'FEMALE' or l_gender = 'F' then
       l_ret_var := names_data.r_country_names(l_country_code).last_names(core_random.r_natural(1,names_data.r_country_names(l_country_code).last_names.count));
     else
       -- In case something went wrong, return a female name.
@@ -275,25 +277,26 @@ as
   as
 
     l_ret_var               varchar2(100);
-    l_gender                varchar2(100) := r_gender;
-    l_country_code          varchar2(10) := r_country;
+    l_gender                varchar2(100) := upper(r_gender);
+    l_country_code          varchar2(10) := upper(r_country);
 
   begin
 
     dbms_application_info.set_action('r_prefix');
 
     if l_country_code is null then
-      -- Pick a country from the countries implemented for names.
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_name_countries_implemented, l_country_code) then
       l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
-    if l_gender is null then
-      l_gender := person_random.r_gender;
+    if l_gender is null or l_gender not in ('F', 'M', 'MALE', 'FEMALE') then
+      l_gender := upper(person_random.r_gender(false));
     end if;
 
-    if l_gender = 'male' or l_gender = 'M' then
+    if l_gender = 'MALE' or l_gender = 'M' then
       l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).male_prefix);
-    elsif l_gender = 'female' or l_gender = 'F' then
+    elsif l_gender = 'FEMALE' or l_gender = 'F' then
       l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).female_prefix);
     else
       l_ret_var := util_random.ru_pickone(names_data.r_country_names(l_country_code).all_prefix || ',' || names_data.r_country_names(l_country_code).male_prefix || ',' || names_data.r_country_names(l_country_code).female_prefix);
@@ -322,8 +325,8 @@ as
   as
 
     l_ret_var               varchar2(200);
-    l_country_code          varchar2(10) := r_country;
-    l_gender                varchar2(20) := r_gender;
+    l_country_code          varchar2(10) := upper(r_country);
+    l_gender                varchar2(20) := upper(r_gender);
 
     l_first                 varchar2(100);
     l_middle                varchar2(100);
@@ -335,12 +338,13 @@ as
     dbms_application_info.set_action('r_name');
 
     if l_country_code is null then
-      -- Pick a country from the countries implemented for names.
+      l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
+    elsif not util_random.ru_inlist(core_random_v.g_name_countries_implemented, l_country_code) then
       l_country_code := util_random.ru_pickone(core_random_v.g_name_countries_implemented);
     end if;
 
-    if l_gender is null then
-      l_gender := person_random.r_gender(false);
+    if l_gender is null or l_gender not in ('F', 'M', 'MALE', 'FEMALE') then
+      l_gender := upper(person_random.r_gender(false));
     end if;
 
     l_first := person_random.r_firstname(l_country_code, l_gender);
