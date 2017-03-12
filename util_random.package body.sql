@@ -756,6 +756,80 @@ as
 
   end ru_suntime;
 
+  function ru_number_increment (
+    ru_increment_from     number            default 1
+    , ru_min_increment    number            default 1
+    , ru_max_increment    number            default 42
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+
+  begin
+
+    dbms_application_info.set_action('ru_number_increment');
+
+    l_ret_var := ru_increment_from + core_random.r_natural(ru_min_increment, ru_max_increment);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_number_increment;
+
+  function ru_date_increment (
+    ru_increment_from     date              default sysdate
+    , ru_increment_name   varchar2          default 'seconds'
+    , ru_min_increment    number            default 1
+    , ru_max_increment    number            default 59
+  )
+  return date
+
+  as
+
+    l_ret_var               date := ru_increment_from;
+
+  begin
+
+    dbms_application_info.set_action('ru_date_increment');
+
+    if ru_increment_name = 'seconds' then
+      l_ret_var := l_ret_var + ((1/86400) * core_random.r_natural(ru_min_increment, ru_max_increment));
+    elsif ru_increment_name = 'minutes' then
+      l_ret_var := l_ret_var + ((1/1440) * core_random.r_natural(ru_min_increment, ru_max_increment));
+    elsif ru_increment_name = 'hours' then
+      l_ret_var := l_ret_var + ((1/24) * core_random.r_natural(ru_min_increment, ru_max_increment));
+    elsif ru_increment_name = 'days' then
+      l_ret_var := l_ret_var + core_random.r_natural(ru_min_increment, ru_max_increment);
+    elsif ru_increment_name = 'weeks' then
+      l_ret_var := l_ret_var + (7 * core_random.r_natural(ru_min_increment, ru_max_increment));
+    elsif ru_increment_name = 'months' then
+      l_ret_var := add_months(l_ret_var, core_random.r_natural(ru_min_increment, ru_max_increment));
+    elsif ru_increment_name = 'years' then
+      l_ret_var := add_months(l_ret_var, (core_random.r_natural(ru_min_increment, ru_max_increment) * 12));
+    else
+      -- unknown name, add seconds.
+      l_ret_var := l_ret_var + ((1/86400) * core_random.r_natural(ru_min_increment, ru_max_increment));
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_date_increment;
+
 begin
 
   dbms_application_info.set_client_info('util_random');

@@ -133,6 +133,7 @@ as
   */
   function r_datereference (
     r_reference               varchar2      default null
+    , r_reference_date        date          default sysdate
   )
   return date;
 

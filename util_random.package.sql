@@ -179,5 +179,28 @@ as
   )
   return date;
 
+  /** Increment a given number with a random increment.
+  * @author Morten Egan
+  * @return number The incremented number.
+  */
+  function ru_number_increment (
+    ru_increment_from     number            default 1
+    , ru_min_increment    number            default 1
+    , ru_max_increment    number            default 42
+  )
+  return number;
+
+  /** Increment a given date with a random increment.
+  * @author Morten Egan
+  * @return date The incremented date.
+  */
+  function ru_date_increment (
+    ru_increment_from     date              default sysdate
+    , ru_increment_name   varchar2          default 'seconds'
+    , ru_min_increment    number            default 1
+    , ru_max_increment    number            default 59
+  )
+  return date;
+
 end util_random;
 /

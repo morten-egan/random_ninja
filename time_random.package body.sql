@@ -492,6 +492,7 @@ as
 
   function r_datereference (
     r_reference               varchar2      default null
+    , r_reference_date        date          default sysdate
   )
   return date
 
@@ -499,6 +500,7 @@ as
 
     l_ret_var               date;
     l_reference             varchar2(100) := r_reference;
+    l_reference_date        date := r_reference_date;
 
   begin
 
@@ -509,15 +511,15 @@ as
     end if;
 
     if l_reference = 'recent' then
-      l_ret_var := time_random.r_datebetween(sysdate - 365, sysdate -1);
+      l_ret_var := time_random.r_datebetween(l_reference_date - 365, l_reference_date -1);
     elsif l_reference = 'past' then
-      l_ret_var := time_random.r_datebetween(sysdate - (365*1200), sysdate - (365*5));
+      l_ret_var := time_random.r_datebetween(l_reference_date - (365*1200), l_reference_date - (365*5));
     elsif l_reference = 'future' then
-      l_ret_var := time_random.r_datebetween(sysdate + (365*5), sysdate + (365*200));
+      l_ret_var := time_random.r_datebetween(l_reference_date + (365*5), l_reference_date + (365*200));
     elsif l_reference = 'soon' then
-      l_ret_var := time_random.r_datebetween(sysdate + 1, sysdate + 365);
+      l_ret_var := time_random.r_datebetween(l_reference_date + 1, l_reference_date + 365);
     else
-      l_ret_var := time_random.r_datebetween(sysdate - 10, sysdate + 10);
+      l_ret_var := time_random.r_datebetween(l_reference_date - 10, l_reference_date + 10);
     end if;
 
     dbms_application_info.set_action(null);
