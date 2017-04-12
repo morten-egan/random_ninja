@@ -123,7 +123,7 @@ begin
   mimetypes(3).c_category := 'Image';
   mimetypes(3).c_types := 'image/bmp,image/gif,image/x-icon,image/jpeg,image/png,image/x-tiff,image/tiff';
   mimetypes(4).c_category := 'Text';
-  mimetypes(4).c_types := 'text/html,text/asp,text/plain,text/css,text/x-script,text/x-java-source,text/javascript,text/x-script.perl,text/x-script.phyton,text/richtext,text/sgml,text/xml';
+  mimetypes(4).c_types := 'text/html,text/asp,text/plain,text/css,text/x-script,text/x-java-source,text/javascript,text/x-script.perl,text/x-script.python,text/richtext,text/sgml,text/xml';
   mimetypes(5).c_category := 'Application';
   mimetypes(5).c_types := 'application/octet-stream,application/postscript,application/octet-stream,application/x-binary,application/pkix-cert,application/java,application/x-x509-ca-cert,application/msword,application/x-gzip,application/javascript,application/pdf,application/mspowerpoint,application/x-compressed,application/excel';
   mimetypes(6).c_category := 'Multipart';
