@@ -311,9 +311,17 @@ as
     l_pickle := core_random.r_natural(1, location_data.road_endings(l_country).count);
 
     if r_shortform then
-      l_ret_var := text_random.r_word(l_syllables, null, true) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_short;
+      if location_data.road_endings(l_country)(l_pickle).road_name_ext = 'Y' then
+        l_ret_var := text_random.r_word(l_syllables, null, true, l_country) || location_data.road_endings(l_country)(l_pickle).road_name_short;
+      else
+        l_ret_var := text_random.r_word(l_syllables, null, true, l_country) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_short;
+      end if;
     else
-      l_ret_var := text_random.r_word(l_syllables, null, true) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_full;
+      if location_data.road_endings(l_country)(l_pickle).road_name_ext = 'Y' then
+        l_ret_var := text_random.r_word(l_syllables, null, true, l_country) || location_data.road_endings(l_country)(l_pickle).road_name_full;
+      else
+        l_ret_var := text_random.r_word(l_syllables, null, true, l_country) || ' ' || location_data.road_endings(l_country)(l_pickle).road_name_full;
+      end if;
     end if;
 
     dbms_application_info.set_action(null);

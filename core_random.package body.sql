@@ -89,6 +89,7 @@ as
     , r_alpha         boolean         default false
     , r_casing        varchar2        default 'mixed'
     , r_symbols       boolean         default false
+    , r_country       varchar2        default null
   )
   return varchar2
 
@@ -103,27 +104,33 @@ as
 
     dbms_application_info.set_action('r_character');
 
-    -- If pool is not null, we build the random char based on the pool set.
-    -- This is done, by getting a random number and then taking the char from
-    -- that position in the pool.
-    if r_pool is not null then
-      l_pool_pos := r_natural(1, length(r_pool));
-      l_ret_var := substr(r_pool, l_pool_pos, 1);
+    -- Special case for chinese, else ignore country.
+    if r_country = 'CN' then
+      l_pool_pos := r_natural(1, length(core_random_v.g_most_used_chinese_characters));
+      l_ret_var := substr(core_random_v.g_most_used_chinese_characters, l_pool_pos, 1);
     else
-      if r_alpha then
-        l_ret_var := dbms_random.string('X', 1);
-      elsif r_symbols then
-        l_pool_pos := r_natural(1, length(core_random_v.g_symbols_pool));
-        l_ret_var := substr(core_random_v.g_symbols_pool, l_pool_pos, 1);
+      -- If pool is not null, we build the random char based on the pool set.
+      -- This is done, by getting a random number and then taking the char from
+      -- that position in the pool.
+      if r_pool is not null then
+        l_pool_pos := r_natural(1, length(r_pool));
+        l_ret_var := substr(r_pool, l_pool_pos, 1);
       else
-        l_ret_var := dbms_random.string('P',1);
+        if r_alpha then
+          l_ret_var := dbms_random.string('X', 1);
+        elsif r_symbols then
+          l_pool_pos := r_natural(1, length(core_random_v.g_symbols_pool));
+          l_ret_var := substr(core_random_v.g_symbols_pool, l_pool_pos, 1);
+        else
+          l_ret_var := dbms_random.string('P',1);
+        end if;
       end if;
-    end if;
 
-    if r_casing = 'lower' then
-      l_ret_var := lower(l_ret_var);
-    elsif r_casing = 'upper' then
-      l_ret_var := upper(l_ret_var);
+      if r_casing = 'lower' then
+        l_ret_var := lower(l_ret_var);
+      elsif r_casing = 'upper' then
+        l_ret_var := upper(l_ret_var);
+      end if;
     end if;
 
     dbms_application_info.set_action(null);
@@ -219,6 +226,7 @@ as
   function r_string (
     r_length          number          default null
     , r_pool          varchar2        default null
+    , r_country       varchar2        default null
   )
   return varchar2
 
@@ -236,13 +244,20 @@ as
       l_string_lenght := r_natural(5,20);
     end if;
 
-    if r_pool is null then
-      l_ret_var := dbms_random.string('P',l_string_lenght);
-    else
+    -- Special case for chinese, ignore other languages.
+    if r_country = 'CN' then
       for i in 1..l_string_lenght loop
-        l_pool_pos := r_natural(1,length(r_pool));
-        l_ret_var := l_ret_var || substr(r_pool, l_pool_pos, 1);
+        l_ret_var := l_ret_var || r_character(r_country => r_country);
       end loop;
+    else
+      if r_pool is null then
+        l_ret_var := dbms_random.string('P',l_string_lenght);
+      else
+        for i in 1..l_string_lenght loop
+          l_pool_pos := r_natural(1,length(r_pool));
+          l_ret_var := l_ret_var || substr(r_pool, l_pool_pos, 1);
+        end loop;
+      end if;
     end if;
 
     dbms_application_info.set_action(null);

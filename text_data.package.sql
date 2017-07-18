@@ -31,6 +31,9 @@ as
   g_adj_positive_company    varchar2(32000) := 'Accurate,Active,Advanced,Assertive,Astute,Avid,Banzai,Beyond,Better,Bold,Bonafide,Booming,Brassy,Capital,Central,Classic,Classic,Cognizant,Diagnostic,Direct,Dynamic,Dynamite,Economical,Esteemed,Exemplary,Exuberant,Financial,Formidable,Fortuitous,Guaranteed,Harmonious,Honoured,Hypersonic,Impeccable,Intrinsic,Intent,Influential,Joint,Kinetic,Keen,Leading,Logical,Main,Methodical,Mindful,Mutual,Nationwide,Noble,Objective,Operative,Optimal,Optimum,Peerless,Paramount,Prodigious,Propulsive,Quality,Rapid,Resilient,Stable,Structured,Sufficient,Synergistic,Tangible,Transparent,Tactical,Valiant,Virtuous,Vivid,Zealous';
   g_adj_descriptive_company varchar2(32000) := 'New,Good,Better,Best,Free,Fresh,Full,Clean,Special,Fine,Big,Great,Real,Huge,Easy,Bright,Safe,Rich,Exclusive,Limited,Unique';
 
+  -- Colors.
+  g_colors                  varchar2(32000) := 'Green,Blue,Red,White,Black,Pink,Purple,Cyan,Orange,Yellow';
+
   /** Generate the triplets for markov map.
   * @author Morten Egan
   * @return mc_key_rec_list The list of triplets.

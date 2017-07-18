@@ -15,6 +15,8 @@ begin
 
   -- Init country specific lcoale data.
   init_data := location_data_us.npg_version;
+  init_data := location_data_dk.npg_version;
+  init_data := location_data_cn.npg_version;
 
   -- Continents
   continents(1).continent_name := 'Africa';

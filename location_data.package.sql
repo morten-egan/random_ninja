@@ -39,6 +39,7 @@ as
   type road_rec is record (
     road_name_full        varchar2(250)
     , road_name_short     varchar2(50)
+    , road_name_ext       varchar2(1)
   );
   type road_list is table of road_rec;
   type road_array is table of road_list index by varchar2(20);

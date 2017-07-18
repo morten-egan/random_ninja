@@ -40,6 +40,7 @@ as
     , r_alpha         boolean         default false
     , r_casing        varchar2        default 'mixed'
     , r_symbols       boolean         default false
+    , r_country       varchar2        default null
   )
   return varchar2;
 
@@ -74,6 +75,7 @@ as
   function r_string (
     r_length          number          default null
     , r_pool          varchar2        default null
+    , r_country       varchar2        default null
   )
   return varchar2;
 

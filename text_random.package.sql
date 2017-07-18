@@ -14,7 +14,9 @@ as
   * @author Morten Egan
   * @return varchar2 The syllable generated
   */
-  function r_syllable
+  function r_syllable (
+    r_country         varchar2        default null
+  )
   return varchar2;
 
   /** Generate a random word based on random syllables.
@@ -25,6 +27,7 @@ as
     r_syllables       number          default null
     , r_length        number          default null
     , r_capitalize    boolean         default false
+    , r_country       varchar2        default null
   )
   return varchar2;
 
@@ -55,6 +58,13 @@ as
   function r_textgenre (
     r_texttype        varchar2        default null
   )
+  return varchar2;
+
+  /** Get Adjective
+  * @author Morten Egan
+  * @return varchar2 The adjective returned.
+  */
+  function r_adjective
   return varchar2;
 
 end text_random;
