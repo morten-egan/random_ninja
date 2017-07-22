@@ -830,6 +830,40 @@ as
 
   end ru_date_increment;
 
+  function ru_random_row (
+    ru_table              varchar2
+    , ru_column           varchar2
+    , ru_where_clause     varchar2          default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_random_row');
+
+    if ru_where_clause is null then
+      execute immediate 'select '|| ru_column ||' from (select '|| ru_column ||' from '|| ru_table ||' '|| ru_where_clause ||' order by dbms_random.value) where rownum = 1'
+      into l_ret_var;
+    else
+      execute immediate 'select '|| ru_column ||' from (select '|| ru_column ||' from '|| ru_table ||' order by dbms_random.value) where rownum = 1'
+      into l_ret_var;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_random_row;
+
 begin
 
   dbms_application_info.set_client_info('util_random');

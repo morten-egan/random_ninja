@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version                 varchar2(250) := '1.1.0';
+  npg_version                 varchar2(250) := '1.3.0';
 
   g_company_endings           varchar2(32000) := 'Inc.,Corp.,Corperation,Company,Warehousing,and Co.,Logistics,Telecom,Associates,Enterprise,Chemicals,Industries,Holdings,Bank,Motors,Goods,Agency';
 

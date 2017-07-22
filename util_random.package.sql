@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '1.1.0';
+  npg_version         varchar2(250) := '1.3.0';
 
   /** Extract a numbered element from a string with a known seperator.
   * @author Morten Egan
@@ -201,6 +201,17 @@ as
     , ru_max_increment    number            default 59
   )
   return date;
+
+  /** Pick a random column value from a table
+  * @author Morten Egan
+  * @return varchar2 The value of the column.
+  */
+  function ru_random_row (
+    ru_table              varchar2
+    , ru_column           varchar2
+    , ru_where_clause     varchar2          default null
+  )
+  return varchar2;
 
 end util_random;
 /

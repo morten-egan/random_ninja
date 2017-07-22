@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '0.0.1';
+  npg_version         varchar2(250) := '1.3.0';
 
   type swift_rec is record (
     swift_id            varchar2(50)
@@ -24,6 +24,9 @@ as
   type swift_category_tab is table of swift_category_rec;
 
   g_swift_messages          swift_category_tab;
+
+  -- Fund adjectives
+  g_fund_adjectives         varchar2(32000) := 'Growth,Mid-Cap Opportunities,Global,Smaller Companies,Top 100,Top 200,International Small Cap,Value,High Income,Floating Rate,Income Allocation,Tax-Free Income,Equity Long-Short,Large Cap Growth,Small Cap Growth,Emerging Markets,High Yield,Vision,Charter,Balanced-Risk,Diversified Dividend,Banking,Premium Money Market,Global Balanced';
 
 end investment_data;
 /

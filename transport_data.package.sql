@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '1.1.0';
+  npg_version         varchar2(250) := '1.3.0';
 
   type registration_format_tab is table of varchar2(50) index by varchar2(10);
   icao_aircraft_prefix      registration_format_tab;

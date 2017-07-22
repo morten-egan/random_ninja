@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project NINJA_RANDOM
   */
-  npg_version             varchar2(250) := '1.1.0';
+  npg_version             varchar2(250) := '1.3.0';
 
   nonfood_categories      varchar2(32000) := 'Kitchen,Clothes,Electronics,Cosmetics,Leisure,Jewelery,Furniture,Tools';
   food_categories         varchar2(32000) := 'Produce,Vegetables,Fruits,Meats,Canned goods,Dry goods,Dairy,Fish,Beverages,Frozen food';

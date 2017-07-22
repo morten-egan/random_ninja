@@ -34,6 +34,30 @@ as
 
   end r_swift_id;
 
+  function r_fundname
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_fundname');
+
+    l_ret_var := company_random.r_companyname || ' ' || util_random.ru_pickone(investment_data.g_fund_adjectives) || ' Fund';
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_fundname;
+
 begin
 
   dbms_application_info.set_client_info('investment_random');

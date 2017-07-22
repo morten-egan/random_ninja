@@ -129,5 +129,8 @@ Please see the NPG page for the installation: [random_ninja](http://plsql.ninja/
     + **r_nonfood_item** - Random non-food item. Category can be specified.
     + **r_service_item** - Random service related item. Category can be specified.
     + **r_additive** - Return a random regulated and apporved additive such as E104 etc.
++ **investment_random** - Generate random investment related data.
+    + **r_swift_id** - Generate a random Swift message id.
+    + **r_fundname** - Random Mutual Fund name.
 
 ## Examples
