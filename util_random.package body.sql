@@ -2,6 +2,27 @@ create or replace package body util_random
 
 as
 
+  function ru_isnumeric (
+    ru_value_in       varchar2
+  )
+  return boolean
+
+  as
+
+    l_test_number     number;
+
+  begin
+
+    l_test_number := to_number(ru_value_in);
+
+    return true;
+
+    exception
+      when others then
+        return false;
+
+  end ru_isnumeric;
+
   function ru_extract (
     ru_elements       varchar2
     , ru_extract_n    number          default 1
@@ -238,6 +259,9 @@ as
     l_range_end             varchar2(100);
     l_replace_val           varchar2(100);
 
+    l_char_start            number;
+    l_char_end              number;
+
   begin
 
     dbms_application_info.set_action('ru_replace_ranges');
@@ -251,7 +275,20 @@ as
         -- This is a bounded range set.
         l_range_start := substr(l_ret_var, l_replace_loc_start + 1, (instr(l_ret_var,'-', l_replace_loc_start) - 1) - l_replace_loc_start);
         l_range_end := substr(l_ret_var, instr(l_ret_var,'-', l_replace_loc_start) + 1, l_replace_loc_end - (instr(l_ret_var,'-', l_replace_loc_start) + 1));
-        execute immediate 'select core_random.r_natural(' || l_range_start || ',' || l_range_end || ') from dual' into l_replace_val;
+        -- Check if we have alphabet range or numeric range.
+        if ru_isnumeric(l_range_start) then
+          execute immediate 'select core_random.r_natural(' || l_range_start || ',' || l_range_end || ') from dual' into l_replace_val;
+        else
+          -- We have a character. Get the ascii values to know the range.
+          l_char_start := ascii(l_range_start);
+          l_char_end := ascii(l_range_end);
+          if l_char_end < l_char_start then
+            l_char_start := ascii(l_range_end);
+            l_char_end := ascii(l_range_start);
+          end if;
+          execute immediate 'select core_random.r_natural(' || l_char_start || ',' || l_char_end || ') from dual' into l_replace_val;
+          l_replace_val := chr(l_replace_val);
+        end if;
       elsif instr(substr(l_ret_var, l_replace_loc_start, l_replace_loc_end - l_replace_loc_start), ',') > 0 then
         -- We have a set of numbers to choose from, grab them and pick one.
         l_replace_val := ru_pickone(substr(l_ret_var, l_replace_loc_start + 1, (l_replace_loc_end - 1) - l_replace_loc_start));
