@@ -3,8 +3,8 @@ create or replace package body web_random
 as
 
   function r_tld (
-    include_country                 boolean         default true
-    , include_generic               boolean         default true
+    include_country                 boolean         default false
+    , include_generic               boolean         default false
   )
   return varchar2
 
@@ -72,7 +72,10 @@ as
   end r_domain;
 
   function r_email (
-    use_real_name                   boolean         default false
+    r_firstname                     varchar2        default null
+    , r_lastname                    varchar2        default null
+    , r_name                        varchar2        default null
+    , use_real_name                 boolean         default false
     , safe                          boolean         default false
   )
   return varchar2
@@ -85,8 +88,40 @@ as
 
     dbms_application_info.set_action('r_email');
 
-    if use_real_name then
-      l_ret_var := person_random.r_firstname || '@';
+    if r_firstname is null and r_lastname is null and r_name is null then
+      if use_real_name then
+        l_ret_var := person_random.r_firstname || '@';
+      else
+        l_ret_var := text_random.r_word || '@';
+      end if;
+    elsif r_firstname is not null and r_lastname is not null then
+      -- Chance between first.last or substr(first,1,1) || last
+      if core_random.r_bool then
+        l_ret_var := r_firstname || '.' || r_lastname || '@';
+      else
+        l_ret_var := substr(r_firstname, 1, 1) || r_lastname || '@';
+      end if;
+    elsif r_firstname is not null then
+      -- Chance between just firstname or firstname plus some random number
+      if core_random.r_bool then
+        l_ret_var := r_firstname || '@';
+      else
+        l_ret_var := r_firstname || core_random.r_natural(11,3457) || '@';
+      end if;
+    elsif r_lastname is not null then
+      -- Chance between just lastname or lastname plus some random number
+      if core_random.r_bool then
+        l_ret_var := r_lastname || '@';
+      else
+        l_ret_var := r_lastname || core_random.r_natural(11,3457) || '@';
+      end if;
+    elsif r_name is not null then
+      -- Chance between replacing spaces with _ or .
+      if core_random.r_bool then
+        l_ret_var := replace(replace(r_name, ' ', '_'), '.', '') || '@';
+      else
+        l_ret_var := replace(replace(r_name, ' ', '.'), '..', '.') || '@';
+      end if;
     else
       l_ret_var := text_random.r_word || '@';
     end if;
@@ -290,6 +325,38 @@ as
         raise;
 
   end r_color;
+
+  function r_bem (
+    r_bem_domain                  varchar2          default null
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+    l_bem_domain            varchar2(100) := r_bem_domain;
+
+  begin
+
+    dbms_application_info.set_action('r_bem');
+
+    if l_bem_domain is null or not util_random.ru_inlist(l_bem_domain, web_data.g_bem_domains) then
+      l_bem_domain := util_random.ru_pickone(web_data.g_bem_domains);
+    end if;
+
+    l_ret_var := util_random.ru_pickone(web_data.g_css_bem_block_names) || '__' || util_random.ru_pickone(web_data.g_css_bem_element_names) || '_' || util_random.ru_pickone(web_data.g_css_bem_modifier_names);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_bem;
 
 begin
 

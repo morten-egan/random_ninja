@@ -98,6 +98,7 @@ as
   */
   function ru_numcharfy (
     ru_string             varchar2
+    , ru_upper            boolean default false
   )
   return varchar2;
 
@@ -212,6 +213,25 @@ as
     , ru_where_clause     varchar2          default null
   )
   return varchar2;
+
+  /** Function to calculate the check digit in an Country code + NSIN part of an ISIN number.
+  * @author Morten Egan
+  * @return varchar2 The full isin number including the check digit.
+  */
+  function ru_isin_checkdigit (
+    r_country             varchar2
+    , r_nsin              varchar2
+  )
+  return number;
+
+  /** Calculate the check digit for a CASRN compound registry number.
+  * @author Morten Egan
+  * @return number The check digit to add.
+  */
+  function ru_casrn_checkdigit (
+    r_casrn_no_chk        varchar2
+  )
+  return number;
 
 end util_random;
 /

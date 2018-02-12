@@ -60,6 +60,34 @@ as
     l_ret_var := replace(l_ret_var, '{{useragent}}', computer_random.r_useragent);
     l_ret_var := replace(l_ret_var, '{{error}}', computer_random.r_error);
 
+    /* Consumer random */
+    l_ret_var := replace(l_ret_var, '{{goodscategory}}', consumer_random.r_category);
+    l_ret_var := replace(l_ret_var, '{{fooditem}}', consumer_random.r_food_item);
+    l_ret_var := replace(l_ret_var, '{{nonfooditem}}', consumer_random.r_nonfood_item);
+    l_ret_var := replace(l_ret_var, '{{serviceitem}}', consumer_random.r_service_item);
+    l_ret_var := replace(l_ret_var, '{{additive}}', consumer_random.r_additive);
+
+    /* Finance random */
+    l_ret_var := replace(l_ret_var, '{{currency}}', finance_random.r_currency);
+    l_ret_var := replace(l_ret_var, '{{currencypair}}', finance_random.r_currencypair);
+    l_ret_var := replace(l_ret_var, '{{creditcardprovider}}', finance_random.r_creditcard);
+    l_ret_var := replace(l_ret_var, '{{creditcardnumber}}', finance_random.r_creditcardnum);
+    l_ret_var := replace(l_ret_var, '{{creditcardexpiry}}', finance_random.r_expirydate);
+    l_ret_var := replace(l_ret_var, '{{amount}}', finance_random.r_amount);
+    l_ret_var := replace(l_ret_var, '{{bankaccountnumber}}', finance_random.r_accountnumber);
+    l_ret_var := replace(l_ret_var, '{{bankaccounttype}}', finance_random.r_accounttype);
+    l_ret_var := replace(l_ret_var, '{{bankaccounttransaction}}', finance_random.r_accounttransaction);
+    l_ret_var := replace(l_ret_var, '{{bankaccountbalance}}', finance_random.r_accountbalance);
+    l_ret_var := replace(l_ret_var, '{{bitcoinaddress}}', finance_random.r_bitcoin);
+    l_ret_var := replace(l_ret_var, '{{exchange}}', finance_random.r_exchange);
+    l_ret_var := replace(l_ret_var, '{{creditcardtransactiontype}}', finance_random.r_creditcard_tx_type);
+
+    /* Games random */
+    l_ret_var := replace(l_ret_var, '{{diceroll}}', games_random.r_diceroll);
+    l_ret_var := replace(l_ret_var, '{{cointoss}}', games_random.r_cointoss);
+    l_ret_var := replace(l_ret_var, '{{cardsuit}}', games_random.r_cardsuit);
+    l_ret_var := replace(l_ret_var, '{{card}}', games_random.r_card);
+
     dbms_application_info.set_action(null);
 
     return l_ret_var;

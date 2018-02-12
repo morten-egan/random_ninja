@@ -1,0 +1,102 @@
+create or replace package body science_data
+
+as
+
+begin
+
+  g_natural_elements := natural_element_tab();
+  g_natural_elements.extend(44);
+  g_natural_elements(1).full_name := 'Hydrogen';
+  g_natural_elements(1).short_name := 'H';
+  g_natural_elements(2).full_name := 'Helium';
+  g_natural_elements(2).short_name := 'He';
+  g_natural_elements(3).full_name := 'Lithium';
+  g_natural_elements(3).short_name := 'Li';
+  g_natural_elements(4).full_name := 'Berillium';
+  g_natural_elements(4).short_name := 'Be';
+  g_natural_elements(5).full_name := 'Boron';
+  g_natural_elements(5).short_name := 'B';
+  g_natural_elements(6).full_name := 'Carbon';
+  g_natural_elements(6).short_name := 'C';
+  g_natural_elements(7).full_name := 'Nitrogen';
+  g_natural_elements(7).short_name := 'N';
+  g_natural_elements(8).full_name := 'Oxygen';
+  g_natural_elements(8).short_name := 'O';
+  g_natural_elements(9).full_name := 'Fluorine';
+  g_natural_elements(9).short_name := 'F';
+  g_natural_elements(10).full_name := 'Neon';
+  g_natural_elements(10).short_name := 'Ne';
+  g_natural_elements(11).full_name := 'Sodium';
+  g_natural_elements(11).short_name := 'Na';
+  g_natural_elements(12).full_name := 'Magnesium';
+  g_natural_elements(12).short_name := 'Mg';
+  g_natural_elements(13).full_name := 'Aluminium';
+  g_natural_elements(13).short_name := 'Al';
+  g_natural_elements(14).full_name := 'Silicon';
+  g_natural_elements(14).short_name := 'Si';
+  g_natural_elements(15).full_name := 'Phosphorus';
+  g_natural_elements(15).short_name := 'P';
+  g_natural_elements(16).full_name := 'Sulfur';
+  g_natural_elements(16).short_name := 'S';
+  g_natural_elements(17).full_name := 'Chlorine';
+  g_natural_elements(17).short_name := 'Cl';
+  g_natural_elements(18).full_name := 'Argon';
+  g_natural_elements(18).short_name := 'Ar';
+  g_natural_elements(19).full_name := 'Potassium';
+  g_natural_elements(19).short_name := 'K';
+  g_natural_elements(20).full_name := 'Calcium';
+  g_natural_elements(20).short_name := 'Ca';
+  g_natural_elements(21).full_name := 'Scandium';
+  g_natural_elements(21).short_name := 'Sc';
+  g_natural_elements(22).full_name := 'Titanium';
+  g_natural_elements(22).short_name := 'Ti';
+  g_natural_elements(23).full_name := 'Vanadium';
+  g_natural_elements(23).short_name := 'V';
+  g_natural_elements(24).full_name := 'Chromium';
+  g_natural_elements(24).short_name := 'Cr';
+  g_natural_elements(25).full_name := 'Manganese';
+  g_natural_elements(25).short_name := 'Mn';
+  g_natural_elements(26).full_name := 'Iron';
+  g_natural_elements(26).short_name := 'Fe';
+  g_natural_elements(27).full_name := 'Cobalt';
+  g_natural_elements(27).short_name := 'Co';
+  g_natural_elements(28).full_name := 'Nickel';
+  g_natural_elements(28).short_name := 'Ni';
+  g_natural_elements(29).full_name := 'Copper';
+  g_natural_elements(29).short_name := 'Cu';
+  g_natural_elements(30).full_name := 'Zinc';
+  g_natural_elements(30).short_name := 'Zn';
+  g_natural_elements(31).full_name := 'Gallium';
+  g_natural_elements(31).short_name := 'Ga';
+  g_natural_elements(32).full_name := 'Germanium';
+  g_natural_elements(32).short_name := 'Ge';
+  g_natural_elements(33).full_name := 'Arsenic';
+  g_natural_elements(33).short_name := 'As';
+  g_natural_elements(34).full_name := 'Selenium';
+  g_natural_elements(34).short_name := 'Se';
+  g_natural_elements(35).full_name := 'Bromine';
+  g_natural_elements(35).short_name := 'Br';
+  g_natural_elements(36).full_name := 'Krypton';
+  g_natural_elements(36).short_name := 'Kr';
+  g_natural_elements(37).full_name := 'Rubydum';
+  g_natural_elements(37).short_name := 'Rb';
+  g_natural_elements(38).full_name := 'Strontium';
+  g_natural_elements(38).short_name := 'Sr';
+  g_natural_elements(39).full_name := 'Yttrium';
+  g_natural_elements(39).short_name := 'Y';
+  g_natural_elements(40).full_name := 'Zirconium';
+  g_natural_elements(40).short_name := 'Zr';
+  g_natural_elements(41).full_name := 'Niobium';
+  g_natural_elements(41).short_name := 'Nb';
+  g_natural_elements(42).full_name := 'Molybdenom';
+  g_natural_elements(42).short_name := 'Mo';
+  g_natural_elements(43).full_name := 'Technetium';
+  g_natural_elements(43).short_name := 'Tc';
+  g_natural_elements(44).full_name := 'Ruthenium';
+  g_natural_elements(44).short_name := 'Ru';
+
+  dbms_application_info.set_client_info('science_data');
+  dbms_session.set_identifier('science_data');
+
+end science_data;
+/

@@ -384,6 +384,71 @@ as
 
   end r_error;
 
+  function r_md5
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+
+  begin
+
+    dbms_application_info.set_action('r_md5');
+
+    l_ret_var := core_random.r_hex(32);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_md5;
+
+  function r_password (
+    r_passwordlength    number          default null
+    , r_includenumbers  boolean         default true
+    , r_includespecial  boolean         default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_passwordlength        number := r_passwordlength;
+
+  begin
+
+    dbms_application_info.set_action('r_password');
+
+    if l_passwordlength is null then
+      l_passwordlength := core_random.r_natural(5,20);
+    end if;
+
+    if r_includenumbers and r_includespecial then
+      l_ret_var := core_random.r_string(l_passwordlength, 'abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRTUVXYZ0123456789!"#¤%&/()@£$"');
+    elsif r_includenumbers and not r_includespecial then
+      l_ret_var := core_random.r_string(l_passwordlength, 'abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRTUVXYZ0123456789');
+    elsif not r_includenumbers and r_includespecial then
+      l_ret_var := core_random.r_string(l_passwordlength, 'abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRTUVXYZ!"#¤%&/()@£$"');
+    else
+      l_ret_var := core_random.r_string(l_passwordlength, 'abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRTUVXYZ');
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_password;
+
 begin
 
   dbms_application_info.set_client_info('computer_random');

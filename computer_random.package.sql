@@ -102,5 +102,23 @@ as
   function r_error
   return varchar2;
 
+  /** Generate a random MD5 checksum string.
+  * @author Morten Egan
+  * @return varchar2 The MD5 checksum.
+  */
+  function r_md5
+  return varchar2;
+
+  /** Generate a random password.
+  * @author Morten Egan
+  * @return varchar2 The password generated.
+  */
+  function r_password (
+    r_passwordlength    number          default null
+    , r_includenumbers  boolean         default true
+    , r_includespecial  boolean         default true
+  )
+  return varchar2;
+
 end computer_random;
 /

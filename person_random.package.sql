@@ -142,6 +142,8 @@ as
   function r_salary (
     r_country         varchar2        default null
     , r_jobsector     varchar2        default null
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return number;
 

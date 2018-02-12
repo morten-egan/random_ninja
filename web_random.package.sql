@@ -14,8 +14,8 @@ as
   * @return varchar2 The top level domain.
   */
   function r_tld (
-    include_country                 boolean         default true
-    , include_generic               boolean         default true
+    include_country                 boolean         default false
+    , include_generic               boolean         default false
   )
   return varchar2;
 
@@ -33,7 +33,10 @@ as
   * @return varchar2 The email address generated.
   */
   function r_email (
-    use_real_name                   boolean         default false
+    r_firstname                     varchar2        default null
+    , r_lastname                    varchar2        default null
+    , r_name                        varchar2        default null
+    , use_real_name                 boolean         default false
     , safe                          boolean         default false
   )
   return varchar2;
@@ -88,6 +91,15 @@ as
   * @return varchar2 The generated RGB color values.
   */
   function r_color
+  return varchar2;
+
+  /** Generate a bem name
+  * @author Morten Egan
+  * @return varchar2 The bem name.
+  */
+  function r_bem (
+    r_bem_domain                  varchar2          default null
+  )
   return varchar2;
 
 end web_random;

@@ -560,6 +560,8 @@ as
   function r_salary (
     r_country         varchar2        default null
     , r_jobsector     varchar2        default null
+    , r_min           number          default null
+    , r_max           number          default null
   )
   return number
 
@@ -574,25 +576,30 @@ as
 
     dbms_application_info.set_action('r_salary');
 
-    if l_country is null then
-      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
-    elsif not util_random.ru_inlist(core_random_v.g_job_data_implemented, l_country) then
-      l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
-    end if;
-
-    if l_jobsector is null then
-      l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
-      l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
-    else
-      for i in 1..person_data.country_jobs(l_country).count loop
-        if person_data.country_jobs(l_country)(i).job_sector = l_jobsector then
-          l_jobsector_idx := i;
-        end if;
-      end loop;
-      if l_jobsector_idx is null then
-        l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+    if r_min is null and r_max is null then
+      if l_country is null then
+        l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
+      elsif not util_random.ru_inlist(core_random_v.g_job_data_implemented, l_country) then
+        l_country := util_random.ru_pickone(core_random_v.g_job_data_implemented);
       end if;
-      l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
+
+      if l_jobsector is null then
+        l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+        l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
+      else
+        for i in 1..person_data.country_jobs(l_country).count loop
+          if person_data.country_jobs(l_country)(i).job_sector = l_jobsector then
+            l_jobsector_idx := i;
+          end if;
+        end loop;
+        if l_jobsector_idx is null then
+          l_jobsector_idx := core_random.r_natural(1, person_data.country_jobs(l_country).count);
+        end if;
+        l_ret_var := core_random.r_natural(person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_min, person_data.country_jobs(l_country)(l_jobsector_idx).salary_range_max);
+      end if;
+    else
+      -- Specific salary range requested.
+      l_ret_var := core_random.r_natural(r_min, r_max);
     end if;
 
     dbms_application_info.set_action(null);

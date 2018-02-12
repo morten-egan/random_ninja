@@ -370,6 +370,7 @@ as
 
   function ru_numcharfy (
     ru_string             varchar2
+    , ru_upper            boolean default false
   )
   return varchar2
 
@@ -383,6 +384,10 @@ as
 
     l_ret_var := ru_numerify(ru_string);
     l_ret_var := ru_charify(l_ret_var);
+
+    if ru_upper then
+      l_ret_var := upper(l_ret_var);
+    end if;
 
     dbms_application_info.set_action(null);
 
@@ -900,6 +905,94 @@ as
         raise;
 
   end ru_random_row;
+
+  function ru_isin_checkdigit (
+    r_country             varchar2
+    , r_nsin              varchar2
+  )
+  return number
+
+  as
+
+    l_ret_var               number;
+
+    l_calc_factor           number := 55;
+    l_converted             varchar2(50);
+    l_sum                   number := 0;
+    l_midcalc               varchar2(2);
+    l_controldigit          number;
+
+  begin
+
+    dbms_application_info.set_action('ru_isin_checkdigit');
+
+    l_converted := ascii(upper(substr(r_country, 1, 1))) - l_calc_factor;
+    l_converted := l_converted || ascii(upper(substr(r_country, 2, 1))) - l_calc_factor;
+
+    l_converted := l_converted || r_nsin;
+
+    for i in 1..length(l_converted) loop
+      if mod(i,2) = 0 then
+        l_sum := l_sum + to_number(substr(l_converted, i, 1));
+      else
+        l_midcalc := to_number(substr(l_converted, i, 1)) * 2;
+        if to_number(l_midcalc) > 9 then
+          l_midcalc := to_number(substr(l_midcalc, 1, 1)) + to_number(substr(l_midcalc, 2, 1));
+        end if;
+        l_sum := l_sum + to_number(l_midcalc);
+      end if;
+    end loop;
+
+    l_controldigit := mod(l_sum, 10);
+    l_controldigit := 10 - l_controldigit;
+    l_controldigit := mod(l_controldigit, 10);
+
+    l_ret_var := l_controldigit;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_isin_checkdigit;
+
+  function ru_casrn_checkdigit (
+    r_casrn_no_chk        varchar2
+  )
+  return number
+
+  as
+
+    l_ret_var               number := 0;
+    l_withoutdash           varchar2(50);
+    l_multiply              number := 1;
+
+  begin
+
+    dbms_application_info.set_action('ru_casrn_checkdigit');
+
+    l_withoutdash := replace(r_casrn_no_chk, '-');
+    for i in reverse 1..length(l_withoutdash) loop
+      l_ret_var := l_ret_var + (to_number(substr(l_withoutdash, i, 1)) * l_multiply);
+      l_multiply := l_multiply + 1;
+    end loop;
+
+    l_ret_var := mod(l_ret_var, 10);
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_casrn_checkdigit;
 
 begin
 
