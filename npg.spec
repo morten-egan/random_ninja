@@ -4,7 +4,7 @@ ninjaversion: 1.0.0
 ninjaformat: meta+data
 [metadata]
 name: random_ninja
-version: 1.1.0
+version: 1.4.0
 builddate: 01-10-2016
 key: c382dd7ea2016568c2b3e5f78048853c
 [require]
@@ -25,6 +25,8 @@ person_data.package.sql:package
 person_random.package.sql:package
 location_data.package.sql:package
 location_data_US.package.sql:package
+location_data_CN.package.sql:package
+location_data_DK.package.sql:package
 location_random.package.sql:package
 phone_data.package.sql:package
 phone_random.package.sql:package
@@ -32,6 +34,7 @@ finance_data.package.sql:package
 finance_data_account.package.sql:package
 finance_data_exchange.package.sql:package
 finance_random.package.sql:package
+web_data.package.sql:package
 web_random.package.sql:package
 consumer_data.package.sql:package
 consumer_random.package.sql:package
@@ -41,6 +44,14 @@ computer_data.package.sql:package
 computer_random.package.sql:package
 transport_data.package.sql:package
 transport_random.package.sql:package
+custom_random.package.sql:package
+games_data.package.sql:package
+games_random.package.sql:package
+investment_data.package.sql:package
+investment_random.package.sql:package
+medical_random.package.sql:package
+science_data.package.sql:package
+science_random.package.sql:package
 core_random.package body.sql:package body
 util_random.package body.sql:package body
 text_data_US.package body.sql:package body
@@ -54,6 +65,8 @@ person_data.package body.sql:package body
 person_random.package body.sql:package body
 location_data.package body.sql:package body
 location_data_US.package body.sql:package body
+location_data_DK.package body.sql:package body
+location_data_CN.package body.sql:package body
 location_random.package body.sql:package body
 phone_data.package body.sql:package body
 phone_random.package body.sql:package body
@@ -61,6 +74,7 @@ finance_data.package body.sql:package body
 finance_data_account.package body.sql:package body
 finance_data_exchange.package body.sql:package body
 finance_random.package body.sql:package body
+web_random.package body.sql:package body
 web_random.package body.sql:package body
 consumer_data.package body.sql:package body
 consumer_random.package body.sql:package body
@@ -70,4 +84,12 @@ computer_data.package body.sql:package body
 computer_random.package body.sql:package body
 transport_data.package body.sql:package body
 transport_random.package body.sql:package body
+custom_random.package body.sql:package body
+games_random.package body.sql:package body
+games_data.package body.sql:package body
+investment_random.package body.sql:package body
+investment_data.package body.sql:package body
+medical_random.package body.sql:package body
+science_data.package body.sql:package body
+science_random.package body.sql:package body
 [npgend]
