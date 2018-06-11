@@ -21,7 +21,7 @@ as
   * @return varchar2 The icao registration number generated.
   */
   function r_icao (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -30,7 +30,7 @@ as
   * @return varchar2 The generated license plate.
   */
   function r_vehicle_registration (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 

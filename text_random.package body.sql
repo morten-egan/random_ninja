@@ -3,7 +3,7 @@ create or replace package body text_random
 as
 
   function r_syllable (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -48,7 +48,7 @@ as
     r_syllables       number          default null
     , r_length        number          default null
     , r_capitalize    boolean         default false
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -96,7 +96,7 @@ as
 
   function r_sentence (
     r_words           number          default null
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -141,7 +141,7 @@ as
 
   function r_paragraph (
     r_sentences       number          default null
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 

@@ -64,7 +64,7 @@ as
   end r_meid;
 
   function r_country_calling_code (
-    r_country             varchar2      default null
+    r_country             varchar2      default core_random_v.g_default_country_code
     , r_useplus           boolean       default true
   )
   return varchar2
@@ -100,7 +100,7 @@ as
   end r_country_calling_code;
 
   function r_phonenumber (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
     , r_include_country_code  boolean       default false
     , r_landline              boolean       default false
     , r_mobile                boolean       default false
@@ -151,7 +151,7 @@ as
   end r_phonenumber;
 
   function r_mcc (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number
 
@@ -182,7 +182,7 @@ as
   end r_mcc;
 
   function r_mnc (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -213,7 +213,7 @@ as
   end r_mnc;
 
   function r_imsi (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number
 
@@ -297,7 +297,7 @@ as
   end r_call_type_service;
 
   function r_operator_code (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number
 

@@ -92,7 +92,7 @@ as
   end r_birthday;
 
   function r_firstname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2
@@ -138,7 +138,7 @@ as
   end r_firstname;
 
   function r_middlename (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2
@@ -184,7 +184,7 @@ as
   end r_middlename;
 
   function r_lastname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2
@@ -270,7 +270,7 @@ as
 
   function r_prefix (
     r_gender          varchar2        default null
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -314,7 +314,7 @@ as
   end r_prefix;
 
   function r_name (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
     , r_middle        boolean         default false
     , r_middleinitial boolean         default false
@@ -379,7 +379,7 @@ as
   end r_name;
 
   function r_identification (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
     , r_birthday      date            default null
   )
@@ -441,7 +441,7 @@ as
   end r_identification;
 
   function r_suffix (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_shortform     boolean         default false
   )
   return varchar2
@@ -477,7 +477,7 @@ as
   end r_suffix;
 
   function r_jobsector (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -510,7 +510,7 @@ as
   end r_jobsector;
 
   function r_jobtitle (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_jobsector     varchar2        default null
   )
   return varchar2
@@ -558,7 +558,7 @@ as
   end r_jobtitle;
 
   function r_salary (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_jobsector     varchar2        default null
     , r_min           number          default null
     , r_max           number          default null

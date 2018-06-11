@@ -14,7 +14,7 @@ as
   * @return varchar2 The company name generated.
   */
   function r_companyname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -23,7 +23,7 @@ as
   * @return varchar2 The industry generated.
   */
   function r_industry (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -32,7 +32,7 @@ as
   * @return varchar2 The generated id.
   */
   function r_companyid (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_formatted     boolean         default true
   )
   return varchar2;

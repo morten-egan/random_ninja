@@ -3,7 +3,7 @@ create or replace package body text_data
 as
 
   function markov_triples (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return mc_key_rec_list
   pipelined
@@ -54,7 +54,7 @@ as
 
   function markov_sentence (
     r_words           number          default null
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 

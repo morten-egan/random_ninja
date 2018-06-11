@@ -212,7 +212,7 @@ as
   end r_altitude;
 
   function r_state (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_shortform         boolean         default false
   )
   return varchar2
@@ -251,7 +251,7 @@ as
   end r_state;
 
   function r_zipcode (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -282,7 +282,7 @@ as
   end r_zipcode;
 
   function r_street (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_shortform         boolean         default false
     , r_syllables         number          default null
   )
@@ -336,7 +336,7 @@ as
   end r_street;
 
   function r_address (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , max_address_num     number          default null
     , r_shortform         boolean         default false
   )
@@ -374,7 +374,7 @@ as
   end r_address;
 
   function r_city (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_state             varchar2        default null
   )
   return varchar2
@@ -422,7 +422,7 @@ as
   end r_city;
 
   function r_address2 (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 

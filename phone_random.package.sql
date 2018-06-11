@@ -30,7 +30,7 @@ as
   * @return varchar2 The returned international code.
   */
   function r_country_calling_code (
-    r_country               varchar2      default null
+    r_country               varchar2      default core_random_v.g_default_country_code
     , r_useplus             boolean       default true
   )
   return varchar2;
@@ -40,7 +40,7 @@ as
   * @return varchar2 The number generated.
   */
   function r_phonenumber (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
     , r_include_country_code  boolean       default false
     , r_landline              boolean       default false
     , r_mobile                boolean       default false
@@ -52,7 +52,7 @@ as
   * @return number The MCC selected from the data list or generated.
   */
   function r_mcc (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number;
 
@@ -61,7 +61,7 @@ as
   * @return number The MNC generated.
   */
   function r_mnc (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -70,7 +70,7 @@ as
   * @return number The IMSI number generated.
   */
   function r_imsi (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number;
 
@@ -93,7 +93,7 @@ as
   * @return number Operator code generated.
   */
   function r_operator_code (
-    r_country                 varchar2      default null
+    r_country                 varchar2      default core_random_v.g_default_country_code
   )
   return number;
 

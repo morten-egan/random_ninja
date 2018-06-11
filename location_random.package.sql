@@ -79,7 +79,7 @@ as
   * @return varchar2 The state generated.
   */
   function r_state (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_shortform         boolean         default false
   )
   return varchar2;
@@ -89,7 +89,7 @@ as
   * @return number The zipcode generated.
   */
   function r_zipcode (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -98,7 +98,7 @@ as
   * @return varchar2 The street name generated.
   */
   function r_street (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_shortform         boolean         default false
     , r_syllables         number          default null
   )
@@ -109,7 +109,7 @@ as
   * @return varchar2 The address generated.
   */
   function r_address (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , max_address_num     number          default null
     , r_shortform         boolean         default false
   )
@@ -120,7 +120,7 @@ as
   * @return varchar2 The city name.
   */
   function r_city (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
     , r_state             varchar2        default null
   )
   return varchar2;
@@ -130,7 +130,7 @@ as
   * @return varchar2 The randomly generated address 2 type.
   */
   function r_address2 (
-    r_country             varchar2        default null
+    r_country             varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 

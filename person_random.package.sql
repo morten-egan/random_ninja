@@ -37,7 +37,7 @@ as
   * @return varchar2 The first name
   */
   function r_firstname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2;
@@ -47,7 +47,7 @@ as
   * @return varchar2 The middle name generated.
   */
   function r_middlename (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2;
@@ -57,7 +57,7 @@ as
   * @return varchar2 The last name generated.
   */
   function r_lastname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
   )
   return varchar2;
@@ -67,7 +67,7 @@ as
   * @return varchar2 The full name generated.
   */
   function r_name (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
     , r_middle        boolean         default false
     , r_middleinitial boolean         default false
@@ -91,7 +91,7 @@ as
   */
   function r_prefix (
     r_gender          varchar2        default null
-    , r_country       varchar2        default null
+    , r_country       varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -100,7 +100,7 @@ as
   * @return varchar2 The generated social security number.
   */
   function r_identification (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_gender        varchar2        default null
     , r_birthday      date            default null
   )
@@ -111,7 +111,7 @@ as
   * @return varchar2 The suffix generated.
   */
   function r_suffix (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_shortform     boolean         default false
   )
   return varchar2;
@@ -121,7 +121,7 @@ as
   * @return varchar2 The job sector returned.
   */
   function r_jobsector (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2;
 
@@ -130,7 +130,7 @@ as
   * @return varchar2 The job title generated.
   */
   function r_jobtitle (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_jobsector     varchar2        default null
   )
   return varchar2;
@@ -140,7 +140,7 @@ as
   * @return number The randomly generated salary.
   */
   function r_salary (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_jobsector     varchar2        default null
     , r_min           number          default null
     , r_max           number          default null

@@ -9,6 +9,9 @@ as
   */
   npg_version         varchar2(250) := '1.3.0';
 
+  -- Generic country to be used in all r_country inputs
+  g_default_country_code          varchar2(10) := 'US';
+
   -- Symbols used for random characters.
   g_symbols_pool                  varchar2(4000) := '!@#$%^&*()[]';
 

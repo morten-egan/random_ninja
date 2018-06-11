@@ -3,7 +3,7 @@ create or replace package body company_random
 as
 
   function r_companyname (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -42,7 +42,7 @@ as
   end r_companyname;
 
   function r_industry (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -73,7 +73,7 @@ as
   end r_industry;
 
   function r_companyid (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
     , r_formatted     boolean         default true
   )
   return varchar2

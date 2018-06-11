@@ -34,7 +34,7 @@ as
   end r_imo;
 
   function r_icao (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
@@ -71,7 +71,7 @@ as
   end r_icao;
 
   function r_vehicle_registration (
-    r_country         varchar2        default null
+    r_country         varchar2        default core_random_v.g_default_country_code
   )
   return varchar2
 
