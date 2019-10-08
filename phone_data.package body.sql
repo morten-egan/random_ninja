@@ -122,6 +122,31 @@ begin
   country_phone_data('BE').mnc := '00,01,02,03,04,05,06,07,09,10,15,20,40';
   country_phone_data('BE').phone_num_format_landline := 'YY';
   country_phone_data('BE').phone_num_format_mobile := '04########';
+  country_phone_data('BZ').mcc_number := 702;
+  country_phone_data('BZ').intl_num_code := 501;
+  country_phone_data('BZ').mnc := '67,68,69,99';
+  country_phone_data('BZ').phone_num_format_landline := '[1-5][0-9][0-9]####';
+  country_phone_data('BZ').phone_num_format_mobile := '[6-7][0-9][0-9]####';
+  country_phone_data('BJ').mcc_number := 616;
+  country_phone_data('BJ').intl_num_code := 229;
+  country_phone_data('BJ').mnc := '01,02,03,04,05';
+  country_phone_data('BJ').phone_num_format_landline := '[20-23][21-83]####';
+  country_phone_data('BJ').phone_num_format_mobile := '[40,42,44,60,64,68,69,87,89,95,96]######';
+  country_phone_data('XX').mcc_number := 00;
+  country_phone_data('XX').intl_num_code := 000;
+  country_phone_data('XX').mnc := '01,02,03';
+  country_phone_data('XX').phone_num_format_landline := 'XX';
+  country_phone_data('XX').phone_num_format_mobile := 'XX';
+  country_phone_data('XX').mcc_number := 00;
+  country_phone_data('XX').intl_num_code := 000;
+  country_phone_data('XX').mnc := '01,02,03';
+  country_phone_data('XX').phone_num_format_landline := 'XX';
+  country_phone_data('XX').phone_num_format_mobile := 'XX';
+  country_phone_data('US').mcc_number := 310;
+  country_phone_data('US').intl_num_code := 001;
+  country_phone_data('US').mnc := '004,005,006,010,012,030,053,120,260,350,830';
+  country_phone_data('US').phone_num_format_landline := '[2-9]##[2-9]######';
+  country_phone_data('US').phone_num_format_mobile := '[2-9]##[2-9]######';
 
 end phone_data;
 /

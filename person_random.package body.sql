@@ -599,7 +599,7 @@ as
       end if;
     else
       -- Specific salary range requested.
-      l_ret_var := core_random.r_natural(r_min, r_max);
+      l_ret_var := round(core_random.r_natural(r_min, r_max), -2);
     end if;
 
     dbms_application_info.set_action(null);

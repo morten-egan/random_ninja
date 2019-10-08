@@ -166,6 +166,7 @@ as
     , ru_value            varchar2
     , ru_seperator        varchar2 default ','
     , ru_case_sensitive   boolean default true
+    , ru_partial_hit      boolean default false
   )
   return boolean
 
@@ -189,9 +190,13 @@ as
       if ru_case_sensitive then
         if ru_value = x.elem then
           l_ret_var := true;
+        elsif ru_partial_hit and instr(ru_value, x.elem) > 0 then
+          l_ret_var := true;
         end if;
       else
         if upper(ru_value) = upper(x.elem) then
+          l_ret_var := true;
+        elsif ru_partial_hit and instr(upper(ru_value), upper(x.elem)) > 0 then
           l_ret_var := true;
         end if;
       end if;
@@ -525,45 +530,49 @@ as
 
   as
 
+    type elem_rec is record (
+        elem_val            varchar2(4000)
+        , elem_chance_b     number
+        , elem_chance_e     number
+    );
+    type elem_tab is table of elem_rec;
+    elements        elem_tab := elem_tab();
+
     l_ret_var               varchar2(4000);
     l_element_count         number;
     l_weighted_count        number;
-    l_weight_undef          number;
-    type w_tab is table of varchar2(3) index by varchar2(4000);
-    l_weighted              w_tab;
+    l_element               varchar2(4000);
     l_element_val           varchar2(4000);
-    l_current_total_weight  number := 0;
-    l_weight_idx            varchar2(4000);
+    l_element_weight        number;
+    l_total_weight          number := 0;
+    l_weight_picked         number := 0;
 
   begin
 
     dbms_application_info.set_action('ru_pickone_weighted');
 
-    l_element_count := regexp_count(ru_elements, ',');
+    l_element_count := regexp_count(ru_elements, ',') + 1;
     l_weighted_count := regexp_count(ru_elements, '\[');
 
     if l_weighted_count = 0 then
-      -- No weights at all in the list. Make all elements equal weight.
-      l_ret_var := util_random.ru_pickone(ru_elements, ru_seperator);
+        l_ret_var := util_random.ru_pickone(ru_elements, ru_seperator);
     else
-      for i in 1..(l_element_count + 1) loop
-        l_element_val := util_random.ru_extract(ru_elements, i);
-        l_current_total_weight := l_current_total_weight + substr(l_element_val, instr(l_element_val,'[') + 1, (length(l_element_val)) - instr(l_element_val,'[') - 1 );
-        -- l_weighted(l_current_total_weight) := substr(l_element_val, 1, instr(l_element_val,'[') - 1);
-        l_weighted(substr(l_element_val, 1, instr(l_element_val,'[') - 1)) := l_current_total_weight;
-      end loop;
-
-      -- Now we have the full weighted list. Generate a percent and extract the element value.
-      l_current_total_weight := core_random.r_natural(1,100);
-      l_weight_idx := l_weighted.first;
-      while l_weight_idx is not null loop
-        if l_current_total_weight >= (100 - l_weighted(l_weight_idx)) then
-          l_ret_var := l_weight_idx;
-          l_weight_idx := null;
-        else
-          l_weight_idx := l_weighted.next(l_weight_idx);
-        end if;
-      end loop;
+        for i in 1..l_element_count loop
+            l_element := util_random.ru_extract(ru_elements, i);
+            l_element_val := substr(l_element, 1, instr(l_element,'[') - 1);
+            l_element_weight := to_number(substr(l_element, instr(l_element,'[') + 1, (length(l_element)) - instr(l_element,'[') - 1 ));
+            elements.extend(1);
+            elements(elements.count).elem_val := l_element_val;
+            elements(elements.count).elem_chance_b := l_total_weight;
+            l_total_weight := l_total_weight + l_element_weight;
+            elements(elements.count).elem_chance_e := l_total_weight;
+        end loop;
+        l_weight_picked := core_random.r_natural(1,100);
+        for i in 1..elements.count loop
+          if l_weight_picked between elements(i).elem_chance_b and elements(i).elem_chance_e then
+            l_ret_var := elements(i).elem_val;
+          end if;
+        end loop;
     end if;
 
     dbms_application_info.set_action(null);

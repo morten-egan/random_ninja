@@ -49,6 +49,7 @@ as
     , ru_value            varchar2
     , ru_seperator        varchar2 default ','
     , ru_case_sensitive   boolean default true
+    , ru_partial_hit      boolean default false
   )
   return boolean;
 
