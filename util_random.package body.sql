@@ -896,7 +896,7 @@ as
 
     dbms_application_info.set_action('ru_random_row');
 
-    if ru_where_clause is null then
+    if ru_where_clause is not null then
       execute immediate 'select '|| ru_column ||' from (select '|| ru_column ||' from '|| ru_table ||' '|| ru_where_clause ||' order by dbms_random.value) where rownum = 1'
       into l_ret_var;
     else
