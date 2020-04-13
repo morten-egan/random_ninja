@@ -1,80 +1,80 @@
-@@core_random_v.package.sql
-@@core_random.package.sql
-@@company_data.package.sql
-@@company_random.package.sql
-@@computer_data.package.sql
-@@computer_random.package.sql
-@@consumer_data.package.sql
-@@consumer_random.package.sql
-@@custom_random.package.sql
-@@finance_data_account.package.sql
-@@finance_data_exchange.package.sql
-@@finance_data.package.sql
-@@finance_random.package.sql
-@@games_data.package.sql
-@@games_random.package.sql
-@@investment_data.package.sql
-@@investment_random.package.sql
-@@location_data_CN.package.sql
-@@location_data_DK.package.sql
-@@location_data.package.sql
-@@location_data_US.package.sql
-@@location_random.package.sql
-@@medical_random.package.sql
-@@names_data_CN.package.sql
-@@names_data_DK.package.sql
-@@names_data.package.sql
-@@person_data.package.sql
-@@person_random.package.sql
-@@phone_data.package.sql
-@@phone_random.package.sql
-@@science_data.package.sql
-@@science_random.package.sql
-@@text_data.package.sql
-@@text_data_US.package.sql
-@@text_random.package.sql
-@@time_random.package.sql
-@@transport_data.package.sql
-@@transport_random.package.sql
-@@util_random.package.sql
-@@web_data.package.sql
-@@web_random.package.sql
-@@"location_data.package body.sql"
-@@"location_data_US.package body.sql"
-@@"location_random.package body.sql"
-@@"medical_random.package body.sql"
-@@"names_data_CN.package body.sql"
-@@"names_data_DK.package body.sql"
-@@"location_data_DK.package body.sql"
-@@"location_data_CN.package body.sql"
-@@"investment_random.package body.sql"
-@@"investment_data.package body.sql"
-@@"games_random.package body.sql"
-@@"games_data.package body.sql"
-@@"finance_random.package body.sql"
-@@"finance_data_exchange.package body.sql"
-@@"finance_data.package body.sql"
-@@"names_data.package body.sql"
-@@"finance_data_account.package body.sql"
-@@"custom_random.package body.sql"
-@@"core_random.package body.sql"
-@@"consumer_random.package body.sql"
-@@"consumer_data.package body.sql"
-@@"computer_random.package body.sql"
-@@"computer_data.package body.sql"
-@@"company_data.package body.sql"
-@@"company_random.package body.sql"
-@@"person_data.package body.sql"
-@@"person_random.package body.sql"
-@@"phone_data.package body.sql"
-@@"phone_random.package body.sql"
-@@"science_data.package body.sql"
-@@"science_random.package body.sql"
-@@"text_data.package body.sql"
-@@"text_data_US.package body.sql"
-@@"text_random.package body.sql"
-@@"time_random.package body.sql"
-@@"transport_data.package body.sql"
-@@"transport_random.package body.sql"
-@@"util_random.package body.sql"
-@@"web_random.package body.sql"
+start core_random_v.package.sql
+start core_random.package.sql
+start company_data.package.sql
+start company_random.package.sql
+start computer_data.package.sql
+start computer_random.package.sql
+start consumer_data.package.sql
+start consumer_random.package.sql
+start custom_random.package.sql
+start finance_data_account.package.sql
+start finance_data_exchange.package.sql
+start finance_data.package.sql
+start finance_random.package.sql
+start games_data.package.sql
+start games_random.package.sql
+start investment_data.package.sql
+start investment_random.package.sql
+start location_data_CN.package.sql
+start location_data_DK.package.sql
+start location_data.package.sql
+start location_data_US.package.sql
+start location_random.package.sql
+start medical_random.package.sql
+start names_data_CN.package.sql
+start names_data_DK.package.sql
+start names_data.package.sql
+start person_data.package.sql
+start person_random.package.sql
+start phone_data.package.sql
+start phone_random.package.sql
+start science_data.package.sql
+start science_random.package.sql
+start text_data.package.sql
+start text_data_US.package.sql
+start text_random.package.sql
+start time_random.package.sql
+start transport_data.package.sql
+start transport_random.package.sql
+start util_random.package.sql
+start web_data.package.sql
+start web_random.package.sql
+start "location_data.package body.sql"
+start "location_data_US.package body.sql"
+start "location_random.package body.sql"
+start "medical_random.package body.sql"
+start "names_data_CN.package body.sql"
+start "names_data_DK.package body.sql"
+start "location_data_DK.package body.sql"
+start "location_data_CN.package body.sql"
+start "investment_random.package body.sql"
+start "investment_data.package body.sql"
+start "games_random.package body.sql"
+start "games_data.package body.sql"
+start "finance_random.package body.sql"
+start "finance_data_exchange.package body.sql"
+start "finance_data.package body.sql"
+start "names_data.package body.sql"
+start "finance_data_account.package body.sql"
+start "custom_random.package body.sql"
+start "core_random.package body.sql"
+start "consumer_random.package body.sql"
+start "consumer_data.package body.sql"
+start "computer_random.package body.sql"
+start "computer_data.package body.sql"
+start "company_data.package body.sql"
+start "company_random.package body.sql"
+start "person_data.package body.sql"
+start "person_random.package body.sql"
+start "phone_data.package body.sql"
+start "phone_random.package body.sql"
+start "science_data.package body.sql"
+start "science_random.package body.sql"
+start "text_data.package body.sql"
+start "text_data_US.package body.sql"
+start "text_random.package body.sql"
+start "time_random.package body.sql"
+start "transport_data.package body.sql"
+start "transport_random.package body.sql"
+start "util_random.package body.sql"
+start "web_random.package body.sql"

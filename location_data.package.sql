@@ -21,14 +21,14 @@ as
   -- For the random country selection.
   type country is record (
     country_name          varchar2(4000)
-    , country_short       varchar2(10)
+    , country_short       varchar2(50)
   );
   type country_list is table of country;
   countries   country_list;
 
   type state_data is record (
     state_name            varchar2(250)
-    , state_short         varchar2(20)
+    , state_short         varchar2(50)
     , state_capital       varchar2(250)
     , cities              varchar2(32000)
   );
