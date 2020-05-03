@@ -63,6 +63,9 @@ as
     r_min               number        default 0
     , r_max             number        default 10000
     , r_precision       number        default 2
+    , r_w_min           number        default null
+    , r_w_max           number        default null
+    , r_weight          number        default null
   )
   return number;
 

@@ -201,6 +201,9 @@ as
     r_min               number        default 0
     , r_max             number        default 10000
     , r_precision       number        default 2
+    , r_w_min           number        default null
+    , r_w_max           number        default null
+    , r_weight          number        default null
   )
   return number
 
@@ -212,7 +215,7 @@ as
 
     dbms_application_info.set_action('r_amount');
 
-    l_ret_var := core_random.r_float(r_precision, r_min, r_max);
+    l_ret_var := core_random.r_float(r_precision, r_min, r_max, r_w_min, r_w_max, r_weight);
 
     dbms_application_info.set_action(null);
 
