@@ -390,34 +390,44 @@ as
 
     dbms_application_info.set_action('r_city');
 
-    if l_country is null then
+    if l_country is null or instr(core_random_v.g_cities_countries_implemented, r_country) < 1 then
       l_country := util_random.ru_pickone(core_random_v.g_cities_countries_implemented);
-    end if;
-
-    if l_state is null then
-      l_state_num := core_random.r_natural(1, location_data.states(l_country).count);
     else
-      for i in 1..location_data.states(l_country).count loop
-        if location_data.states(l_country)(i).state_short = r_city.r_state then
-          l_state_num := i;
-          exit;
-        end if;
-      end loop;
-      if l_state_num is null then
+      if l_state is null then
         l_state_num := core_random.r_natural(1, location_data.states(l_country).count);
+      else
+        for i in 1..location_data.states(l_country).count loop
+          if location_data.states(l_country)(i).state_short = r_city.r_state then
+            l_state_num := i;
+            exit;
+          end if;
+        end loop;
+        if l_state_num is null then
+          l_state_num := core_random.r_natural(1, location_data.states(l_country).count);
+        end if;
       end if;
     end if;
 
-    l_ret_var := util_random.ru_pickone(location_data.states(l_country)(l_state_num).cities);
+    if l_country is not null and l_state_num is not null then
+      l_ret_var := util_random.ru_pickone(location_data.states(l_country)(l_state_num).cities);
+    elsif l_country is not null then
+      l_ret_var := util_random.ru_pickone(location_data.states(l_country)(1).cities);
+    else
+      l_ret_var := util_random.ru_pickone(location_data.states('US')(1).cities);
+    end if;
+
+    if l_ret_var is null then
+      l_ret_var := text_random.r_word;
+    end if;
 
     dbms_application_info.set_action(null);
 
     return l_ret_var;
 
-    exception
+    /*exception
       when others then
         dbms_application_info.set_action(null);
-        raise;
+        raise;*/
 
   end r_city;
 

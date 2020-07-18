@@ -43,7 +43,7 @@ as
     dbms_application_info.set_action('ru_extract');
 
     -- If we do not have any elements return back the full string.
-    if l_elem_count = 0 then
+    if l_elem_count = 0 or l_elem_count = 1 then
       l_elem_start_location := 1;
       l_elem_end_location := length(ru_elements);
     elsif l_elem_count < ru_extract_n then
@@ -597,9 +597,9 @@ as
     l_ret_var               varchar2(100);
     l_calc_factor           number := 55;
     l_country               varchar2(10) := ru_country;
-    l_iban                  varchar2(50) := ru_iban;
-    l_iban_tmp              varchar2(50);
-    l_iban_tmp2             varchar2(50);
+    l_iban                  varchar2(100) := ru_iban;
+    l_iban_tmp              varchar2(100);
+    l_iban_tmp2             varchar2(100);
     l_iban_num_tmp          number;
 
   begin

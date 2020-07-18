@@ -236,21 +236,25 @@ as
 
   as
 
-    l_ret_var               varchar2(100);
+    l_ret_var               varchar2(250);
     l_country               varchar2(10) := r_country;
 
   begin
 
     dbms_application_info.set_action('r_accountnumber');
 
-    if l_country is null then
+    if length(l_country) = 2 then
+      l_country := upper(l_country);
+    end if;
+
+    if l_country is null or length(l_country) > 2 then
       if r_iban then
         l_country := util_random.ru_pickone(finance_data.g_iban_enabled);
       end if;
-    /*elsif l_country is not null and r_iban then
+    elsif l_country is not null and r_iban then
       if not util_random.ru_inlist(finance_data.g_iban_enabled, l_country) then
         l_country := util_random.ru_pickone(finance_data.g_iban_enabled);
-      end if; */
+      end if;
     end if;
 
     -- Now we have the country, let us get the basic format string.
@@ -298,7 +302,9 @@ as
 
     dbms_application_info.set_action('r_accounttype');
 
-    l_ret_var := finance_data.account_types(core_random.r_natural(1, finance_data.account_types.count)).type_name;
+    while l_ret_var is null loop
+      l_ret_var := finance_data.account_types(core_random.r_natural(1, finance_data.account_types.count)).type_name;
+    end loop;
 
     dbms_application_info.set_action(null);
 
