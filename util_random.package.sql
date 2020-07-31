@@ -31,6 +31,19 @@ as
   )
   return varchar2;
 
+  /** Extract random elements from a list to form new list
+  * If the number of elements requested is the same as element count in original list
+  * the new list will just have the order changed of the elements.
+  * @author Morten Egan
+  * @return varchar2 The new list generated.
+  */
+  function ru_picksome (
+    ru_elements       varchar2
+    , ru_pick_num     number          default 1
+    , ru_seperator    varchar2        default ','
+  )
+  return varchar2;
+
   /** Calculate the Luhn check digit.
   * @author Morten Egan
   * @return number The luhn algorithm check digit.

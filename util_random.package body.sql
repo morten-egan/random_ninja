@@ -118,6 +118,61 @@ as
 
   end ru_pickone;
 
+  function ru_picksome (
+    ru_elements       varchar2
+    , ru_pick_num     number          default 1
+    , ru_seperator    varchar2        default ','
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(4000);
+    l_elem_count            number := regexp_count(ru_elements, ru_seperator);
+
+    l_do_redraw             boolean := true;
+    l_list                  varchar2(4000);
+    l_picked                number := 0;
+    l_element               varchar2(4000);
+
+  begin
+
+    dbms_application_info.set_action('ru_picksome');
+
+    if l_elem_count = 0 then
+      l_ret_var := ru_elements;
+    else
+      while l_picked < ru_pick_num loop
+        l_element := util_random.ru_pickone(ru_elements, ru_seperator);
+        if l_picked > 0 then
+          -- Check if elemetn is already in the list, else set
+          while l_do_redraw loop
+            l_do_redraw := util_random.ru_inlist(l_list, l_element);
+            if l_do_redraw then
+              l_element := util_random.ru_pickone(ru_elements, ru_seperator);
+            end if;
+          end loop;
+          l_do_redraw := true;
+          l_list := l_list || ru_seperator || l_element;
+        else
+          l_list := l_element;
+        end if;
+        l_picked := l_picked + 1;
+      end loop;
+      l_ret_var := l_list;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end ru_picksome;
+
   function luhn_calculate (
     digits            varchar2
   )
