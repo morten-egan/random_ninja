@@ -5,3 +5,5 @@ temp/
 testdata_workspace.code-workspace
 .vscode/
 _*
+# QS
+.qs/
