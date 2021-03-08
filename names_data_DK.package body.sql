@@ -13,7 +13,7 @@ begin
   names_data.r_country_names('DK').female_first_names := names_data.name_list(null);
   names_data.r_country_names('DK').female_middle_names := names_data.name_list(null);
   names_data.r_country_names('DK').last_names := names_data.name_list(null);
-  names_data.r_country_names('DK').male_first_names.extend(100);
+  names_data.r_country_names('DK').male_first_names.extend(101);
   names_data.r_country_names('DK').male_middle_names.extend(50);
   names_data.r_country_names('DK').female_first_names.extend(100);
   names_data.r_country_names('DK').female_middle_names.extend(50);
@@ -129,6 +129,7 @@ begin
   names_data.r_country_names('DK').male_first_names(98) :=	'Pelle';
   names_data.r_country_names('DK').male_first_names(99) :=	'Jens';
   names_data.r_country_names('DK').male_first_names(100) :=	'Louis';
+  names_data.r_country_names('DK').male_first_names(100) :=	'Castor';
 
   -- DK Pige fornavne.
   names_data.r_country_names('DK').female_first_names(1) := 'Emma';
