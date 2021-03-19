@@ -1,9 +1,8 @@
 name: random_ninja-master-pull-merge-action
 on:
-  pull_request:
+  push:
     branches:
       - master
-    types: [closed]
 
 jobs:
   pre-env-setup:
