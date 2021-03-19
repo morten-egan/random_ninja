@@ -83,4 +83,6 @@ start "transport_random.package body.sql"
 start "util_random.package body.sql"
 start "web_random.package body.sql"
 
+select 'Deployment Done' from dual;
+
 exit;
