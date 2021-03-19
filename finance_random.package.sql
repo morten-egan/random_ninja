@@ -129,5 +129,10 @@ as
   function r_creditcard_tx_type
   return varchar2;
 
+  function r_cryptocurrency (
+    r_shortform         boolean         default true
+  )
+  return varchar2;
+
 end finance_random;
 /

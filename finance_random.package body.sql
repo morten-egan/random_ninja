@@ -486,6 +486,39 @@ as
 
   end r_creditcard_tx_type;
 
+  function r_cryptocurrency (
+    r_shortform       boolean         default true
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_pick                  number;
+
+  begin
+
+    dbms_application_info.set_action('r_cryptocurrency');
+
+    l_pick := core_random.r_natural(1, finance_data.cryptos.count);
+
+    if r_shortform then
+      l_ret_var := finance_data.cryptos(l_pick).symbol;
+    else
+      l_ret_var := finance_data.cryptos(l_pick).crypto_name;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_cryptocurrency;
+
 begin
 
   dbms_application_info.set_client_info('finance_random');
