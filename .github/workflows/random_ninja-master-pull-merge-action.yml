@@ -17,3 +17,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+  deploy-sql-to-oracle-prod:
+    name: Production Database Deployment
+    needs: [code-check]
+    runs-on: ubuntu-latest
+    env:
+      TNS_ADMIN: /home/runner/work/random_ninja/random_ninja/deploy/Wallet_SGPool
+      ORACLOUD_UNAME: ${{ secrets.RANDOM_USER_NAME_PROD }}
+      ORACLOUD_PWD: ${{ secrets.RANDOM_PASSWORD_PROD }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download instant client
+        run: wget "https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip"
+      - name: Download sqlplus addition to instant client
+        run: wget "https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip"
+      - run: unzip instantclient-basic-linux.x64-21.1.0.0.0.zip
+      - run: unzip instantclient-sqlplus-linux.x64-21.1.0.0.0.zip
+      - run: sudo apt-get install libaio1
+      - run: sudo sh -c "echo /home/runner/work/random_ninja/random_ninja/instantclient_21_1 > /etc/ld.so.conf.d/oracle-instantclient.conf"
+      - run: sudo ldconfig
+      - run: cp /home/runner/work/random_ninja/random_ninja/deploy/Wallet_SGPool/* ./instantclient_21_1/network/admin/
+      - run: ./instantclient_21_1/sqlplus "$ORACLOUD_UNAME"/"$ORACLOUD_PWD"@sgpool_low @/home/runner/work/random_ninja/random_ninja/deploy/deploy.sql
