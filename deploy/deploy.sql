@@ -1,3 +1,5 @@
+set scan off;
+
 start core_random_v.package.sql
 start core_random.package.sql
 start company_data.package.sql
