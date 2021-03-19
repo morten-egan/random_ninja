@@ -1,2 +1,2 @@
-WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/runner/work/sgpools/sgpools/instantclient_21_1/network/admin/")))
+WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/runner/work/random_ninja/random_ninja/instantclient_21_1/network/admin/")))
 SSL_SERVER_DN_MATCH=yes
