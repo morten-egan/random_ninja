@@ -29,6 +29,7 @@ start person_random.package.sql
 start phone_data.package.sql
 start phone_random.package.sql
 start science_data.package.sql
+start science_data_trees.package.sql
 start science_random.package.sql
 start text_data.package.sql
 start text_data_US.package.sql
@@ -69,6 +70,7 @@ start "person_random.package body.sql"
 start "phone_data.package body.sql"
 start "phone_random.package body.sql"
 start "science_data.package body.sql"
+start "science_data_trees.package body.sql"
 start "science_random.package body.sql"
 start "text_data.package body.sql"
 start "text_data_US.package body.sql"

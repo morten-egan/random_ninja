@@ -157,6 +157,39 @@ as
 
   end r_scale;
 
+  function r_tree (
+    r_scientific      boolean         default false
+  )
+  return varchar2
+
+  as
+
+    l_ret_var               varchar2(100);
+    l_element_idx           number;
+
+  begin
+
+    dbms_application_info.set_action('r_tree');
+
+    l_element_idx := core_random.r_natural(1, science_data_trees.g_trees.count);
+
+    if r_scientific then
+      l_ret_var := science_data_trees.g_trees(l_element_idx).scientific_name;
+    else
+      l_ret_var := science_data_trees.g_trees(l_element_idx).common_name;
+    end if;
+
+    dbms_application_info.set_action(null);
+
+    return l_ret_var;
+
+    exception
+      when others then
+        dbms_application_info.set_action(null);
+        raise;
+
+  end r_tree;
+
 begin
 
   dbms_application_info.set_client_info('science_random');
