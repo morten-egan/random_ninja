@@ -53,5 +53,10 @@ as
   function r_scale
   return varchar2;
 
+  function r_tree (
+    r_scientific      boolean         default false
+  )
+  return varchar2;
+
 end science_random;
 /
