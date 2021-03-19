@@ -19,6 +19,14 @@ as
   type currency_list is table of currency_data;
   currencies  currency_list;
 
+  -- Crypto currencies
+  type crypto_data is record (
+    symbol                varchar2(25)
+    , crypto_name         varchar2(250)
+  );
+  type crypto_list is table of crypto_data;
+  cryptos     crypto_list;
+
   -- Credit Card datatypes
   type creditcard_data is record (
     cc_name               varchar2(255)

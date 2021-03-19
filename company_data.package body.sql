@@ -13,6 +13,9 @@ begin
   -- China tax id format.
   tax_id('CN').tax_id_format := '9[1-6][110000-830000]##########';
   tax_id('CN').tax_id_display_format := '##################';
+  -- German Tax id format
+  tax_id('DE').tax_id_format := '###########';
+  tax_id('DE').tax_id_display_format := '## ### ### ###';
 
 end company_data;
 /
