@@ -1,0 +1,6 @@
+sgpool_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-melbourne-1.oraclecloud.com))(connect_data=(service_name=ie1ri8dsq2fzxxr_sgpool_high.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-melbourne-1.oraclecloud.com,OU=Oracle ADB MELBOURNE,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+sgpool_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-melbourne-1.oraclecloud.com))(connect_data=(service_name=ie1ri8dsq2fzxxr_sgpool_low.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-melbourne-1.oraclecloud.com,OU=Oracle ADB MELBOURNE,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+sgpool_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-melbourne-1.oraclecloud.com))(connect_data=(service_name=ie1ri8dsq2fzxxr_sgpool_medium.adb.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-melbourne-1.oraclecloud.com,OU=Oracle ADB MELBOURNE,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
