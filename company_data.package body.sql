@@ -3,7 +3,7 @@ create or replace package body company_data
 as
 
 begin
-
+  -- Test comment
   dbms_application_info.set_client_info('company_data');
   dbms_session.set_identifier('company_data');
 
