@@ -1,0 +1,18 @@
+name: random_ninja-develop-push-action
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  pre-env-setup:
+    name: Initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+  code-check:
+    name: Code Check
+    needs: [pre-env-setup]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
