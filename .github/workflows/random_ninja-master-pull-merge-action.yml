@@ -1,0 +1,20 @@
+name: random_ninja-master-pull-merge-action
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  pre-env-setup:
+    if: github.event.pull_request.merged == true
+    name: Initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+  code-check:
+    name: Code Check
+    needs: [pre-env-setup]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
