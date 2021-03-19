@@ -16,10 +16,66 @@ begin
   finance_data.account_types.extend(3);
   exchanges := exchange_list(null);
   exchanges.extend(33);
+  cryptos := crypto_list(null);
+  cryptos.extend(26);
 
   -- Init external data.
   init_data := finance_data_account.npg_version;
   init_data := finance_data_exchange.npg_version;
+
+  -- Crypto currencies
+  cryptos(1).symbol := 'BTC';
+  cryptos(1).crypto_name := 'Bitcoin';
+  cryptos(2).symbol := 'LTC';
+  cryptos(2).crypto_name := 'Litecoin';
+  cryptos(3).symbol := 'NMC';
+  cryptos(3).crypto_name := 'Namecoin';
+  cryptos(4).symbol := 'PPC';
+  cryptos(4).crypto_name := 'Peercoin';
+  cryptos(5).symbol := 'DOGE';
+  cryptos(5).crypto_name := 'Dogecoin';
+  cryptos(6).symbol := 'GRC';
+  cryptos(6).crypto_name := 'Gridcoin';
+  cryptos(7).symbol := 'XPM';
+  cryptos(7).crypto_name := 'Primecoin';
+  cryptos(8).symbol := 'XRP';
+  cryptos(8).crypto_name := 'Ripple';
+  cryptos(9).symbol := 'NXT';
+  cryptos(9).crypto_name := 'Nxt';
+  cryptos(10).symbol := 'AUR';
+  cryptos(10).crypto_name := 'Auroracoin';
+  cryptos(11).symbol := 'DASH';
+  cryptos(11).crypto_name := 'Dash';
+  cryptos(12).symbol := 'NEO';
+  cryptos(12).crypto_name := 'NEO';
+  cryptos(13).symbol := 'MZC';
+  cryptos(13).crypto_name := 'MazaCoin';
+  cryptos(14).symbol := 'XMR';
+  cryptos(14).crypto_name := 'Monero';
+  cryptos(15).symbol := 'TIT';
+  cryptos(15).crypto_name := 'Titcoin';
+  cryptos(16).symbol := 'XVG';
+  cryptos(16).crypto_name := 'Verge';
+  cryptos(17).symbol := 'XLM';
+  cryptos(17).crypto_name := 'Stellar';
+  cryptos(18).symbol := 'VTC';
+  cryptos(18).crypto_name := 'Vertcoin';
+  cryptos(19).symbol := 'ETH';
+  cryptos(19).crypto_name := 'Ethereum';
+  cryptos(20).symbol := 'ETC';
+  cryptos(20).crypto_name := 'Ethereum Classic';
+  cryptos(21).symbol := 'NANO';
+  cryptos(21).crypto_name := 'Nano';
+  cryptos(22).symbol := 'USDT';
+  cryptos(22).crypto_name := 'Tether';
+  cryptos(23).symbol := 'ZEC';
+  cryptos(23).crypto_name := 'Zcash';
+  cryptos(24).symbol := 'BCH';
+  cryptos(24).crypto_name := 'Bitcoin Cash';
+  cryptos(25).symbol := 'EOS';
+  cryptos(25).crypto_name := 'EOS.IO';
+  cryptos(26).symbol := 'ADA';
+  cryptos(26).crypto_name := 'Cardano';
 
   -- Credit cards
   creditcards(1).cc_name := 'American Express';
