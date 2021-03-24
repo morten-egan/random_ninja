@@ -228,7 +228,8 @@ as
     dbms_application_info.set_action('r_imsi');
 
     if l_country is null then
-      l_country := location_random.r_country(true);
+      -- l_country := location_random.r_country(true);
+      l_country := 'US';
     end if;
 
     l_temp_build_up := r_mcc(l_country) || r_mnc(l_country);
