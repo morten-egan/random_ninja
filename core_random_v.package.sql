@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '1.3.0';
+  npg_version         varchar2(4000) := '1.3.0';
 
   -- Generic country to be used in all r_country inputs
   g_default_country_code          varchar2(10) := 'US';

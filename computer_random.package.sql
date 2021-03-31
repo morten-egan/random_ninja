@@ -7,7 +7,7 @@ as
   * @version 0.0.1
   * @project RANDOM_NINJA
   */
-  npg_version         varchar2(250) := '1.3.0';
+  npg_version         varchar2(4000) := '1.3.0';
 
   /** Generate a random OS flavor.
   * @author Morten Egan

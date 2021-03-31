@@ -114,9 +114,9 @@ as
 
   as
 
-    l_ret_var               varchar2(200);
-    l_extension             varchar2(50) := r_filename.r_extension;
-    l_extension_cat         varchar2(150) := r_filename.r_extension_cat;
+    l_ret_var               varchar2(500);
+    l_extension             varchar2(250) := r_filename.r_extension;
+    l_extension_cat         varchar2(250) := r_filename.r_extension_cat;
 
   begin
 
