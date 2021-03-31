@@ -54,7 +54,7 @@ as
 
   as
 
-    l_ret_var               varchar2(100);
+    l_ret_var               varchar2(1000);
     l_syllables             number := r_syllables;
 
   begin

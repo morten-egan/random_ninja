@@ -175,7 +175,7 @@ as
 
   as
 
-    l_ret_var               varchar2(2000);
+    l_ret_var               varchar2(4000);
 
   begin
 
@@ -196,11 +196,6 @@ as
     dbms_application_info.set_action(null);
 
     return l_ret_var;
-
-    exception
-      when others then
-        dbms_application_info.set_action(null);
-        raise;
 
   end r_url;
 
