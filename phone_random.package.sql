@@ -70,7 +70,7 @@ as
   * @return number The IMSI number generated.
   */
   function r_imsi (
-    r_country                 varchar2      default core_random_v.g_default_country_code
+    r_country                 varchar2      default 'US'
   )
   return number;
 

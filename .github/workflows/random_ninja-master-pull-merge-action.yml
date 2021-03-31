@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
   deploy-sql-to-oracle-prod:
-    name: Production Database Deployment
+    name: RANDOM_NINJA Packages deployment - Production
     needs: [code-check]
     runs-on: ubuntu-latest
     env:

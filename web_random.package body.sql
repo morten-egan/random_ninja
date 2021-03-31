@@ -175,7 +175,7 @@ as
 
   as
 
-    l_ret_var               varchar2(250);
+    l_ret_var               varchar2(2000);
 
   begin
 

@@ -213,7 +213,7 @@ as
   end r_mnc;
 
   function r_imsi (
-    r_country                 varchar2      default core_random_v.g_default_country_code
+    r_country                 varchar2      default 'US'
   )
   return number
 
@@ -227,8 +227,9 @@ as
 
     dbms_application_info.set_action('r_imsi');
 
-    if l_country is null then
-      l_country := location_random.r_country(true);
+    if l_country is null or l_country = '' then
+      -- l_country := location_random.r_country(true);
+      l_country := 'US';
     end if;
 
     l_temp_build_up := r_mcc(l_country) || r_mnc(l_country);
