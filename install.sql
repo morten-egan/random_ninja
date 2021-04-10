@@ -40,6 +40,9 @@ start transport_random.package.sql
 start util_random.package.sql
 start web_data.package.sql
 start web_random.package.sql
+start logistics_data.package.sql
+start logistics_data_bic.package.sql
+start logistics_random.package.sql
 start "location_data.package body.sql"
 start "location_data_US.package body.sql"
 start "location_random.package body.sql"
@@ -80,3 +83,6 @@ start "transport_data.package body.sql"
 start "transport_random.package body.sql"
 start "util_random.package body.sql"
 start "web_random.package body.sql"
+start "logistics_data.package body.sql"
+start "logistics_data_bic.package body.sql"
+start "logistics_random.package body.sql"
