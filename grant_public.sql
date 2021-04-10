@@ -39,6 +39,7 @@ grant execute on RANDOM_NINJA.TRANSPORT_RANDOM to public;
 grant execute on RANDOM_NINJA.UTIL_RANDOM to public;
 grant execute on RANDOM_NINJA.WEB_DATA to public;
 grant execute on RANDOM_NINJA.WEB_RANDOM to public;
+grant execute on RANDOM_NINJA.LOGISTICS_RANDOM to public;
 
 create public synonym CORE_RANDOM_V for RANDOM_NINJA.CORE_RANDOM_V;
 create public synonym CORE_RANDOM for RANDOM_NINJA.CORE_RANDOM;
@@ -81,3 +82,4 @@ create public synonym TRANSPORT_RANDOM for RANDOM_NINJA.TRANSPORT_RANDOM;
 create public synonym UTIL_RANDOM for RANDOM_NINJA.UTIL_RANDOM;
 create public synonym WEB_DATA for RANDOM_NINJA.WEB_DATA;
 create public synonym WEB_RANDOM for RANDOM_NINJA.WEB_RANDOM;
+create public synonym LOGISTICS_RANDOM for RANDOM_NINJA.LOGISTICS_RANDOM;
