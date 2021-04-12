@@ -247,5 +247,11 @@ as
   )
   return number;
 
+  function ru_bic_checkdigit (
+    r_bic                 varchar2
+    , r_serial_no         number
+  )
+  return number;
+
 end util_random;
 /

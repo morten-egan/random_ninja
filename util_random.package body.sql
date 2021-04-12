@@ -1058,6 +1058,89 @@ as
 
   end ru_casrn_checkdigit;
 
+  function ru_bic_checkdigit (
+    r_bic                 varchar2
+    , r_serial_no         number
+  )
+  return number
+
+  as
+
+    l_ret_var             number;
+    l_char_1_val          number;
+    l_char_2_val          number;
+    l_char_3_val          number;
+    l_char_4_val          number;
+    l_5_val               number;
+    l_6_val               number;
+    l_7_val               number;
+    l_8_val               number;
+    l_9_val               number;
+    l_10_val              number;
+    l_tot_sum             number;
+    l_work_tot_sum        number;
+    l_check_digit         number;
+
+  begin
+
+    -- Step 1 - Replace characeter to numerical values
+    select decode(substr(r_bic, 1, 1), 'A', 10, 'B', 12, 'C', 13, 'D', 14, 'E', 15, 'F', 16, 'G', 17, 'H', 18, 'I', 19, 'J', 20, 'K', 21, 'L', 23, 'M', 24, 'N', 25, 'O', 26, 'P', 27, 'Q', 28, 'R', 29, 'S', 30, 'T', 31, 'U', 32, 'V', 34, 'W', 35, 'X', 36, 'Y', 37, 'Z', 38)
+    into l_char_1_val
+    from dual;
+
+    select decode(substr(r_bic, 1, 1), 'A', 10, 'B', 12, 'C', 13, 'D', 14, 'E', 15, 'F', 16, 'G', 17, 'H', 18, 'I', 19, 'J', 20, 'K', 21, 'L', 23, 'M', 24, 'N', 25, 'O', 26, 'P', 27, 'Q', 28, 'R', 29, 'S', 30, 'T', 31, 'U', 32, 'V', 34, 'W', 35, 'X', 36, 'Y', 37, 'Z', 38)
+    into l_char_2_val
+    from dual;
+
+    select decode(substr(r_bic, 1, 1), 'A', 10, 'B', 12, 'C', 13, 'D', 14, 'E', 15, 'F', 16, 'G', 17, 'H', 18, 'I', 19, 'J', 20, 'K', 21, 'L', 23, 'M', 24, 'N', 25, 'O', 26, 'P', 27, 'Q', 28, 'R', 29, 'S', 30, 'T', 31, 'U', 32, 'V', 34, 'W', 35, 'X', 36, 'Y', 37, 'Z', 38)
+    into l_char_3_val
+    from dual;
+
+    select decode(substr(r_bic, 1, 1), 'A', 10, 'B', 12, 'C', 13, 'D', 14, 'E', 15, 'F', 16, 'G', 17, 'H', 18, 'I', 19, 'J', 20, 'K', 21, 'L', 23, 'M', 24, 'N', 25, 'O', 26, 'P', 27, 'Q', 28, 'R', 29, 'S', 30, 'T', 31, 'U', 32, 'V', 34, 'W', 35, 'X', 36, 'Y', 37, 'Z', 38)
+    into l_char_4_val
+    from dual;
+
+    -- Set the serial numbers as is
+    l_5_val := substr(r_serial_no, 1, 1);
+    l_6_val := substr(r_serial_no, 2, 1);
+    l_7_val := substr(r_serial_no, 3, 1);
+    l_8_val := substr(r_serial_no, 4, 1);
+    l_9_val := substr(r_serial_no, 5, 1);
+    l_10_val := substr(r_serial_no, 6, 1);
+
+    -- Step 2 - Multipliers
+    l_char_1_val := l_char_1_val * 1;
+    l_char_2_val := l_char_2_val * 2;
+    l_char_3_val := l_char_3_val * 4;
+    l_char_4_val := l_char_4_val * 8;
+    l_5_val := l_5_val * 16;
+    l_6_val := l_6_val * 32;
+    l_7_val := l_7_val * 64;
+    l_8_val := l_8_val * 128;
+    l_9_val := l_9_val * 256;
+    l_10_val := l_10_val * 512;
+
+    -- Sum up all results in step 2
+    l_tot_sum := l_char_1_val + l_char_2_val + l_char_3_val + l_char_4_val + l_5_val + l_6_val + l_7_val + l_8_val + l_9_val + l_10_val;
+
+    -- Divide by 11 and remove digits
+    l_work_tot_sum := trunc(l_tot_sum/11);
+    
+    -- Multiply by 11
+    l_work_tot_sum := l_work_tot_sum * 11;
+
+    l_check_digit := l_tot_sum - l_work_tot_sum;
+
+    if l_check_digit = 10 then
+      l_check_digit := 0;
+    end if;
+
+    l_ret_var := l_check_digit;
+
+    return l_ret_var;
+
+  end ru_bic_checkdigit;
+
 begin
 
   dbms_application_info.set_client_info('util_random');
