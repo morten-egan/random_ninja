@@ -118,5 +118,93 @@ as
 
     end r_container_size_iso;
 
+    function r_container_max_weight (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number
+
+    as
+
+        l_ret_var               number;
+
+    begin
+
+        if r_pounds then
+            l_ret_var := 30480 * 2;
+        else
+            l_ret_var := 30480;
+        end if;
+
+        return l_ret_var;
+
+    end r_container_max_weight;
+
+    function r_container_tare_weight (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number
+
+    as
+
+        l_ret_var               number;
+
+    begin
+
+        if r_pounds then
+            l_ret_var := 2180 * 2;
+        else
+            l_ret_var := 2180;
+        end if;
+
+        return l_ret_var;
+
+    end r_container_tare_weight;
+
+    function r_container_max_pack_weight (
+        r_container_size_iso        varchar2        default null
+        , r_container_max_weight    number          default null
+        , r_container_tare_weight   number          default null
+        , r_pounds                  boolean         default false
+    )
+    return number
+
+    as
+
+        l_ret_var               number;
+        l_container_size_iso    varchar2(500) := r_container_size_iso;
+        l_container_max_weight  number := r_container_max_weight;
+        l_container_tare_weight number := r_container_tare_weight;
+        l_pounds                boolean := r_pounds;
+
+    begin
+
+        -- Data value decision tree
+        if l_container_size_iso is null then
+            if l_container_max_weight is null then
+                -- Get a max weight
+                l_container_max_weight := logistics_random.r_container_max_weight(r_pounds => l_pounds);
+            end if;
+            if l_container_tare_weight is null then
+                -- Get a tare weight
+                l_container_tare_weight := logistics_random.r_container_tare_weight(r_pounds => l_pounds);
+            end if;
+        else
+            -- Iso size set. Will override any values in max and tare parameters.
+            l_container_max_weight := logistics_random.r_container_max_weight(l_container_size_iso, l_pounds);
+            l_container_tare_weight := logistics_random.r_container_tare_weight(l_container_size_iso, l_pounds);
+        end if;
+
+        if l_pounds then
+            l_ret_var := (l_container_max_weight - l_container_tare_weight) * 2;
+        else
+            l_ret_var := l_container_max_weight - l_container_tare_weight;
+        end if;
+
+        return l_ret_var;
+
+    end r_container_max_pack_weight;
+
 end logistics_random;
 /

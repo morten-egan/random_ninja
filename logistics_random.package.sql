@@ -26,5 +26,25 @@ as
     function r_container_size_iso
     return varchar2;
 
+    function r_container_max_weight (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number;
+
+    function r_container_tare_weight (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number;
+
+    function r_container_max_pack_weight (
+        r_container_size_iso        varchar2        default null
+        , r_container_max_weight    number          default null
+        , r_container_tare_weight   number          default null
+        , r_pounds                  boolean         default false
+    )
+    return number;
+
 end logistics_random;
 /
