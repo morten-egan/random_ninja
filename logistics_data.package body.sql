@@ -12,7 +12,7 @@ begin
   iso_container_sizes.extend(82);
 
   postal_data := postal_data_tab(null);
-  postal_data.extend(7);
+  postal_data.extend(14);
 
   postal_data(1).postal_name := 'DHL Express';
   postal_data(1).tracking_format := '[JJD01,JJD00,JVGL]########';
@@ -28,6 +28,20 @@ begin
   postal_data(6).tracking_format := '1Z################';
   postal_data(7).postal_name := 'UPS Mail Innovations';
   postal_data(7).tracking_format := 'MI[100000-999999]######??##?#?##??#####';
+  postal_data(8).postal_name := 'TNT';
+  postal_data(8).tracking_format := 'GE[100000000-999999999][WW,US,CN]';
+  postal_data(9).postal_name := 'SingPost';
+  postal_data(9).tracking_format := 'R[A-Z]#########SG';
+  postal_data(10).postal_name := 'USPS Tracking';
+  postal_data(10).tracking_format := '#### #### #### #### #### ##';
+  postal_data(11).postal_name := 'USPS Priority Mail Express International';
+  postal_data(11).tracking_format := 'EC ### ### ### US';
+  postal_data(12).postal_name := 'USPS Priority Mail International';
+  postal_data(12).tracking_format := 'CP ### ### ### US';
+  postal_data(13).postal_name := 'Postnord';
+  postal_data(13).tracking_format := '[R,A,E,V,C,L]?#########DK';
+  postal_data(14).postal_name := 'GLS';
+  postal_data(14).tracking_format := '##############';
 
   iso_container_sizes(1).iso_code := '20G0';
   iso_container_sizes(1).iso_description := 'GENERAL PURPOSE CONT.';
