@@ -22,5 +22,12 @@ as
 
     init_data   varchar2(250);
 
+    type postal_data_rec is record (
+        postal_name         varchar2(250)
+        , tracking_format   varchar2(250)
+    );
+    type postal_data_tab is table of postal_data_rec;
+    postal_data             postal_data_tab;
+
 end logistics_data;
 /

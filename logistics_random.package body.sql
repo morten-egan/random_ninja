@@ -17,13 +17,15 @@ as
 
     begin
 
-        if l_country_idx is null then
-            l_country_idx := util_random.ru_pickone(core_random_v.g_shipping_bic_countries_implemented);
-        end if;
+        while l_ret_var is null loop
+            if l_country_idx is null then
+                l_country_idx := util_random.ru_pickone(core_random_v.g_shipping_bic_countries_implemented);
+            end if;
 
-        l_bic_reg_num := core_random.r_natural(1, logistics_data.bics(l_country_idx).count);
+            l_bic_reg_num := core_random.r_natural(1, logistics_data.bics(l_country_idx).count);
 
-        l_ret_var := logistics_data.bics(l_country_idx)(l_bic_reg_num).bic_code;
+            l_ret_var := logistics_data.bics(l_country_idx)(l_bic_reg_num).bic_code;
+        end loop;
 
         return l_ret_var;
 
@@ -205,6 +207,83 @@ as
         return l_ret_var;
 
     end r_container_max_pack_weight;
+
+    function r_container_cubic_capacity (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number
+
+    as
+
+        l_ret_var                   number;
+
+    begin
+
+        -- 20' is 33.2m3 or 1172 cu ft
+        -- 40' is 67.7m3 or 2389 cu ft
+        -- For now hardcoded
+        if r_pounds then
+            l_ret_var := 2389;
+        else
+            l_ret_var := 67.7;
+        end if;
+
+        return l_ret_var;
+
+    end r_container_cubic_capacity;
+
+    function r_postal_package_type
+    return varchar2
+
+    as
+
+        l_ret_var                   varchar2(250);
+        l_postal_idx                number;
+
+    begin
+
+        l_postal_idx := core_random.r_integer(1, logistics_data.postal_data.count);
+
+        l_ret_var := logistics_data.postal_data(l_postal_idx).postal_name;
+
+        return l_ret_var;
+
+    end r_postal_package_type;
+
+    function r_postal_tracking_id (
+        r_postal_package_type       varchar2        default null
+    )
+    return varchar2
+
+    as
+
+        l_ret_var                   varchar2(250);
+        l_postal_idx                number;
+
+    begin
+
+        if r_postal_package_type is null then
+            l_postal_idx := core_random.r_integer(1, logistics_data.postal_data.count);
+            l_ret_var := logistics_data.postal_data(l_postal_idx).tracking_format;
+        else
+            for i in 1..logistics_data.postal_data.count loop
+                if logistics_data.postal_data(i).postal_name = r_postal_package_type then
+                    l_ret_var := logistics_data.postal_data(i).tracking_format;
+                end if;
+            end loop;
+        end if;
+
+        while l_ret_var is null loop
+            l_postal_idx := core_random.r_integer(1, logistics_data.postal_data.count);
+            l_ret_var := logistics_data.postal_data(l_postal_idx).tracking_format;
+        end loop;
+
+        l_ret_var := util_random.ru_replace_ranges(util_random.ru_numerify(util_random.ru_charify(l_ret_var, true)));
+
+        return l_ret_var;
+
+    end r_postal_tracking_id;
 
 end logistics_random;
 /

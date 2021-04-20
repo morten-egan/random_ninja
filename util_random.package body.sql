@@ -321,6 +321,15 @@ as
 
     l_char_start            number;
     l_char_end              number;
+    l_char_start_str        varchar2(500);
+    l_char_end_str          varchar2(500);
+    l_range_split_pos       number;
+    l_range_str             varchar2(4000);
+
+    l_char_start_count      number;
+    l_char_end_count        number;
+    l_chars_to_find         number;
+    l_tmp_char              varchar2(500);
 
   begin
 
@@ -339,15 +348,35 @@ as
         if ru_isnumeric(l_range_start) then
           execute immediate 'select core_random.r_natural(' || l_range_start || ',' || l_range_end || ') from dual' into l_replace_val;
         else
-          -- We have a character. Get the ascii values to know the range.
-          l_char_start := ascii(l_range_start);
-          l_char_end := ascii(l_range_end);
-          if l_char_end < l_char_start then
-            l_char_start := ascii(l_range_end);
-            l_char_end := ascii(l_range_start);
-          end if;
-          execute immediate 'select core_random.r_natural(' || l_char_start || ',' || l_char_end || ') from dual' into l_replace_val;
-          l_replace_val := chr(l_replace_val);
+          -- We have a character.
+          -- Here we have to loop through the entire spectrum.
+          -- First check if starting point and ending point is same number of characters.
+          l_range_str := substr(l_ret_var, l_replace_loc_start + 1, (l_replace_loc_end-1) - l_replace_loc_start);
+          l_range_split_pos := instr(l_range_str, '-');
+          l_char_start_str := substr(l_range_str, 1, l_range_split_pos - 1);
+          l_char_start_count := length(l_char_start_str);
+          l_char_end_str := substr(l_range_str, l_range_split_pos + 1);
+          -- l_char_end_str := substr(l_char_end_str, 1, length(l_char_end_str) - 1);
+          l_char_end_count := length(l_char_end_str);
+          l_chars_to_find := core_random.r_natural(l_char_start_count, l_char_end_count);
+          
+          for i in 1..l_chars_to_find loop
+            l_char_start := ascii(substr(l_char_start_str, i, 1));
+            if l_char_start is null then
+              l_char_start := 65;
+            end if;
+            l_char_end := ascii(substr(l_char_end_str, i, 1));
+            l_tmp_char := l_tmp_char || chr(core_random.r_natural(l_char_start, l_char_end));
+          end loop;
+          l_replace_val := l_tmp_char;
+          --l_char_start := ascii(l_range_start);
+          --l_char_end := ascii(l_range_end);
+          --if l_char_end < l_char_start then
+          --  l_char_start := ascii(l_range_end);
+          --  l_char_end := ascii(l_range_start);
+          --end if;
+          --execute immediate 'select core_random.r_natural(' || l_char_start || ',' || l_char_end || ') from dual' into l_replace_val;
+          --l_replace_val := chr(l_replace_val);
         end if;
       elsif instr(substr(l_ret_var, l_replace_loc_start, l_replace_loc_end - l_replace_loc_start), ',') > 0 then
         -- We have a set of numbers to choose from, grab them and pick one.
