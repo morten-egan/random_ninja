@@ -46,5 +46,19 @@ as
     )
     return number;
 
+    function r_container_cubic_capacity (
+        r_container_size_iso        varchar2        default null
+        , r_pounds                  boolean         default false
+    )
+    return number;
+
+    function r_postal_package_type
+    return varchar2;
+
+    function r_postal_tracking_id (
+        r_postal_package_type       varchar2        default null
+    )
+    return varchar2;
+
 end logistics_random;
 /

@@ -11,6 +11,23 @@ begin
   iso_container_sizes := iso_container_size_tab(null);
   iso_container_sizes.extend(82);
 
+  postal_data := postal_data_tab(null);
+  postal_data.extend(7);
+
+  postal_data(1).postal_name := 'DHL Express';
+  postal_data(1).tracking_format := '[JJD01,JJD00,JVGL]########';
+  postal_data(2).postal_name := 'DHL eCommerce';
+  postal_data(2).tracking_format := '[GM,LX,RX][1000000000-9999999999999999999999999999999999]';
+  postal_data(3).postal_name := 'DHL Parcel';
+  postal_data(3).tracking_format := '[3S,JVGL,JJD][100000000-9999999999]';
+  postal_data(4).postal_name := 'DHL Global Forwarding';
+  postal_data(4).tracking_format := '1??[1000-999999]';
+  postal_data(5).postal_name := 'DHL Freight';
+  postal_data(5).tracking_format := '???-??-#######';
+  postal_data(6).postal_name := 'UPS';
+  postal_data(6).tracking_format := '1Z################';
+  postal_data(7).postal_name := 'UPS Mail Innovations';
+  postal_data(7).tracking_format := 'MI[100000-999999]######??##?#?##??#####';
 
   iso_container_sizes(1).iso_code := '20G0';
   iso_container_sizes(1).iso_description := 'GENERAL PURPOSE CONT.';
